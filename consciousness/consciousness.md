@@ -5,7 +5,7 @@ date: 2026-02-08
 tags: [neuroscience, consciousness]
 ---
 
-![banner](images/banner.png)
+![banner](images/banner.jpg)
 
 *You are standing on a street corner when a sub-zero wind gusts against your
 face. You feel the sharp, biting sting $-$ a raw, undeniable presence. Yet, from
@@ -46,7 +46,7 @@ cognitive centres simply fail to capture.
 
 "The local recurrence might already be sufficient for us to have a conscious
 visual percept, to have a phenomenal experience… local recurrence is independent
-of attention, access, and report." $-$ _Victor Lamme_
+of attention, access, and report." $-$ *Victor Lamme*
 
 ## Your Mind is a Theatre with a Narrow Spotlight
 
@@ -75,7 +75,7 @@ regions. To navigate this architecture, GNWT uses a three-tier taxonomy:
 "What's conscious is like the bright spot cast by a spotlight on to the stage of
 a theatre. What's unconscious is everything else: all the people sitting in the
 audience are unconscious components… getting information from consciousness."
-$-$ _Bernard Baars_
+$-$ *Bernard Baars*
 
 ## Mathematics Might Be the Ruler for the Mind
 
@@ -98,7 +98,7 @@ suggests consciousness is about how a system is built, not what it does.
 
 "The starting point of IIT is the existence of experience (0th axiom). This
 truth is not the result of an inference. It is immediate and irrefutable." $-$
-_Integrated Information Theory Excerpt_
+*Integrated Information Theory Excerpt*
 
 ## Being "Smart" and Being "Conscious" Are Not the Same Thing
 
@@ -117,7 +117,7 @@ because its hardware lacks a highly integrated, intrinsic causal structure, it
 is a "zombie." It performs the function but feels nothing. For the
 structuralist, an AI only simulates consciousness; it doesn't replicate it.
 
-![Consciousness: GNWT vs. IIT](images/consciousness-two-theories-compared.png)
+![Consciousness: GNWT vs. IIT](images/consciousness-two-theories-compared.jpg)
 
 ## The "Front vs. Back" Brain Battleground
 
