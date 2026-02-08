@@ -11,6 +11,8 @@ files:
 
 ```text
 markdown/
+├── Makefile                  # Top level build rules
+├── article-make              # Article template Makefile
 ├── files/                    # Shared resources
 │   ├── article.css           # HTML styling
 │   └── preamble.tex          # PDF preamble
@@ -81,6 +83,7 @@ Or build directly in the article folder:
 
 ```bash
 cd consciousness
+# HTML is the default target, but you can specify PDF if needed
 make
 ```
 
