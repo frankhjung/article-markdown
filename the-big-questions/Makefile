@@ -3,7 +3,7 @@
 .SUFFIXES:
 .SUFFIXES: .html .md .pdf
 
-PROJECT:= the-big-questions
+PROJECT := $(notdir $(CURDIR))
 PANDOC := pandoc
 
 default: $(PROJECT).html $(PROJECT).pdf

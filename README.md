@@ -2,6 +2,11 @@
 
 A reusable project for writing and publishing markdown articles to Blogger.
 
+This project will publish Markdown articles to Blogger using GitHub Actions.
+
+Each sub-directory is it's own article, with a Makefile, images and supporting
+files:
+
 ## Project Structure
 
 ```text
@@ -26,10 +31,10 @@ markdown/
 
 1. Create a new folder with the article name (e.g., `my-article/`)
 
-2. Create the article Makefile:
+2. Create hard link to article Makefile:
 
-   ```makefile
-   # Use the Makefile from an existing article as a template
+   ```bash
+   ln article-name my-article/Makefile
    ```
 
    Copy the full Makefile from an existing article.
@@ -38,14 +43,13 @@ markdown/
 
    ```markdown
    ---
-   title: My Article Title
-   author: Your Name
-   date: 2026-02-08
+   title: My Article
+   author: "[Your Name](https://www.linkedin.com/in/yourname/)"
+   date: 2026-02-08       # note this gets updated automatically on publishing
+   labels: article, blog  # update with your own labels
    ---
 
-   # Introduction
-
-   Your content here...
+   *Your content here.*
    ```
 
 4. Create hard links to shared files:
@@ -63,11 +67,7 @@ markdown/
    # add images/banner.png
    ```
 
-6. Create the README hard link:
-
-   ```bash
-   ln my-article/my-article.md my-article/README.md
-   ```
+6. [Optional] Add supporting documents to `my-article/docs/`
 
 ## Building Locally
 
@@ -86,15 +86,15 @@ make
 
 This generates:
 
-- `public/index.html` - Standalone HTML article
-- `public/<article>.pdf` - PDF version
+- `public/consciousness.html` - Standalone HTML article
+- `public/consciousness.pdf` - PDF version
 
 Clean build artifacts:
 
 ```bash
 make consciousness-clean
 # or
-make clean  # Clean all articles
+make clean  # Clean generated HTML and PDF files
 ```
 
 ## Publishing to Blogger
@@ -107,7 +107,7 @@ The GitHub Actions workflow publishes articles to Blogger.
 2. Click **Run workflow**
 3. Enter the article name (e.g., `consciousness`)
 4. Enter the article title and labels
-4. Click **Run workflow**
+5. Click **Run workflow**
 
 ### Required Secrets
 
@@ -126,11 +126,9 @@ for setup instructions.
 
 ## Dependencies
 
+- [GitHub Actions](https://github.com/features/actions) - Workflow automation
+- [GNUMake](https://www.gnu.org/software/make/) - Build tool
 - [Pandoc](https://pandoc.org/) - Document conversion
 - [XeLaTeX](https://tug.org/xetex/) - PDF generation (via TeX Live)
-
-Install on Ubuntu/Debian:
-
-```bash
-sudo apt-get install pandoc texlive-xetex texlive-fonts-recommended
-```
+- [Blogger API](https://developers.google.com/blogger/docs/3.0/using) -
+  Publishing platform
