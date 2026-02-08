@@ -3,7 +3,7 @@
 # Markdown Articles - Root Makefile
 # Delegates builds to individual article subfolders
 
-.PHONY: help list clean
+.PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
 
 # Find all article directories (those with a Makefile)
 ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
@@ -25,19 +25,15 @@ list:
 	@$(foreach art,$(ARTICLES),echo "  $(art)";)
 
 # Build specific article
-%:
-	@if [ -d "$@" ] && [ -f "$@/Makefile" ]; then \
-		echo "Building article: $@"; \
-		$(MAKE) -C $@ update-date; \
-		$(MAKE) -C $@; \
-	fi
+$(ARTICLES):
+	@echo "Building article: $@"
+	$(MAKE) -C $@ update-date
+	$(MAKE) -C $@
 
 # Clean specific article
-%-clean:
-	@if [ -d "$*" ] && [ -f "$*/Makefile" ]; then \
-		echo "Cleaning article: $*"; \
-		$(MAKE) -C $* clean; \
-	fi
+$(ARTICLES:%=%-clean):
+	@echo "Cleaning article: $(@:%-clean=%)"
+	$(MAKE) -C $(@:%-clean=%) clean
 
 # Clean all articles
 clean:
