@@ -45,7 +45,7 @@ jobs:
           echo "build=true" >> "$GITHUB_OUTPUT"
 
   build:
-    name: publish article to pages
+    name: publish ${{ inputs.article_title }}
     runs-on: ubuntu-latest
     needs: validate
     if: needs.validate.outputs.build == 'true'

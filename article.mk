@@ -1,14 +1,13 @@
 #!/usr/bin/make
 
-.SUFFIXES:
-.SUFFIXES: .html .md .pdf
-
 PROJECT := $(notdir $(CURDIR))
 PANDOC := pandoc
 
-default: $(PROJECT).html $(PROJECT).pdf
+default: public/$(PROJECT).html
 
-.md.html:
+public/$(PROJECT).pdf: $(PROJECT).md
+
+public/%.html: %.md files/article.css
 	@echo "Generating $@ from $<"
 	@mkdir -p public
 	@$(PANDOC) \
@@ -16,10 +15,10 @@ default: $(PROJECT).html $(PROJECT).pdf
 		--metadata date="$(shell date '+%d %b %Y')" \
 		--embed-resources --standalone \
 		--css files/article.css \
-		--output public/$@ \
+		--output $@ \
 		$<
 
-.md.pdf:
+public/%.pdf: %.md files/article.css files/preamble.tex
 	@echo "Generating $@ from $<"
 	@mkdir -p public
 	@$(PANDOC) \
@@ -27,12 +26,13 @@ default: $(PROJECT).html $(PROJECT).pdf
 		--from=markdown --pdf-engine=xelatex \
 		--css files/article.css \
 		--toc \
-		--output public/$@ \
+		--output $@ \
 		$<
 
 .PHONY: update-date
 update-date:
-	sed -i "s/^date: .*/date: $(shell date +%Y-%m-%d)/" $(PROJECT).md
+	@echo "Updating date in $(PROJECT).md"
+	@sed -i "s/^date: .*/date: $(shell date +%Y-%m-%d)/" $(PROJECT).md
 
 .PHONY: clean
 clean:

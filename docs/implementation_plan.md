@@ -1,28 +1,24 @@
-# Markdown Articles Pipeline - Implementation Plan
+# Markdown Articles Pipeline - Implementation Plan (Implemented)
 
 Setup a reusable multi-article markdown project that builds HTML/PDF via Pandoc
 and publishes to Blogger through a parameterised GitHub Actions workflow.
 
-## User Review Required
+## Blogger API Integration
 
-> [!IMPORTANT]
-> **Blogger API Integration**: The pipeline will require 4 GitHub secrets for
-> Blogger API access. You'll need to set these up in your GitHub repository
-> settings before the publish step will work.
+The pipeline requires 4 GitHub secrets for Blogger API access:
 
-> [!NOTE]
-> **Reference Projects**: The requirements mention reference projects
-> (`consciousness/`, `magic-triangle/`, `publish-to-blogspot/`) which don't
-> exist in the current workspace. I'll create a sample article structure based
-> on the requirements specification.
+- `BLOGGER_BLOG_ID`
+- `BLOGGER_CLIENT_ID`
+- `BLOGGER_CLIENT_SECRET`
+- `BLOGGER_REFRESH_TOKEN`
 
 ---
 
-## Proposed Changes
+## Implemented Changes
 
 ### Project Root Structure
 
-#### [NEW] [Makefile](file:///home/frank/documents/articles/markdown/Makefile)
+#### [Makefile](Makefile)
 
 Root Makefile that provides:
 
@@ -30,87 +26,72 @@ Root Makefile that provides:
 - Delegates build to article subfolders
 - Clean target for all articles
 
-#### [NEW] [README.md](file:///home/frank/documents/articles/markdown/README.md)
+#### [article.mk](article.mk)
 
-Project documentation covering:
+Common Makefile included or used as a template by article subfolders.
 
-- Project overview and structure
-- How to create a new article
-- Local build instructions
-- GitHub Actions pipeline usage
-- Blogger secrets setup
+#### [README.md](README.md)
+
+Project documentation covering project overview, creation of new articles,
+local build instructions, and pipeline usage.
 
 ---
 
-### Sample Article: `consciousness/`
+### Article Structure (e.g., `consciousness/`)
 
-#### [NEW] [consciousness/Makefile](file:///home/frank/documents/articles/markdown/consciousness/Makefile)
+#### [consciousness/Makefile](consciousness/Makefile)
 
-Article-specific Makefile using the template from requirements:
+Article-specific Makefile:
 
-- Builds `consciousness.md` → `public/index.html`
-- Builds `consciousness.md` → `public/consciousness.pdf`
+- Builds `[article_name].md` → `public/[article_name].html`
+- Builds `[article_name].md` → `public/[article_name].pdf`
 - Uses hard-linked `files/` resources
 
-#### [NEW] [consciousness/consciousness.md](file:///home/frank/documents/articles/markdown/consciousness/consciousness.md)
+#### [consciousness/consciousness.md](consciousness/consciousness.md)
 
-Sample article content with YAML frontmatter (title, author, date).
+Main article content.
 
-#### [NEW] [consciousness/README.md](file:///home/frank/documents/articles/markdown/consciousness/README.md)
-
-Hard link to `consciousness.md` for GitHub display.
-
-#### [NEW] [consciousness/files/](file:///home/frank/documents/articles/markdown/consciousness/files/)
+#### [consciousness/files/](consciousness/files/)
 
 Directory containing hard links to:
 
 - `article.css` → `../../files/article.css`
 - `preamble.tex` → `../../files/preamble.tex`
 
-#### [NEW] [consciousness/images/](file:///home/frank/documents/articles/markdown/consciousness/images/)
+#### [consciousness/images/](consciousness/images/)
 
-Images directory with placeholder banner.
+Images directory for the article.
 
 ---
 
 ### GitHub Actions Pipeline
 
-#### [NEW] [.github/workflows/publish.yml](file:///home/frank/documents/articles/markdown/.github/workflows/publish.yml)
+#### [.github/workflows/publish.yml](.github/workflows/publish.yml)
 
 Parameterised workflow that:
 
-- Triggers manually with `article_name` input
-- Installs Pandoc and XeLaTeX
-- Runs `make` in the article subfolder
-- Publishes `public/index.html` to Blogger API using secrets
+- Triggers manually with `article_name`, `article_title`, and `article_labels`
+- Uses Pandoc Docker image to build the article.
+- Uses Blogger Docker image to publish the generated HTML.
 
 ---
 
-## Verification Plan
+## Verification
 
 ### Local Build Test
 
 ```bash
-cd /home/frank/documents/articles/markdown/consciousness
-make clean
-make
-ls -la public/
-# Should show: index.html, consciousness.pdf
-```
-
-### GitHub Actions Syntax Validation
-
-```bash
-# Requires actionlint: https://github.com/rhysd/actionlint
-actionlint .github/workflows/publish.yml
+make consciousness
+ls -la consciousness/public/
+# Should show: consciousness.html, consciousness.pdf
 ```
 
 ### Manual Verification
 
-1. Open `public/index.html` in a browser to verify HTML rendering
-2. Open `public/consciousness.pdf` to verify PDF generation
-3. Check that CSS styling is applied correctly
-4. Verify hard links are working:
+1. Open `consciousness/public/consciousness.html` in a browser to verify rendering.
+2. Open `consciousness/public/consciousness.pdf` to verify PDF generation.
+3. Check that CSS styling is applied correctly.
+4. Verify hard links:
 
    ```bash
    ls -li consciousness/files/article.css files/article.css

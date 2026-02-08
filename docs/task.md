@@ -12,7 +12,7 @@ publishing.
 - [x] Create root `Makefile` that delegates to article subfolders
 - [x] Create article template structure (for new articles)
   - [x] Template `Makefile` per article
-  - [x] Template `README.md` with frontmatter
+  - [x] Template `[article_name].md` with frontmatter
   - [x] Template `images/` folder with placeholder `banner.png`
 - [x] Ensure `files/article.css` is linkable from article subfolders
 - [x] Ensure `files/preamble.tex` is linkable from article subfolders
@@ -24,7 +24,6 @@ publishing.
 - [x] Create first sample article (e.g., `consciousness/`)
   - [x] Create `consciousness/Makefile`
   - [x] Create `consciousness/consciousness.md` main content
-  - [x] Create `consciousness/README.md` hard link
   - [x] Create `consciousness/images/` folder
   - [x] Link `files/article.css` into article
   - [x] Link `files/preamble.tex` into article
@@ -34,15 +33,15 @@ publishing.
 ## Phase 3: GitHub Actions Pipeline
 
 - [x] Create `.github/workflows/publish.yml`
-  - [x] Parameterise with `article_name` input
-  - [x] Setup Pandoc in workflow
+  - [x] Parameterise with `article_name`, `article_title`, `article_labels` inputs
+  - [x] Setup Pandoc in workflow (Docker image)
   - [x] Build article using `make` in article subfolder
-  - [x] Publish `public/index.html` to Blogger API
+  - [x] Publish `public/[article_name].html` to Blogger API (Docker image)
   - [x] Document required secrets:
-    - `BLOG_ID`
-    - `CLIENT_ID`
-    - `CLIENT_SECRET`
-    - `REFRESH_TOKEN`
+    - `BLOGGER_BLOG_ID`
+    - `BLOGGER_CLIENT_ID`
+    - `BLOGGER_CLIENT_SECRET`
+    - `BLOGGER_REFRESH_TOKEN`
 
 ---
 
@@ -60,6 +59,6 @@ publishing.
 ## Verification
 
 - [x] Verify local build works: `make` in article folder produces
-      `public/index.html`
-- [x] Verify PDF generation works: `make` produces `public/[article].pdf`
+      `public/[article_name].html`
+- [x] Verify PDF generation works: `make` produces `public/[article_name].pdf`
 - [x] Verify GitHub Actions workflow syntax is valid

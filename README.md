@@ -4,7 +4,17 @@ A reusable project for writing and publishing markdown articles to Blogger.
 
 This project will publish Markdown articles to Blogger using GitHub Actions.
 
-Each sub-directory is it's own article, with a Makefile, images and supporting
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Creating a New Article](#creating-a-new-article)
+- [Building Locally](#building-locally)
+- [Publishing to Blogger](#publishing-to-blogger)
+  - [Trigger the Workflow](#trigger-the-workflow)
+  - [Required Secrets](#required-secrets)
+- [Dependencies](#dependencies)
+
+Each sub-directory is its own article, with a Makefile, images and supporting
 files:
 
 ## Project Structure
@@ -12,7 +22,7 @@ files:
 ```text
 markdown/
 ├── Makefile                  # Top level build rules
-├── article-make              # Article template Makefile
+├── article.mk                # Template article build rules
 ├── files/                    # Shared resources
 │   ├── article.css           # HTML styling
 │   └── preamble.tex          # PDF preamble
@@ -20,7 +30,7 @@ markdown/
 ├── docs/                     # Project docs
 ├── <article>/                # Article subfolder
 │   ├── <article>.md          # Main content
-│   ├── Makefile              # Article build rules
+│   ├── Makefile              # Article build rules (hard link to article.mk)
 │   ├── docs/                 # [OPTIONAL] Supporting documents for article
 │   ├── files/                # Hard links to shared files
 │   ├── images/               # Article images
@@ -33,13 +43,11 @@ markdown/
 
 1. Create a new folder with the article name (e.g., `my-article/`)
 
-2. Create hard link to article Makefile:
+2. Create a hard link to the article Makefile template:
 
    ```bash
-   ln article-name my-article/Makefile
+   ln article.mk my-article/Makefile
    ```
-
-   Copy the full Makefile from an existing article.
 
 3. Create `<article>.md` with YAML front matter:
 
@@ -83,7 +91,7 @@ Or build directly in the article folder:
 
 ```bash
 cd consciousness
-# HTML is the default target, but you can specify PDF if needed
+# HTML is the default target
 make
 ```
 
@@ -95,19 +103,15 @@ To also build a PDF version:
 
 ```bash
 cd consciousness
-make consciousness.pdf
+make public/consciousness.pdf
 ```
-
-This additionally generates:
-
-- `public/consciousness.pdf` - PDF version
 
 Clean build artifacts:
 
 ```bash
 make consciousness-clean
 # or
-make clean  # Clean generated HTML and PDF files
+make clean  # Clean all articles' generated public folders
 ```
 
 ## Publishing to Blogger
@@ -116,18 +120,20 @@ The GitHub Actions workflow publishes articles to Blogger.
 
 ### Trigger the Workflow
 
-1. Go to **Actions** → **Publish Article**
+1. Go to **Actions** → **publish article**
 2. Click **Run workflow**
-3. Enter the article name (e.g., `consciousness`)
-4. Enter the article title and labels
-5. Click **Run workflow**
+3. Enter the required inputs:
+   - **Article folder name**: (e.g., `consciousness`)
+   - **Article title**: The title of the post on Blogger
+   - **Comma-separated list of labels**: Labels for the post
+4. Click **Run workflow**
 
 ### Required Secrets
 
 Configure these in **Settings** → **Secrets and variables** → **Actions**:
 
-| Secret           | Description                                    |
-| ---------------- | ---------------------------------------------- |
+| Secret                   | Description                                    |
+| ------------------------ | ---------------------------------------------- |
 | `BLOGGER_BLOG_ID`        | Your Blogger blog identifier                   |
 | `BLOGGER_CLIENT_ID`      | Google OAuth Client ID from Cloud Console      |
 | `BLOGGER_CLIENT_SECRET`  | Google OAuth Client Secret                     |

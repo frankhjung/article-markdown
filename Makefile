@@ -27,8 +27,7 @@ list:
 # Build specific article
 $(ARTICLES):
 	@echo "Building article: $@"
-	$(MAKE) -C $@ update-date
-	$(MAKE) -C $@
+	$(MAKE) -C $@ update-date default
 
 # Clean specific article
 $(ARTICLES:%=%-clean):
