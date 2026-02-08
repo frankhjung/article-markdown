@@ -71,7 +71,7 @@ markdown/
 
 ## Building Locally
 
-Build a specific article:
+Build a specific article (HTML only):
 
 ```bash
 make consciousness
@@ -87,6 +87,16 @@ make
 This generates:
 
 - `public/consciousness.html` - Standalone HTML article
+
+To also build a PDF version:
+
+```bash
+cd consciousness
+make consciousness.pdf
+```
+
+This additionally generates:
+
 - `public/consciousness.pdf` - PDF version
 
 Clean build artifacts:
