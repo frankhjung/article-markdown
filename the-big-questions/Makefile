@@ -6,7 +6,9 @@
 PROJECT := $(notdir $(CURDIR))
 PANDOC := pandoc
 
-default: $(PROJECT).html $(PROJECT).pdf
+default: $(PROJECT).html
+
+$(PROJECT).pdf: $(PROJECT).md
 
 .md.html:
 	@echo "Generating $@ from $<"
