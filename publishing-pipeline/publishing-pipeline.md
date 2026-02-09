@@ -5,6 +5,8 @@ date: 2026-02-09
 tags: [blogging, publishing, github]
 ---
 
+![](images/banner.jpg)
+
 *In my
 [previous article](https://frankhjung.blogspot.com/2026/02/from-code-to-content-automating-your.html),
 I explored the technical "plumbing" required to connect GitHub to Blogger. It is
@@ -51,6 +53,12 @@ future post significantly easier to write.
 For those who wish to dive into the technical specifics of setting up these
 structures, please refer to the following resources:
 
-* [Repository: Publish to Blogger](https://github.com/frankhjung/article-publish-to-blogspot): A template for managing the deployment process.
-* [Repository: Article Markdown Framework](https://github.com/frankhjung/article-markdown): A structured environment for technical writing.
-* [Repository: Blogger GitHub Action](https://github.com/frankhjung/docker-blogger): A reusable GitHub Action for deploying to Blogger.
+*
+  [Repository: Publish to Blogger](https://github.com/frankhjung/article-publish-to-blogspot):
+  A template for managing the deployment process.
+*
+  [Repository: Article Markdown Framework](https://github.com/frankhjung/article-markdown):
+  A structured environment for technical writing.
+*
+  [Repository: Blogger GitHub Action](https://github.com/frankhjung/docker-blogger):
+  A reusable GitHub Action for deploying to Blogger.
