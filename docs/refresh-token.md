@@ -25,7 +25,7 @@ is to use **OAuth 2.0 with Offline Access**.
   smoother to use a standard OAuth client ID authorized by the Google Account
   that owns/administers the blog.
 
-## 2. What is the life-time of an OAuth token?
+## 2. What is the lifetime of an OAuth token?
 
 The **Access Token** (used to authenticate the actual API request) has a
 lifetime of **1 hour (3,600 seconds)**.
@@ -33,7 +33,7 @@ lifetime of **1 hour (3,600 seconds)**.
 Once this hour passes, the token becomes invalid, and your application must use
 the Refresh Token to request a new Access Token.
 
-## 3. What is the life-time of a refresh token?
+## 3. What is the lifetime of a refresh token?
 
 A **Refresh Token** is generally **long-lived (indefinite)**, meaning it does
 not expire by itself. However, it *will* stop working under these specific
@@ -71,7 +71,7 @@ to publish HTML content.
 * Choose **External** (unless you are a Google Workspace user publishing only to
   your organization).
 * **Crucial:** Set the status to **Production** (even if you are the only user)
-  to avoid the 7-day token expiration. TO set status to Production, you must [publish the application](https://console.cloud.google.com/auth/audience?project=blog-publishing-action).
+  to avoid the 7-day token expiration. To set status to Production, you must [publish the application](https://console.cloud.google.com/auth/audience?project=[PROJECT_ID]).
 
 4. **Create Credentials:**
 
