@@ -4,16 +4,6 @@ A reusable project for writing and publishing markdown articles to Blogger.
 
 This project will publish Markdown articles to Blogger using GitHub Actions.
 
-## Table of Contents
-
-- [Project Structure](#project-structure)
-- [Creating a New Article](#creating-a-new-article)
-- [Building Locally](#building-locally)
-- [Publishing to Blogger](#publishing-to-blogger)
-  - [Trigger the Workflow](#trigger-the-workflow)
-  - [Required Secrets](#required-secrets)
-- [Dependencies](#dependencies)
-
 Each sub-directory is its own article, with a Makefile, images and supporting
 files:
 
