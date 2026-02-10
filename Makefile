@@ -45,6 +45,7 @@ new-article:
 		ln -f files/preamble.tex "$$name/files/preamble.tex"; \
 		touch "$$name/$$name.md"; \
 		echo "Article '$$name' created successfully!"; \
+		find "$$name/" -type f; \
 	fi
 
 update-links:
