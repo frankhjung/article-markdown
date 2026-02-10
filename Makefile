@@ -6,7 +6,7 @@
 # Find all article directories (those with a Makefile)
 ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
 
-.PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
+.PHONY: help link list clean $(ARTICLES) $(ARTICLES:%=%-clean)
 
 help:
 	@echo "Markdown Articles Pipeline"
@@ -28,6 +28,13 @@ list:
 $(ARTICLES):
 	@echo "Building article: $@"
 	$(MAKE) -C $@ update-date default
+
+link:
+	for art in $(ARTICLES); do \
+		echo "Linking files for $$art..."; \
+		ln -f files/article.css $$art/files/article.css; \
+		ln -f files/preamble.tex $$art/files/preamble.tex; \
+	done
 
 # Clean specific article
 $(ARTICLES:%=%-clean):
