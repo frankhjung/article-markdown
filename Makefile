@@ -3,10 +3,10 @@
 # Markdown Articles - Root Makefile
 # Delegates builds to individual article subfolders
 
-.PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
-
 # Find all article directories (those with a Makefile)
 ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
+
+.PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
 
 help:
 	@echo "Markdown Articles Pipeline"
