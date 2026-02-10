@@ -32,7 +32,7 @@ public/%.pdf: %.md files/article.css files/preamble.tex
 .PHONY: update-date
 update-date:
 	@echo "Updating date in $(PROJECT).md"
-	@sed -i "s/^date: .*/date: $(shell date +%Y-%m-%d)/" $(PROJECT).md
+	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" $(PROJECT).md
 
 .PHONY: clean
 clean:
