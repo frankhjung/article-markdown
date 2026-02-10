@@ -1,7 +1,7 @@
 ---
 title: "The Art of the Repeatable Post: Why Structure Matters"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 2026-02-09
+date: 10 February 2026
 tags: [blogging, publishing, github]
 ---
 
@@ -20,10 +20,10 @@ embracing **a consistent project structure**.*
 ## Consistency is a Writer's Best Friend
 
 When you use a standardised repository structure—like the one found in the
-[article-markdown](https://github.com/frankhjung/article-markdown) framework—you
-are not just organising files; you are creating a mental shortcut. Because every
-post has the same folder layout, you never have to wonder where your images go
-or how to name your source files.
+[article-markdown](https://github.com/frankhjung/article-markdown)
+repository—you are not just organising files; you are creating a mental
+shortcut. Because every post has the same folder layout, you never have to
+wonder where your images go or how to name your source files.
 
 ## Professional Rigour for Every Paragraph
 
@@ -54,11 +54,9 @@ For those who wish to dive into the technical specifics of setting up these
 structures, please refer to the following resources:
 
 *
-  [Repository: Publish to Blogger](https://github.com/frankhjung/article-publish-to-blogspot):
+  [Publish to Blogger](https://github.com/frankhjung/article-publish-to-blogspot):
   A template for managing the deployment process.
-*
-  [Repository: Article Markdown Framework](https://github.com/frankhjung/article-markdown):
-  A structured environment for technical writing.
-*
-  [Repository: Blogger GitHub Action](https://github.com/frankhjung/docker-blogger):
-  A reusable GitHub Action for deploying to Blogger.
+* [Publish Markdown](https://github.com/frankhjung/article-markdown): A
+  structured environment for technical writing.
+* [Blogger GitHub Action](https://github.com/frankhjung/docker-blogger): A
+  reusable GitHub Action for deploying to Blogger.
