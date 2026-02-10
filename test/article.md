@@ -8,3 +8,7 @@ tags: [test]
 ![© Frank H Jung 2026](images/banner.jpg)
 
 ## Content Here
+
+This is a test article.
+
+> Update with your own content.
