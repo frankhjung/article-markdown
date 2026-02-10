@@ -4,7 +4,7 @@ author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
 date: 2026-02-10
 ---
 
-![](images/ai-solves-erdos-problem-728-cover.jpg)
+![© Frank H Jung 2026](images/banner.jpg)
 
 *On **January 6, 2026**, the mathematical community reached a significant
 milestone: the resolution of [Erdős problem
@@ -33,7 +33,7 @@ coefficients.
   constraint ensuring $a$ and $b$ remained proportional to $n$ ($a, b \leq (1 -
   \epsilon) n$) to avoid trivial solutions with extremely large values.
 
-![AI Solves Major Erdős Problem](images/ai-solves-erdos-problem-728-infographic.jpg)
+![AI Solves Major Erdős Problem](images/infographic.jpg)
 
 ## How AI Cracked the Code
 
@@ -77,12 +77,12 @@ shifts in the future of mathematics:
   to overlooking subtle errors. The use of Lean 4 and the Aristotle system
   introduces a "certificate of truth" that is machine-verified.
 
-  * _Long-term implication:_ We are moving toward an era of machine-checked
+  * *Long-term implication:* We are moving toward an era of machine-checked
     certainty. Instead of a paper being "probably correct" because experts read
     it, mathematical results will increasingly require a formal code-based proof
     to be accepted.
 
-  * _Infrastructure growth:_ This accelerates projects like mathlib, which aims
+  * *Infrastructure growth:* This accelerates projects like mathlib, which aims
     to digitise all pure mathematics, providing a rigorously verified foundation
     for future research to build upon without duplicating effort.
 
@@ -90,11 +90,11 @@ shifts in the future of mathematics:
   significant capability here is the ability to rapidly rewrite mathematical
   texts.
 
-  * _Personalised Mathematics:_ AI can help translate dense, research-level
+  * *Personalised Mathematics:* AI can help translate dense, research-level
     proofs into more accessible versions for students or experts in different
     subfields.
 
-  * _Refining Elegance:_ Beyond just finding a solution, AI-assisted pipelines
+  * *Refining Elegance:* Beyond just finding a solution, AI-assisted pipelines
     can iteratively refine proofs to be more efficient or reveal deeper
     connections between disparate mathematical areas.
 
@@ -103,10 +103,10 @@ shifts in the future of mathematics:
   like Erdős but perhaps too specialised for top-tier mathematicians to spend
   years solving.
 
-  * _Efficiency:_ The "AI + Lean" pipeline allows for the rapid clearing of this
+  * *Efficiency:* The "AI + Lean" pipeline allows for the rapid clearing of this
     backlog, as seen with the resolution of problem \#729 shortly after \#728.
 
-  * _Scalability:_ This turns mathematical discovery into a scalable process,
+  * *Scalability:* This turns mathematical discovery into a scalable process,
     where the bottleneck shifts from "finding the logic" to "defining the
     problem" and "verifying the output".
 
@@ -116,11 +116,11 @@ shifts in the future of mathematics:
   [AWS to formally verify](https://aws.amazon.com/blogs/opensource/lean-into-verified-software-development/)
   security policies and critical code.
 
-  * _Reliability Beyond Math:_ This level of rigour is moving into aerospace,
+  * *Reliability Beyond Math:* This level of rigour is moving into aerospace,
     medicine, and automotive technology, where "safety-critical" systems can be
     mathematically proven to be correct rather than just tested for bugs.
 
-  * _AI Safety:_ By using formal verification to check AI outputs, companies
+  * *AI Safety:* By using formal verification to check AI outputs, companies
     like Harmonic are aiming to eliminate "hallucinations" in mathematical and
     technical reasoning, making AI a reliable partner in high-stakes
     environments.

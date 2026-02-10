@@ -34,6 +34,8 @@ link:
 		echo "Linking files for $$art..."; \
 		ln -f files/article.css $$art/files/article.css; \
 		ln -f files/preamble.tex $$art/files/preamble.tex; \
+		echo "Linking Makefile for $$art..."; \
+		ln -f article.mk $$art/Makefile; \
 	done
 
 # Clean specific article
