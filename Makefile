@@ -5,6 +5,7 @@
 
 # Find all article directories (those with a Makefile)
 ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
+SHELL := /bin/bash
 
 .PHONY: help link list clean $(ARTICLES) $(ARTICLES:%=%-clean)
 
@@ -15,7 +16,8 @@ help:
 	@echo "  make list              - List available articles"
 	@echo "  make <article>         - Build a specific article"
 	@echo "  make <article>-clean   - Clean a specific article"
-	@echo "  make links             - Link files for all articles"
+	@echo "  make new-article       - Create a new article"
+	@echo "  make update-links      - Link files for all articles"
 	@echo "  make clean             - Clean all articles"
 	@echo ""
 	@echo "Available articles:"
@@ -30,7 +32,21 @@ $(ARTICLES):
 	@echo "Building article: $@"
 	$(MAKE) -C $@ update-date default
 
-links:
+new-article:
+	@read -p "Enter new article name: " name; \
+	if [ -d "$$name" ]; then \
+		echo "Article '$$name' already exists!"; \
+	else \
+		mkdir -p "$$name"; \
+		cp article.mk "$$name/Makefile"; \
+		mkdir -p "$$name/images"; \
+		mkdir -p "$$name/files"; \
+		ln -f files/article.css "$$name/files/article.css"; \
+		ln -f files/preamble.tex "$$name/files/preamble.tex"; \
+		echo "Article '$$name' created successfully!"; \
+	fi
+
+update-links:
 	@for art in $(ARTICLES); do \
 		echo "Linking files for $$art..."; \
 		mkdir -p $$art/images; \

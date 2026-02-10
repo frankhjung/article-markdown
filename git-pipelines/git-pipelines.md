@@ -2,7 +2,7 @@
 title: 'A Short Introduction to Git Pipelines'
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
 date: 10 February 2026
-tags: [git, pipelines, ci/cd,gitops,automation,]
+tags: [git, pipelines, ci/cd, gitops, automation]
 ---
 
 ![© Frank H Jung 2026](images/banner.jpg)
