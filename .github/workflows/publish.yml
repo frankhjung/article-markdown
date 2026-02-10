@@ -65,7 +65,7 @@ jobs:
         if: success()
         uses: docker://ghcr.io/frankhjung/blogger:v1.1
         env:
-          SOURCE_FILE: ${{ inputs.article_name }}/public/${{ inputs.article_name }}.html
+          SOURCE_FILE: ${{ inputs.article_name }}/public/article.html
         with:
           args: >-
             --source-file "${{ env.SOURCE_FILE }}"
