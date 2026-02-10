@@ -15,6 +15,7 @@ help:
 	@echo "  make list              - List available articles"
 	@echo "  make <article>         - Build a specific article"
 	@echo "  make <article>-clean   - Clean a specific article"
+	@echo "  make links             - Link files for all articles"
 	@echo "  make clean             - Clean all articles"
 	@echo ""
 	@echo "Available articles:"
@@ -29,7 +30,7 @@ $(ARTICLES):
 	@echo "Building article: $@"
 	$(MAKE) -C $@ update-date default
 
-link:
+links:
 	for art in $(ARTICLES); do \
 		echo "Linking files for $$art..."; \
 		ln -f files/article.css $$art/files/article.css; \
