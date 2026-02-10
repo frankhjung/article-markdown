@@ -14,7 +14,7 @@ help:
 	@echo ""
 	@echo "Usage:"
 	@echo "  make list              - List available articles"
-	@echo "  make <article>         - Build a specific article"
+	@echo "  make <article>         - Build HTML for a specific article"
 	@echo "  make <article>-clean   - Clean a specific article"
 	@echo "  make new-article       - Create a new article"
 	@echo "  make update-links      - Link files for all articles"
@@ -27,9 +27,8 @@ list:
 	@echo "Available articles:"
 	@$(foreach art,$(ARTICLES),echo "  $(art)";)
 
-# Build specific article
 $(ARTICLES):
-	@echo "Building article: $@"
+	@echo "Building HTML article: $@"
 	$(MAKE) -C $@ update-date default
 
 new-article:
@@ -38,25 +37,25 @@ new-article:
 		echo "Article '$$name' already exists!"; \
 	else \
 		mkdir -p "$$name"; \
-		cp article.mk "$$name/Makefile"; \
-		mkdir -p "$$name/images"; \
+		cp files/article.md "$$name/article.md"; \
+		ln -f files/article.mk "$$name/Makefile"; \
 		mkdir -p "$$name/files"; \
 		ln -f files/article.css "$$name/files/article.css"; \
 		ln -f files/preamble.tex "$$name/files/preamble.tex"; \
-		touch "$$name/$$name.md"; \
-		echo "Article '$$name' created successfully!"; \
+		mkdir -p "$$name/images"; \
+		cp images/banner.jpg "$$name/images/banner.jpg"; \
+		echo "Article '$$name' created successfully:"; \
 		find "$$name/" -type f; \
 	fi
 
 update-links:
 	@for art in $(ARTICLES); do \
+		echo "Linking Makefile for $$art..."; \
+		ln -f files/article.mk $$art/Makefile; \
 		echo "Linking files for $$art..."; \
-		mkdir -p $$art/images; \
 		mkdir -p $$art/files; \
 		ln -f files/article.css $$art/files/article.css; \
 		ln -f files/preamble.tex $$art/files/preamble.tex; \
-		echo "Linking Makefile for $$art..."; \
-		ln -f article.mk $$art/Makefile; \
 	done
 
 # Clean specific article

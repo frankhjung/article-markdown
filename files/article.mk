@@ -3,11 +3,11 @@
 PROJECT := $(notdir $(CURDIR))
 PANDOC := pandoc
 
-default: public/$(PROJECT).html
+default: public/article.html
 
-public/$(PROJECT).pdf: $(PROJECT).md
+$(PROJECT).pdf: public/$(PROJECT).pdf
 
-public/%.html: %.md files/article.css
+public/%.html: article.md files/article.css images/*.*
 	@echo "Generating $@ from $<"
 	@mkdir -p public
 	@$(PANDOC) \
@@ -18,7 +18,7 @@ public/%.html: %.md files/article.css
 		--output $@ \
 		$<
 
-public/%.pdf: %.md files/article.css files/preamble.tex
+public/%.pdf: article.md files/article.css files/preamble.tex images/*.*
 	@echo "Generating $@ from $<"
 	@mkdir -p public
 	@$(PANDOC) \
@@ -31,8 +31,8 @@ public/%.pdf: %.md files/article.css files/preamble.tex
 
 .PHONY: update-date
 update-date:
-	@echo "Updating date in $(PROJECT).md"
-	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" $(PROJECT).md
+	@echo "Updating date for $(PROJECT)"
+	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" article.md
 
 .PHONY: clean
 clean:
