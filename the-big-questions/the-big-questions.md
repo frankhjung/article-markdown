@@ -5,7 +5,7 @@ date: 2026-02-08
 tags: [science, philosophy]
 ---
 
-![](images/banner.png)
+![© Frank H Jung 2026](images/banner.jpg)
 
 *People are naturally curious. In fact, curiosity is a core human trait $-$ a
 constant need to ask questions, explore, and understand the world. I feel very

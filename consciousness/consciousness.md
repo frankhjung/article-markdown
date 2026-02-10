@@ -5,7 +5,7 @@ date: 2026-02-08
 tags: [neuroscience, consciousness]
 ---
 
-![banner](images/banner.jpg)
+![© Frank H Jung 2026](images/banner.jpg)
 
 *You are standing on a street corner when a sub-zero wind gusts against your
 face. You feel the sharp, biting sting $-$ a raw, undeniable presence. Yet, from
