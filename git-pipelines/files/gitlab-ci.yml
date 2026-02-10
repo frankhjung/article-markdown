@@ -1,0 +1,13 @@
+---
+
+variables:
+  TARGET: README.html
+
+render:
+  stage: build
+  image: frankhjung/pandoc:latest
+  script:
+    - make ${TARGET}
+  artifacts:
+    paths:
+      - ${TARGET}

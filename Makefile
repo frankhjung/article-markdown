@@ -31,8 +31,10 @@ $(ARTICLES):
 	$(MAKE) -C $@ update-date default
 
 links:
-	for art in $(ARTICLES); do \
+	@for art in $(ARTICLES); do \
 		echo "Linking files for $$art..."; \
+		mkdir -p $$art/images; \
+		mkdir -p $$art/files; \
 		ln -f files/article.css $$art/files/article.css; \
 		ln -f files/preamble.tex $$art/files/preamble.tex; \
 		echo "Linking Makefile for $$art..."; \
