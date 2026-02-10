@@ -43,6 +43,7 @@ new-article:
 		mkdir -p "$$name/files"; \
 		ln -f files/article.css "$$name/files/article.css"; \
 		ln -f files/preamble.tex "$$name/files/preamble.tex"; \
+		touch "$$name.md"; \
 		echo "Article '$$name' created successfully!"; \
 	fi
 
