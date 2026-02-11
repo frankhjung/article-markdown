@@ -5,7 +5,74 @@ A reusable project for writing and publishing markdown articles to Blogger.
 This project will publish Markdown articles to Blogger using GitHub Actions.
 
 Each sub-directory is its own article, with a Makefile, images and supporting
-files:
+files.
+
+## Pipeline Overview
+
+The publishing pipeline is automated using GitHub Actions and consists of three
+sequential jobs:
+
+1. **Validate**: Checks that all required inputs (article name, title, and
+   labels) are present.
+2. **Build**: Compiles the Markdown source into HTML using Pandoc and uploads
+   the result as an artifact.
+3. **Publish**: Downloads the HTML artifact and publishes it to Blogger using
+   the Google Blogger API.
+
+```mermaid
+graph LR
+    %% Trigger
+    Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
+
+    %% Job: Validate
+    subgraph ValidateJob ["Job: Validate Inputs"]
+        direction LR
+        InputLogic{"Check Inputs:<br/>Name, Title, Labels"}
+
+        InputLogic -- "All Empty" --> OutputSkip["Output: build=false"]
+        InputLogic -- "Partial / Missing" --> ExitFail["Exit 1 (Fail)"]
+        InputLogic -- "All Provided" --> OutputBuild["Output: build=true"]
+    end
+
+   %% Conditional Logic between Jobs
+    OutputSkip -.-> EndSkip([End: Skipped])
+    ExitFail --> EndFail([End: Failed])
+   OutputBuild ==>|build=true| StepCheckout
+
+      %% Job: Build
+      subgraph BuildJob ["Job: Build"]
+        direction LR
+
+        StepCheckout[/"Step: Checkout Code<br/>(actions/checkout)"/]
+        StepPandoc["Step: Build with Pandoc<br/>(frankhjung/pandoc)"]
+        StepUpload[/"Step: Upload Artifact<br/>(actions/upload-artifact)"/]
+
+        StepCheckout --> StepPandoc
+        StepPandoc --> StepUpload
+    end
+
+    %% Job: Publish
+    subgraph PublishJob ["Job: Publish"]
+        direction LR
+        StepDownload[/"Step: Download Artifact<br/>(actions/download-artifact)"/]
+        StepBlogger["Step: Publish to Blogger<br/>(frankhjung/blogger)"]
+
+        StepDownload --> StepBlogger
+    end
+
+    %% End State
+    StepUpload ==> StepDownload
+    StepBlogger --> EndSuccess((End: Success))
+
+    %% Styling
+    classDef green fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef red fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+    classDef yellow fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
+
+    class Start,EndSuccess green;
+    class EndFail red;
+    class EndSkip yellow;
+```
 
 ## Project Structure
 
@@ -59,8 +126,8 @@ You can create a new article by following these steps:
    ---
    title: My Article
    author: "[Your Name](https://www.linkedin.com/in/yourname/)"
-   date: 2026-02-08       # note this gets updated automatically on publishing
-   labels: article, blog  # update with your own labels
+   date: 2026-02-08       # updated automatically on publishing
+   tags: [article, blog]  # update with your own tags
    ---
 
    *Your content here.*
@@ -112,13 +179,23 @@ make
 
 This generates:
 
-- `public/consciousness.html` - Standalone HTML article
+- `public/article.html` — standalone HTML article
 
 To also build a PDF version:
 
 ```bash
 cd consciousness
-make public/consciousness.pdf
+make consciousness.pdf
+```
+
+This generates:
+
+- `public/consciousness.pdf` — PDF article
+
+Update shared file hard links for all articles:
+
+```bash
+make update-links
 ```
 
 Clean build artifacts:
@@ -126,12 +203,15 @@ Clean build artifacts:
 ```bash
 make consciousness-clean
 # or
-make clean  # Clean all articles' generated public folders
+make clean  # cleans all articles' generated public folders
 ```
 
 ## Publishing to Blogger
 
-The GitHub Actions workflow publishes articles to Blogger.
+The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
+to Blogger. It first validates that all required inputs are provided, then
+builds the HTML using a Pandoc Docker image and publishes to Blogger using the
+Blogger API Docker image.
 
 ### Trigger the Workflow
 
@@ -143,26 +223,67 @@ The GitHub Actions workflow publishes articles to Blogger.
    - **Comma-separated list of labels**: Labels for the post
 4. Click **Run workflow**
 
+All three inputs are required. If any are missing, the workflow will fail with a
+validation error.
+
 ### Required Secrets
 
 Configure these in **Settings** → **Secrets and variables** → **Actions**:
 
-| Secret                   | Description                                    |
-| ------------------------ | ---------------------------------------------- |
-| `BLOGGER_BLOG_ID`        | Your Blogger blog identifier                   |
-| `BLOGGER_CLIENT_ID`      | Google OAuth Client ID from Cloud Console      |
-| `BLOGGER_CLIENT_SECRET`  | Google OAuth Client Secret                     |
-| `BLOGGER_REFRESH_TOKEN`  | Long-term token for non-interactive API access |
+| Secret                  | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `BLOGGER_BLOG_ID`       | Your Blogger blog identifier                  |
+| `BLOGGER_CLIENT_ID`     | Google OAuth Client ID from Cloud Console     |
+| `BLOGGER_CLIENT_SECRET` | Google OAuth Client Secret                    |
+| `BLOGGER_REFRESH_TOKEN` | Long-term token for non-interactive API access|
 
 See
 [Blogger API documentation](https://developers.google.com/blogger/docs/3.0/using)
 for setup instructions.
 
+## Docker Images
+
+The pipeline uses two Docker images:
+
+### Pandoc (DockerHub)
+
+Used to build HTML articles from Markdown.
+
+```bash
+# Pull image
+docker pull frankhjung/pandoc:3.1.11.1
+
+# Build an article (run from project root)
+docker run --rm -v "$(pwd)":/workspace -w /workspace \
+  frankhjung/pandoc:3.1.11.1 \
+  make -B consciousness
+```
+
+### Blogger (GHCR)
+
+Used to publish articles to Blogger.
+
+```bash
+# Pull image
+docker pull ghcr.io/frankhjung/blogger:v1.3
+
+# Publish an article
+docker run --rm -v "$(pwd)":/workspace -w /workspace \
+  ghcr.io/frankhjung/blogger:v1.3 \
+  --source-file "consciousness/public/article.html" \
+  --title "My Article Title" \
+  --labels "label1, label2" \
+  --blog-id "YOUR_BLOG_ID" \
+  --client-id "YOUR_CLIENT_ID" \
+  --client-secret "YOUR_CLIENT_SECRET" \
+  --refresh-token "YOUR_REFRESH_TOKEN"
+```
+
 ## Dependencies
 
-- [GitHub Actions](https://github.com/features/actions) - Workflow automation
-- [GNUMake](https://www.gnu.org/software/make/) - Build tool
-- [Pandoc](https://pandoc.org/) - Document conversion
-- [XeLaTeX](https://tug.org/xetex/) - PDF generation (via TeX Live)
-- [Blogger API](https://developers.google.com/blogger/docs/3.0/using) -
-  Publishing platform
+- [GitHub Actions](https://github.com/features/actions) — workflow automation
+- [GNU Make](https://www.gnu.org/software/make/) — build tool
+- [Pandoc](https://pandoc.org/) — document conversion
+- [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)
+- [Blogger API](https://developers.google.com/blogger/docs/3.0/using)
+  — publishing platform
