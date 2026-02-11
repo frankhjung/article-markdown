@@ -31,14 +31,18 @@ jobs:
           article_name="${{ inputs.article_name }}"
           article_title="${{ inputs.article_title }}"
           article_labels="${{ inputs.article_labels }}"
-
-          if [[ -z "$article_name" && -z "$article_title" && -z "$article_labels" ]]; then
+          # If article_name, article_title, and article_labels are all empty
+          if [[ -z "$article_name" \
+                && -z "$article_title" \
+                && -z "$article_labels" ]]; then
             echo "build=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
-          if [[ -z "$article_name" || -z "$article_title" || -z "$article_labels" ]]; then
-            echo "All of article_name, article_title, and article_labels must be provided when building." >&2
+          # If article_name, article_title, or article_labels are empty
+          if [[ -z "$article_name" \
+                || -z "$article_title" \
+                || -z "$article_labels" ]]; then
+            echo "ERROR: article_name, article_title, and article_labels are all required." >&2
             exit 1
           fi
 

@@ -1,19 +1,19 @@
 # Markdown Articles
 
 This `markdown` folder is the parent folder for all markdown articles. Each
-article is in its own subfolder, and each subfolder contains a
-`[article_name].md` file (e.g. `consciousness/consciousness.md`) that contains
+article is in its own subfolder, and each subfolder contains an
+`article.md` file (e.g. `consciousness/article.md`) that contains
 the main content of the article.
 
 ## Objective
 
 We would like to setup this project so it can be re-used for multiple articles.
 The pipeline will build one HTML artifact per article:
-`public/[article_name].html`. This will be published to Blogger. The pipeline
+`[article_name]/public/article.html`. This will be published to Blogger. The pipeline
 should be parameterised by the article name, so that it can be reused for each
 article. The pipeline should build the article using the `Makefile` and then
 publish it to Blogger. The pipeline need only build and publish one article at a
-time, so it can be triggered manually with the article name (`[article_name]`)
+time, so it can be triggered manually with the article name (`article.md`)
 as a parameter.
 
 ## Reference Projects
@@ -26,19 +26,18 @@ For example of the project structure see the folders:
 ## Build
 
 The project uses a root `Makefile` that delegates builds to individual article
-subfolders. A common `article.mk` file in the root directory contains the shared
-build logic.
+subfolders. A common `article.mk` file in the root `files/` directory contains
+the shared build logic.
 
 ### Root Makefile
 
-The root `Makefile` handles listing articles and triggering their specific
-builds.
+The root `Makefile` handles listing articles, triggering their specific
+builds, creating new articles, and updating links to common files.
 
 ### Article Makefile Template
 
-Each article folder should have its own `Makefile`. It is recommended to use the
-following template, which can also be implemented by including the root
-`article.mk`:
+Each article folder has its own `Makefile`, which is typically a hard link to
+`files/article.mk`. The shared logic is as follows:
 
 ```Makefile
 #!/usr/bin/make
@@ -46,65 +45,64 @@ following template, which can also be implemented by including the root
 PROJECT := $(notdir $(CURDIR))
 PANDOC := pandoc
 
-default: public/$(PROJECT).html
+default: public/article.html
 
-public/$(PROJECT).pdf: $(PROJECT).md
+$(PROJECT).pdf: public/$(PROJECT).pdf
 
-public/%.html: %.md files/article.css
-        @echo "Generating $@ from $<"
-        @mkdir -p public
-        @$(PANDOC) \
-          --from=gfm --to html5 \
-          --metadata date="$(shell date '+%d %b %Y')" \
-          --embed-resources --standalone \
-          --css files/article.css \
-          --output $@ \
-          $<
+public/%.html: article.md files/article.css images/*.*
+	@echo "Generating $@ from $<"
+	@mkdir -p public
+	@$(PANDOC) \
+		--from=gfm --to html5 \
+		--metadata date="$(shell date '+%d %b %Y')" \
+		--embed-resources --standalone \
+		--css files/article.css \
+		--output $@ \
+		$<
 
-public/%.pdf: %.md files/article.css files/preamble.tex
-        @echo "Generating $@ from $<"
-        @mkdir -p public
-        @$(PANDOC) \
-          --include-in-header files/preamble.tex \
-          --from=markdown --pdf-engine=xelatex \
-          --css files/article.css \
-          --toc \
-          --output $@ \
-          $<
+public/%.pdf: article.md files/article.css files/preamble.tex images/*.*
+	@echo "Generating $@ from $<"
+	@mkdir -p public
+	@$(PANDOC) \
+		--include-in-header files/preamble.tex \
+		--from=markdown --pdf-engine=xelatex \
+		--css files/article.css \
+		--toc \
+		--output $@ \
+		$<
 
 .PHONY: update-date
 update-date:
-        @echo "Updating date in $(PROJECT).md"
-        @sed -i "s/^date: .*/date: $(shell date +%Y-%m-%d)/" $(PROJECT).md
+	@echo "Updating date for $(PROJECT)"
+	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" article.md
 
 .PHONY: clean
 clean:
-        @$(RM) -rf public
+	@$(RM) -rf public
+
 ```
 
 ## Common Files
 
-There are some common files (`files/`) that will be used for each article:
+There are some common files (`files/`) that are shared across articles. These
+are hard-linked from the root `files/` directory into each article's `files/`
+subfolder:
 
 - `files/article.css` - This file contains the CSS styles for the article.
 - `files/preamble.tex` - This file contains the TeX preamble for the article.
-
-These can be hard links from the root project folder, `markdown/`.
+- `files/article.mk` - The shared build logic (linked as `Makefile` in article folders).
 
 ## Images
 
 There is an image folder (`images/`) for each article, and the images should be
-placed in that folder. The images can be referenced in the `README.md` file
-using relative paths. There will be at least one image being the article banner,
-`images/banner.png`.
+placed in that folder. Images are referenced in `article.md` using relative
+paths. Most articles include a banner image (e.g., `images/banner.jpg` or
+`images/banner.png`).
 
 ## GitHub Pipeline
 
-The project will have one GitHub pipeline (`publish.yml`) that will build the
-article and publish it to Blogger.
-
-The pipeline will build one HTML artifact per article:
-`public/[article_name].html`. This will be published to Blogger.
+The project uses a GitHub pipeline (`publish.yml`) to build and publish articles
+to Blogger.
 
 The pipeline is triggered manually via `workflow_dispatch` and takes the
 following parameters:
@@ -115,14 +113,13 @@ following parameters:
 
 The pipeline performs the following steps:
 
-1. **Validate Inputs**: Ensures all three parameters are provided.
-2. **Build**: Uses a Pandoc Docker image to run `make -B [article_name]` from
-   the root, which triggers the article's specific build.
-3. **Publish**: Uses a Blogger Docker image to upload the generated HTML to
+1. **Validate Inputs**: Ensures all parameters are provided if a build is requested.
+2. **Build**: Uses a Pandoc Docker image (`frankhjung/pandoc:3.1.11.1`) to run
+   `make -B [article_name]` from the root, which triggers the article's
+   specific build.
+3. **Publish**: Uses a Blogger Docker image (`ghcr.io/frankhjung/blogger:v1.2`)
+   to upload the generated HTML (`[article_name]/public/article.html`) to
    Blogger using the provided metadata and secrets.
-
-- **Output:** `[article_name]/public/[article_name].html` - the HTML file that
-  is published to Blogger.
 
 ## Blogger
 
