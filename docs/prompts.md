@@ -2,7 +2,7 @@
 
 ## Review of README.md
 
-Review [README.md](README.md) to ensure:
+Review README.md to ensure:
 
 * Only edit the `README.md`
 * It matches code base
@@ -18,7 +18,7 @@ as a reference)
 
 ## Review requirements.md
 
-Review [requirements.md](docs/requirements.md) to ensure:
+Review requirements.md to ensure:
 
 * Only edit `docs/requirements.md`
 * It matches code base
@@ -34,7 +34,7 @@ as a reference)
 
 ## Review refresh-token.md
 
-Review [refresh-token.md](docs/refresh-token.md) to ensure:
+Review refresh-token.md to ensure:
 
 * Only edit `docs/refresh-token.md`
 * Check instructions against Google Cloud Console
