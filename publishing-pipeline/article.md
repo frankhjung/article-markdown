@@ -10,9 +10,9 @@ tags: [blogging, publishing, github]
 *In my [previous
 article](https://frankhjung.blogspot.com/2026/02/from-code-to-content-automating-your.html),
 I explored the technical "plumbing" required to connect GitHub to Blogger. It is
-a powerful setup, but a pipeline is only as good as what you put into it. If
-every blog post starts as a chaotic scramble of files and mismatched formats,
-you are still working harder than you should.*
+a powerful setup - especially once the heavy lifting is automated. But
+automation can’t fix disorder. If every blog post starts as a chaotic scramble
+of files and mismatched formats, you are still working harder than you should.*
 
 *The real magic happens when you move beyond just "automation" and start
 embracing **a consistent project structure**.*
@@ -53,10 +53,6 @@ future post significantly easier to write.
 For those who wish to dive into the technical specifics of setting up these
 structures, please refer to the following resources:
 
-*
-  [Publish to Blogger](https://github.com/frankhjung/article-publish-to-blogspot):
-  A template for managing the deployment process.
-* [Publish Markdown](https://github.com/frankhjung/article-markdown): A
-  structured environment for technical writing.
-* [Blogger GitHub Action](https://github.com/frankhjung/docker-blogger): A
-  reusable GitHub Action for deploying to Blogger.
+* [Publish with Markdown (GitHub)](https://github.com/frankhjung/article-markdown)
+* [Publish with R Markdown (GitHub)](https://github.com/frankhjung/article-rmarkdown)
+* [Publish to Blogger (GitHub)](https://github.com/frankhjung/docker-blogger)

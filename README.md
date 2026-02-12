@@ -2,11 +2,59 @@
 
 A reusable project for writing and publishing markdown articles to Blogger.
 
-This project will publish Markdown articles to Blogger using GitHub
-Actions.
+This project will publish Markdown articles to Blogger using GitHub Actions.
 
-Each sub-directory is its own article, with a Makefile, images and
-supporting files.
+Each sub-directory is its own article, with a Makefile, images and supporting
+files.
+
+## Pipeline Overview
+
+```mermaid
+graph LR
+    %% Trigger
+    Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
+
+    %% Job: Validate
+    subgraph ValidateJob ["Job: Validate Inputs"]
+        direction LR
+        InputLogic{"Check Inputs:<br/>Name, Title, Labels"}
+
+        InputLogic -- "All Empty" --> OutputSkip["Output: build=false"]
+        InputLogic -- "Partial / Missing" --> ExitFail["Exit 1 (Fail)"]
+        InputLogic -- "All Provided" --> OutputBuild["Output: build=true"]
+    end
+
+    %% Conditional Logic between Jobs
+    OutputSkip -.-> EndSkip([End: Skipped])
+    ExitFail --> EndFail([End: Failed])
+    OutputBuild ==> StepCheckout
+
+   %% Job: Build
+   subgraph BuildJob ["Job: Build"]
+        direction LR
+
+      BuildCondition{{"Runs only when<br/>build=true"}}
+        StepCheckout[/"Step: Checkout Code<br/>(actions/checkout)"/]
+        StepPandoc["Step: Build with Pandoc<br/>(frankhjung/pandoc)"]
+        StepBlogger["Step: Publish to Blogger<br/>(frankhjung/blogger)"]
+
+      BuildCondition --> StepCheckout
+        StepCheckout --> StepPandoc
+        StepPandoc --> StepBlogger
+    end
+
+    %% End State
+    StepBlogger --> EndSuccess((End: Success))
+
+    %% Styling
+    classDef green fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef red fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+    classDef yellow fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
+
+    class Start,EndSuccess green;
+    class EndFail red;
+    class EndSkip yellow;
+```
 
 ## Project Structure
 
@@ -142,11 +190,10 @@ make clean  # cleans all articles' generated public folders
 
 ## Publishing to Blogger
 
-The GitHub Actions
-[workflow](.github/workflows/publish.yml) publishes articles to
-Blogger. It first validates that all required inputs are provided,
-then builds the HTML using a Pandoc Docker image and publishes to
-Blogger using the Blogger API Docker image.
+The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
+to Blogger. It first validates that all required inputs are provided, then
+builds the HTML using a Pandoc Docker image and publishes to Blogger using the
+Blogger API Docker image.
 
 ### Trigger the Workflow
 
@@ -158,13 +205,12 @@ Blogger using the Blogger API Docker image.
    - **Comma-separated list of labels**: Labels for the post
 4. Click **Run workflow**
 
-All three inputs are required. If any are missing, the workflow
-will fail with a validation error.
+All three inputs are required. If any are missing, the workflow will fail with a
+validation error.
 
 ### Required Secrets
 
-Configure these in **Settings** → **Secrets and variables** →
-**Actions**:
+Configure these in **Settings** → **Secrets and variables** → **Actions**:
 
 | Secret                  | Description                                   |
 | ----------------------- | --------------------------------------------- |
@@ -217,8 +263,7 @@ docker run --rm -v "$(pwd)":/workspace -w /workspace \
 
 ## Dependencies
 
-- [GitHub Actions](https://github.com/features/actions) — workflow
-  automation
+- [GitHub Actions](https://github.com/features/actions) — workflow automation
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
 - [Pandoc](https://pandoc.org/) — document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)

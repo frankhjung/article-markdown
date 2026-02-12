@@ -207,15 +207,6 @@ the API.
 
 ## More Information
 
-* Example Markdown repository:
-  [article-markdown](https://github.com/frankhjung/article-markdown)
-* Example Rmarkdown repository:
-  [article-base-rate](https://github.com/frankhjung/article-base-rate)
-* [Docker Blogger Action](https://github.com/frankhjung/docker-blogger)
-* [Blogger REST API v3](https://developers.google.com/blogger/docs/3.0/reference/posts)
-* [Git](https://git-scm.com/)
-* [GitHub Actions](https://github.com/features/actions)
-* [GitHub](https://github.com/)
-* [Markdown guide](https://www.markdownguide.org/)
-* [Pandoc](https://pandoc.org/)
-* [R Markdown](https://rmarkdown.rstudio.com/)
+* [Publish with Markdown (GitHub)](https://github.com/frankhjung/article-markdown)
+* [Publish with R Markdown (GitHub)](https://github.com/frankhjung/article-rmarkdown)
+* [Docker Blogger Action (GitHub)](https://github.com/frankhjung/docker-blogger)
