@@ -31,3 +31,14 @@ Review [requirements.md](docs/requirements.md) to ensure:
 Use GitHub pipeline (use
 <https://raw.githubusercontent.com/frankhjung/article-markdown/refs/heads/main/.github/workflows/publish.yml>
 as a reference)
+
+## Review refresh-token.md
+
+Review [refresh-token.md](docs/refresh-token.md) to ensure:
+
+* Only edit `docs/refresh-token.md`
+* Check instructions against Google Cloud Console
+* It matches code base
+* Check for clarity, Australian English spelling and grammar.
+* Check references are correct
+* Check file names are correct
