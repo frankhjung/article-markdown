@@ -24,21 +24,19 @@ graph LR
         InputLogic -- "All Provided" --> OutputBuild["Output: build=true"]
     end
 
-    %% Conditional Logic between Jobs
+   %% Conditional Logic between Jobs
     OutputSkip -.-> EndSkip([End: Skipped])
     ExitFail --> EndFail([End: Failed])
-    OutputBuild ==> StepCheckout
+   OutputBuild ==>|build=true| StepCheckout
 
-   %% Job: Build
-   subgraph BuildJob ["Job: Build"]
+      %% Job: Build
+      subgraph BuildJob ["Job: Build"]
         direction LR
 
-      BuildCondition{{"Runs only when<br/>build=true"}}
         StepCheckout[/"Step: Checkout Code<br/>(actions/checkout)"/]
         StepPandoc["Step: Build with Pandoc<br/>(frankhjung/pandoc)"]
         StepBlogger["Step: Publish to Blogger<br/>(frankhjung/blogger)"]
 
-      BuildCondition --> StepCheckout
         StepCheckout --> StepPandoc
         StepPandoc --> StepBlogger
     end
