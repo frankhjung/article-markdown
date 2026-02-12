@@ -75,12 +75,12 @@ public/%.pdf: article.md files/article.css files/preamble.tex images/*.*
 
 .PHONY: update-date
 update-date:
- @echo "Updating date for $(PROJECT)"
- @sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" article.md
+	@echo "Updating date for $(PROJECT)"
+	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" article.md
 
 .PHONY: clean
 clean:
- @$(RM) -rf public
+	@$(RM) -rf public
 
 ```
 
