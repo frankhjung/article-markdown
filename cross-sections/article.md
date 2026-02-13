@@ -1,7 +1,7 @@
 ---
 title: "What are Nuclear Cross Sections?"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 2026-02-10
+date: 13 February 2026
 labels: "[physics, chemistry, superheavy elements]"
 ---
 

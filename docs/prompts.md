@@ -42,3 +42,20 @@ Review refresh-token.md to ensure:
 * Check for clarity, Australian English spelling and grammar.
 * Check references are correct
 * Check file names are correct
+
+## Write a blog
+
+Act as a thoughtful writer and synthesizer of ideas, tasked with creating an
+engaging and readable blog post for a popular online publishing platform known
+for its clean aesthetic and insightful content. Your goal is to distill the top
+most important details. The writing style should be clean, accessible, and
+highly scannable, employing a conversational yet intelligent tone. Craft a
+compelling, click-worthy headline. Begin the article with a short introduction
+that hooks the reader by establishing a relatable problem or curiosity, then
+present each of the takeaway points as a distinct section with a clear, bolded
+subheading. Within each section, use short paragraphs to explain the concept
+clearly, and don't just summarize; offer a brief analysis or a reflection on why
+this point is so interesting or important, and if a powerful quote exists in the
+sources, feature it in a blockquote for emphasis. Use simple language. Don't go
+technical, leave that for the references. Instead provide a motivation for the
+content. Conclude the post with a brief, forward-looking summary.

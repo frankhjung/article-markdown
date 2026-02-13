@@ -1,0 +1,25 @@
+---
+title: "Test"
+author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
+date: 14 February 2026
+labels: "[test]"
+---
+
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(ggplot2)
+```
+
+![© Frank H Jung 2026](images/banner.jpg)
+
+## Test
+
+This is a simple test.
+
+```{r cars, echo=TRUE}
+summary(cars)
+ggplot(cars, aes(x = speed, y = dist)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Speed vs Distance", x = "Speed (mph)", y = "Distance (ft)")
+```
