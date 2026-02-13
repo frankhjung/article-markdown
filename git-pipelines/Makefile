@@ -17,7 +17,7 @@ default: article.html
 article.html: article.md
 	@mkdir -p public
 	@$(PANDOC) \
-		--from=gfm --to html5 \
+		--from=gfm --to=html5 \
 		--metadata date="$(shell date '+%d %b %Y')" \
 		--embed-resources --standalone \
 		--css files/article.css \
