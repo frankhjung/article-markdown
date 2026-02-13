@@ -48,7 +48,7 @@ By viewing your blog as a deployment target rather than just a website, you
 ensure that every post follows a repeatable, high-quality path from your local
 environment to the global reader.
 
-![Workflow: Markdown to HTML to Blogger](images/markdown_to_blogger.png)
+![Workflow: Markdown to HTML to Blogger](images/markdown_to_blogger.jpg)
 
 ## The Foundation: Using Makefiles for Local and Cloud Consistency
 
