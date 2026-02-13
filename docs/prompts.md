@@ -42,3 +42,33 @@ Review refresh-token.md to ensure:
 * Check for clarity, Australian English spelling and grammar.
 * Check references are correct
 * Check file names are correct
+
+## Create a Blog
+
+Act as a thoughtful writer and synthesizer of ideas, tasked with creating an
+engaging and readable blog post for a popular online publishing platform known
+for its clean aesthetic and insightful content. Your goal is to distill the top
+most important details. The writing style should be clean, accessible, and
+highly scannable, employing a conversational yet intelligent tone. Craft a
+compelling, click-worthy headline. Begin the article with a short introduction
+that hooks the reader by establishing a relatable problem or curiosity, then
+present each of the takeaway points as a distinct section with a clear, bolded
+subheading. Within each section, use short paragraphs to explain the concept
+clearly, and don't just summarize; offer a brief analysis or a reflection on why
+this point is so interesting or important, and if a powerful quote exists in the
+sources, feature it in a blockquote for emphasis. Conclude the post with a
+brief, forward-looking summary.
+
+Use simple language. Don't go technical, leave that for the references. Instead
+provide a motivation for the content. One final refinement is whether / and how
+we could combine both processes (md to HTML and Rmd to HTML) into one
+pipeline...
+
+Add the following:
+
+* a summary of the key objectives:
+  * to have a repeatable, consistent HTML build process from markdown using
+    Pandoc or R.
+* use of Makefiles to ensure we can build locally and on a GitHub pipeline
+* a summary of the docker containers required to make the GitHub pipeline work
+* give a reason for the benefits of using an automation pipeline

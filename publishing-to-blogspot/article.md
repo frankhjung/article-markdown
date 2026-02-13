@@ -21,6 +21,10 @@ v3](https://developers.google.com/blogger/docs/3.0/reference/posts) and [GitHub
 Actions](https://github.com/features/actions), you can treat your blog with the
 same engineering rigour as your production software.*
 
+*What follows is a description of technical "plumbing" required to connect
+GitHub to Blogger. This is achieved by invoking a Docker container that
+encapsulates calls to the Blogger API.*
+
 ## 1. The API as Your Deployment Interface
 
 The core shift in this methodology is viewing Blogger not as a website, but as a
@@ -75,11 +79,12 @@ pipeline.
 | `CLIENT_SECRET` | The Google OAuth Client Secret used for authorisation. |
 | `REFRESH_TOKEN` | The secure token that allows for long-term, non-interactive API access. |
 
-> [!WARNING] Security best practice: It is essential that these four values are
-> stored as GitHub Secrets. Hardcoding these credentials in your YAML or
-> repository exposes your Google account to the public. By using GitHub Secrets,
-> they are encrypted and injected into the runner environment only during
-> execution.
+> WARNING!
+> 
+> Security best practice: It is essential that these four values are stored as
+> GitHub Secrets. Hardcoding these credentials in your YAML or repository
+> exposes your Google account to the public. By using GitHub Secrets, they are
+> encrypted and injected into the runner environment only during execution.
 
 ## 4. The Anatomy of an Automated Post
 
@@ -205,8 +210,10 @@ Once the pipeline is in place, publishing becomes routine: write in the format
 you like, render to HTML, and let GitHub Actions update the existing post via
 the API.
 
+In the next article
+[The Art of the Repeatable Post: Why Structure Matters](https://frankhjung.blogspot.com/2026/02/the-art-of-repeatable-post-why.html),
+we will explore the automation pipeline in detail.
+
 ## More Information
 
-* [Publish with Markdown (GitHub)](https://github.com/frankhjung/article-markdown)
-* [Publish with R Markdown (GitHub)](https://github.com/frankhjung/article-rmarkdown)
 * [Docker Blogger Action (GitHub)](https://github.com/frankhjung/docker-blogger)
