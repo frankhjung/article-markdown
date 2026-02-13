@@ -46,7 +46,7 @@ with an automated CI/CD pipeline."
 
 *By viewing your blog as a deployment target, not just a website, you
 ensure every post follows a repeatable, high-quality path from your local
-environment to the global reader.
+environment to the global reader.*
 
 ![Workflow: Markdown to HTML to Blogger](images/markdown_to_blogger.jpg)
 
@@ -63,7 +63,7 @@ duplicating build rules, we use a standardised folder structure (including
 central template, `article.mk`. This ensures that when you update your build
 logic or CSS styling once, those improvements propagate across every post in
 your repository. This approach catches formatting glitches in version control
-long before they can reach your audience.
+long before they can reach your audience.*
 
 ## The Engine: Docker Containers in the GitHub Pipeline
 
@@ -84,7 +84,7 @@ The pipeline utilises three specialised images to drive the workflow:
 *A major feature of this engine is automated asset management. The Blogger image
 automatically encodes local images as **Base64 data URIs**. This eliminates the
 common pain point of broken image links and the need for external image hosting;
-your images are embedded directly into the HTML document itself.
+your images are embedded directly into the HTML document itself.*
 
 ## The Unified Pipeline: Markdown and R Markdown Together
 
@@ -93,7 +93,7 @@ Rather than maintaining separate processes, the system uses conditional logic to
 select the correct Docker image based on the file extension (e.g., `.md` or
 `.Rmd`).
 
-Because both the Markdown and R Markdown subfolders utilise the same shared
+*Because both the Markdown and R Markdown subfolders utilise the same shared
 `article.mk` logic, the pipeline maintains a "single source of truth." Different
 content types coexist harmoniously, following the same validation and build
 steps. This unified approach lets you focus on the story you're
