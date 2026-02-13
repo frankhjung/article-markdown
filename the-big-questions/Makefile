@@ -1,33 +1,42 @@
 #!/usr/bin/make
 
-PROJECT := $(notdir $(CURDIR))
+SHELL := /bin/bash
 PANDOC := pandoc
+PROJECT := $(notdir $(CURDIR))
+HTML_OUT := public/article.html
+PDF_OUT := public/$(PROJECT).pdf
 
-default: public/article.html
+.PHONY: default article.html pdf clean
 
-$(PROJECT).pdf: public/$(PROJECT).pdf
+.DEFAULT_GOAL := article.html
 
-public/%.html: article.md files/article.css images/*.*
-	@echo "Generating $@ from $<"
+# HTML target
+
+default: article.html
+
+article.html: article.md
 	@mkdir -p public
 	@$(PANDOC) \
 		--from=gfm --to html5 \
 		--metadata date="$(shell date '+%d %b %Y')" \
 		--embed-resources --standalone \
 		--css files/article.css \
-		--output $@ \
-		$<
+		--output $(HTML_OUT) \
+		article.md
 
-public/%.pdf: article.md files/article.css files/preamble.tex images/*.*
-	@echo "Generating $@ from $<"
+# PDF target
+
+pdf: $(PDF_OUT)
+
+$(PDF_OUT): article.md
 	@mkdir -p public
 	@$(PANDOC) \
 		--include-in-header files/preamble.tex \
 		--from=markdown --pdf-engine=xelatex \
 		--css files/article.css \
 		--toc \
-		--output $@ \
-		$<
+		--output $(PDF_OUT) \
+		article.md
 
 .PHONY: update-date
 update-date:
