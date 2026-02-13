@@ -1,22 +1,20 @@
 # Markdown Articles
 
 This `markdown` folder is the parent folder for all markdown articles. Each
-article is in its own subfolder, and each subfolder contains an
-`article.md` file (e.g. `consciousness/article.md`) that contains
-the main content of the article.
+article is in its own subfolder, and each subfolder contains an `article.md`
+file (e.g. `consciousness/article.md`) that contains the main content of the
+article.
 
 ## Objective
 
-We would like to set up this project so it can be re-used for
-multiple articles. The pipeline will build one HTML artefact per
-article: `[article_name]/public/article.html`. This will be
-published to Blogger. The pipeline should be parameterised by the
-article folder name, so that it can be reused for each article.
-The pipeline should build the article using the `Makefile` and
-then publish it to Blogger. The pipeline need only build and
-publish one article at a time, so it can be triggered manually
-with the article folder name (e.g., `consciousness`) as a
-parameter.
+We would like to set up this project so it can be re-used for multiple articles.
+The pipeline will build one HTML artefact per article:
+`[article_name]/public/article.html`. This will be published to Blogger. The
+pipeline should be parameterised by the article folder name, so that it can be
+reused for each article. The pipeline should build the article using the
+`Makefile` and then publish it to Blogger. The pipeline need only build and
+publish one article at a time, so it can be triggered manually with the article
+folder name (e.g., `consciousness`) as a parameter.
 
 ## Reference Projects
 
@@ -33,8 +31,8 @@ the shared build logic.
 
 ### Root Makefile
 
-The root `Makefile` handles listing articles, triggering their specific
-builds, creating new articles, and updating links to common files.
+The root `Makefile` handles listing articles, triggering their specific builds,
+creating new articles, and updating links to common files.
 
 ### Article Makefile Template
 
@@ -81,74 +79,63 @@ update-date:
 .PHONY: clean
 clean:
 	@$(RM) -rf public
-
 ```
 
 ## Common Files
 
-There are some common files (`files/`) that are shared across
-articles. These are hard-linked from the root `files/` directory
-into each article's `files/` subfolder:
+There are some common files (`files/`) that are shared across articles. These
+are hard-linked from the root `files/` directory into each article's `files/`
+subfolder:
 
 - `files/article.css` — CSS styles for the article.
-- `files/article.md` — template article content with YAML front
-  matter.
-- `files/article.mk` — shared build logic (linked as `Makefile`
-  in article folders).
+- `files/article.md` — template article content with YAML front matter.
+- `files/article.mk` — shared build logic (linked as `Makefile` in article
+  folders).
 - `files/preamble.tex` — TeX preamble for PDF generation.
 
 ## Images
 
-There is an image folder (`images/`) for each article, and the
-images should be placed in that folder. Images are referenced in
-`article.md` using relative paths. Most articles include a banner
-image (e.g., `images/banner.jpg` or `images/banner.png`).
+There is an image folder (`images/`) for each article, and the images should be
+placed in that folder. Images are referenced in `article.md` using relative
+paths. Most articles include a banner image (e.g., `images/banner.jpg` or
+`images/banner.png`).
 
 ## GitHub Pipeline
 
-The project uses a GitHub Actions
-[workflow](../.github/workflows/publish.yml) to build and publish
-articles to Blogger.
+The project uses a GitHub Actions [workflow](../.github/workflows/publish.yml)
+to build and publish articles to Blogger.
 
-The pipeline is triggered manually via `workflow_dispatch` and
-takes the following parameters:
+The pipeline is triggered manually via `workflow_dispatch` and takes the
+following parameters:
 
-- **article_name**: The name of the article subfolder (e.g.,
-  `consciousness`).
-- **article_title**: The title of the post as it will appear on
-  Blogger.
-- **article_labels**: A comma-separated list of labels for the
-  Blogger post.
+- **article_name**: The name of the article subfolder (e.g., `consciousness`).
+- **article_title**: The title of the post as it will appear on Blogger.
+- **article_labels**: A comma-separated list of labels for the Blogger post.
 
 All three parameters are required. The pipeline has two jobs:
 
-1. **Validate** (`validate` job): Checks that all three inputs
-   are provided. If all inputs are empty, the build is skipped.
-   If only some inputs are provided, the workflow fails with an
-   error.
-2. **Build and Publish** (`build` job, runs only if validation
-   passes):
+1. **Validate** (`validate` job): Checks that all three inputs are provided. If
+   all inputs are empty, the build is skipped. If only some inputs are provided,
+   the workflow fails with an error.
+2. **Build and Publish** (`build` job, runs only if validation passes):
    - **Checkout**: Performs a shallow checkout of the repository.
-   - **Build**: Uses a Pandoc Docker image
-     (`frankhjung/pandoc:3.1.11.1` from DockerHub) to run
-     `make -B [article_name]` from the root, which triggers
+   - **Build**: Uses a Pandoc Docker image (`frankhjung/pandoc:3.1.11.1` from
+     DockerHub) to run `make -B [article_name]` from the root, which triggers
      the article's specific build.
-   - **Publish**: Uses a Blogger Docker image
-     (`ghcr.io/frankhjung/blogger:v1.3` from GHCR) to upload
-     the generated HTML
-     (`[article_name]/public/article.html`) to Blogger using
-     the provided metadata and secrets.
+   - **Publish**: Uses a Blogger Docker image (`ghcr.io/frankhjung/blogger:v1.3`
+     from GHCR) to upload the generated HTML
+     (`[article_name]/public/article.html`) to Blogger using the provided
+     metadata and secrets.
 
 ## Docs
 
-Record project documentation in `docs/`. This is a top level folder
-that will not be duplicated in each article folder. This file is
-`requirements.md`. Other files may be added to this folder as needed.
+Record project documentation in `docs/`. This is a top level folder that will
+not be duplicated in each article folder. This file is `requirements.md`. Other
+files may be added to this folder as needed.
 
 ## Blogger
 
-To publish to Blogger the following secrets need to be set up in
-GitHub:
+To publish to Blogger the following secrets need to be set up in GitHub:
 
 | Secret                  | Description                                    |
 | ----------------------- | ---------------------------------------------- |

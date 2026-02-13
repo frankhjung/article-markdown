@@ -44,7 +44,7 @@ graph LR
         direction LR
 
         StepCheckout[/"Step: Checkout Code<br/>(actions/checkout)"/]
-        StepPandoc["Step: Build with Pandoc<br/>(frankhjung/pandoc)"]
+        StepPandoc["Step: Build HTML<br/>(frankhjung/pandoc)"]
         StepUpload[/"Step: Upload Artifact<br/>(actions/upload-artifact)"/]
 
         StepCheckout --> StepPandoc
@@ -281,9 +281,9 @@ docker run --rm -v "$(pwd)":/workspace -w /workspace \
 
 ## Dependencies
 
+- [Blogger API](https://developers.google.com/blogger/docs/3.0/using) —
+  publishing platform
 - [GitHub Actions](https://github.com/features/actions) — workflow automation
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
 - [Pandoc](https://pandoc.org/) — document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)
-- [Blogger API](https://developers.google.com/blogger/docs/3.0/using)
-  — publishing platform
