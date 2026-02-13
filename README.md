@@ -19,11 +19,15 @@ sequential jobs:
 2. **Detect**: Identifies the article type (Markdown or R Markdown) based on the
    presence of `article.md` or `article.Rmd`.
 3. **Build**: Compiles the source into HTML using the appropriate tool (Pandoc
-   for Markdown, R for R Markdown) and uploads the result as an artifact.
-4. **Publish**: Downloads the HTML artifact and publishes it to Blogger using
+   for Markdown, R for R Markdown) and uploads the result as an artefact.
+4. **Publish**: Downloads the HTML artefact and publishes it to Blogger using
    the Google Blogger API.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph LR
     %% Trigger
     Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
@@ -59,15 +63,15 @@ graph LR
 
         TypeMD ==>|type=md| StepPandoc["Step: Build (Pandoc)"]
         TypeRMD ==>|type=rmd| StepGNUR["Step: Build (GNUR)"]
-        
-        StepPandoc --> StepUpload[/"Step: Upload Artifact"/]
+
+        StepPandoc --> StepUpload[/"Step: Upload Artefact"/]
         StepGNUR --> StepUpload
     end
 
     %% Job: Publish
     subgraph PublishJob ["Job: Publish"]
         direction LR
-        StepDownload[/"Step: Download Artifact"/]
+        StepDownload[/"Step: Download Artefact"/]
         StepBlogger["Step: Publish to Blogger"]
 
         StepDownload --> StepBlogger
@@ -162,7 +166,7 @@ To also build a PDF version:
 
 ```bash
 cd consciousness
-make consciousness.pdf
+make pdf
 ```
 
 This generates:
@@ -175,7 +179,7 @@ Update shared file hard links for all articles:
 make update-links
 ```
 
-Clean build artifacts:
+Clean build artefacts:
 
 ```bash
 make consciousness-clean
@@ -186,22 +190,25 @@ make clean  # cleans all articles' generated public folders
 ## Publishing to Blogger
 
 The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
-to Blogger. It first validates that all required inputs are provided, detects
-the article type, then builds the HTML using the appropriate Docker image and
-publishes to Blogger using the Blogger API Docker image.
+to Blogger. It employs conditional validation for inputs:
+
+- **All inputs empty**: The workflow exits successfully but skips the build.
+- **Partial inputs**: The workflow fails with a validation error.
+- **All inputs provided**: The workflow proceeds to build and publish.
+
+Inputs are technically marked as optional in the workflow configuration to
+support the "all empty" skip path, but are enforced at runtime if any are
+provided.
 
 ### Trigger the Workflow
 
 1. Go to **Actions** → **publish article**
 2. Click **Run workflow**
-3. Enter the required inputs:
+3. Enter the inputs:
    - **Article folder name**: (e.g., `consciousness`)
    - **Article title**: The title of the post on Blogger
    - **Comma-separated list of labels**: Labels for the post
 4. Click **Run workflow**
-
-All three inputs are required. If any are missing, the workflow will fail with a
-validation error.
 
 ### Required Secrets
 
