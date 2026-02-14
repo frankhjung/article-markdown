@@ -1,12 +1,16 @@
 #!/usr/bin/make
 
-SHELL := /bin/bash
-PANDOC := pandoc
-PROJECT := $(notdir $(CURDIR))
-HTML_OUT := public/article.html
-PDF_OUT := public/$(PROJECT).pdf
+SHELL          := /bin/bash
+PANDOC         := pandoc
+MMDC           := mmdc
+PUPPETEER_CFG  := files/puppeteer.json
+PROJECT        := $(notdir $(CURDIR))
+HTML_OUT       := public/article.html
+PDF_OUT        := public/$(PROJECT).pdf
+MMD_SRCS       := $(wildcard files/*.mmd)
+SVG_OUTS       := $(patsubst files/%.mmd,public/%.svg,$(MMD_SRCS))
 
-.PHONY: default article.html pdf clean
+.PHONY: default article.html pdf mermaid clean
 
 .DEFAULT_GOAL := article.html
 
@@ -14,7 +18,7 @@ PDF_OUT := public/$(PROJECT).pdf
 
 default: article.html
 
-article.html: article.md
+article.html: article.md mermaid
 	@mkdir -p public
 	@$(PANDOC) \
 		--from=gfm --to=html5 \
@@ -28,7 +32,7 @@ article.html: article.md
 
 pdf: $(PDF_OUT)
 
-$(PDF_OUT): article.md
+$(PDF_OUT): article.md mermaid
 	@mkdir -p public
 	@$(PANDOC) \
 		--include-in-header files/preamble.tex \
@@ -37,6 +41,14 @@ $(PDF_OUT): article.md
 		--toc \
 		--output $(PDF_OUT) \
 		article.md
+
+# Mermaid diagram target
+
+mermaid: $(SVG_OUTS)
+
+public/%.svg: files/%.mmd
+	@mkdir -p public
+	@$(MMDC) -p $(PUPPETEER_CFG) -i $< -o $@
 
 .PHONY: update-date
 update-date:

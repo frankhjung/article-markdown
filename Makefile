@@ -20,6 +20,7 @@ help:
 	@echo "  make new-article name=<name>          - Create a new article (default: md)"
 	@echo "  make new-article name=<name> type=rmd - Create a new Rmd article"
 	@echo "  make update-links                     - Re-link shared files for all articles"
+	@echo "  make <article> output=mermaid         - Build SVG diagrams for an article"
 	@echo "  make clean                            - Clean all articles"
 	@echo ""
 	@echo "Available articles:"
@@ -55,6 +56,7 @@ new-article:
 	@mkdir -p "$(name)/files"
 	@ln -f files/article.css "$(name)/files/article.css"
 	@ln -f files/preamble.tex "$(name)/files/preamble.tex"
+	@ln -f files/puppeteer.json "$(name)/files/puppeteer.json"
 	@mkdir -p "$(name)/images"
 	@cp images/banner.jpg "$(name)/images/banner.jpg"
 	@echo "Article '$(name)' created successfully:"
@@ -73,6 +75,7 @@ update-links:
 		mkdir -p $$art/files; \
 		ln -f files/article.css $$art/files/article.css; \
 		ln -f files/preamble.tex $$art/files/preamble.tex; \
+		ln -f files/puppeteer.json $$art/files/puppeteer.json; \
 	done
 
 # Clean specific article

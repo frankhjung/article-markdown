@@ -1,7 +1,7 @@
 ---
 title: "Is China becoming an innovation hub?"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 13 February 2026
+date: 14 February 2026
 tags: [china, innovation]
 ---
 

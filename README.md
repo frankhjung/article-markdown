@@ -256,12 +256,34 @@ Used to publish articles to Blogger.
 docker pull ghcr.io/frankhjung/blogger:v1.3
 ```
 
+## Mermaid Diagrams
+
+Mermaid diagrams could be included in an article.
+
+### Install
+
+To use the Mermaid CLI tool, install [mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli):
+
+```bash
+# Install mermaid-cli globally via npm
+npm install -g @mermaid-js/mermaid-cli
+```
+
+### Usage
+
+```bash
+# Generate a SVG image from a Mermaid diagram
+mmdc -i input.mmd -o output.svg
+```
+
 ## Dependencies
 
 - [Blogger API](https://developers.google.com/blogger/docs/3.0/using) —
   publishing platform
 - [GitHub Actions](https://github.com/features/actions) — workflow automation
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
+- [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) —
+  Mermaid diagram conversion
 - [Pandoc](https://pandoc.org/) — document conversion
 - [R Markdown](https://rmarkdown.rstudio.com/) — R document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)
