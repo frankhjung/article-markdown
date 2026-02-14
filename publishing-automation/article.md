@@ -48,7 +48,7 @@ with an automated CI/CD pipeline."
 ensure every post follows a repeatable, high-quality path from your local
 environment to the global reader.*
 
-![Workflow: Markdown to HTML to Blogger](images/workflow.jpg)
+![Workflow: Markdown to HTML to Blogger](images/workflow.png)
 
 ## The Foundation: Using Makefiles for Local and Cloud Consistency
 

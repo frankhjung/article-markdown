@@ -7,7 +7,7 @@ PROJECT        := $(notdir $(CURDIR))
 HTML_OUT       := public/article.html
 PDF_OUT        := public/$(PROJECT).pdf
 MMD_SRCS       := $(wildcard files/*.mmd)
-SVG_OUTS       := $(patsubst files/%.mmd,images/%.svg,$(MMD_SRCS))
+PNG_OUTS       := $(patsubst files/%.mmd,images/%.png,$(MMD_SRCS))
 
 .PHONY: default article.html pdf mermaid clean
 
@@ -33,9 +33,9 @@ $(PROJECT).pdf: $(PDF_OUT)
 
 # Mermaid diagram target
 
-mermaid: $(SVG_OUTS)
+mermaid: $(PNG_OUTS)
 
-images/%.svg: files/%.mmd
+images/%.png: files/%.mmd
 	@mkdir -p images
 	@$(MMDC) -p $(PUPPETEER_CFG) -i $< -o $@
 
