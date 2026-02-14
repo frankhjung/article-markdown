@@ -284,6 +284,8 @@ mmdc -i input.mmd -o output.svg
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
 - [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) —
   Mermaid diagram conversion
+  - also requires `librsvg2-bin` for rendering PDF's
+  - also require Chrome browser installed
 - [Pandoc](https://pandoc.org/) — document conversion
 - [R Markdown](https://rmarkdown.rstudio.com/) — R document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)

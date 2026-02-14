@@ -2,13 +2,13 @@
 config:
   look: handDrawn
 ---
-graph LR
+graph TB
     %% Trigger
     Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
 
     %% Job: Validate
     subgraph ValidateJob ["Job: Validate Inputs"]
-        direction LR
+        direction TB
         InputLogic{"Check Inputs:<br/>Name, Title, Labels"}
 
         InputLogic -- "All Empty" --> OutputSkip["Output: build=false"]
@@ -18,7 +18,7 @@ graph LR
 
     %% Job: Detect
     subgraph DetectJob ["Job: Detect Type"]
-        direction LR
+        direction TB
         DetectLogic{"Check Article File"}
         DetectLogic -- "article.md" --> TypeMD["Output: type=md"]
         DetectLogic -- "article.Rmd" --> TypeRMD["Output: type=rmd"]
@@ -33,7 +33,7 @@ graph LR
 
       %% Job: Build
       subgraph BuildJob ["Job: Build"]
-        direction LR
+        direction TB
 
         TypeMD ==>|type=md| StepPandoc["Step: Build (Pandoc)"]
         TypeRMD ==>|type=rmd| StepGNUR["Step: Build (GNUR)"]
@@ -44,7 +44,7 @@ graph LR
 
     %% Job: Publish
     subgraph PublishJob ["Job: Publish"]
-        direction LR
+        direction TB
         StepDownload[/"Step: Download Artefact"/]
         StepBlogger["Step: Publish to Blogger"]
 
