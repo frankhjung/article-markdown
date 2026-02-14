@@ -8,7 +8,7 @@ PROJECT        := $(notdir $(CURDIR))
 HTML_OUT       := public/article.html
 PDF_OUT        := public/$(PROJECT).pdf
 MMD_SRCS       := $(wildcard files/*.mmd)
-SVG_OUTS       := $(patsubst files/%.mmd,public/%.svg,$(MMD_SRCS))
+SVG_OUTS       := $(patsubst files/%.mmd,images/%.svg,$(MMD_SRCS))
 
 .PHONY: default article.html pdf mermaid clean
 
@@ -46,8 +46,8 @@ $(PDF_OUT): article.md
 
 mermaid: $(SVG_OUTS)
 
-public/%.svg: files/%.mmd
-	@mkdir -p public
+images/%.svg: files/%.mmd
+	@mkdir -p images
 	@$(MMDC) -p $(PUPPETEER_CFG) -i $< -o $@
 
 .PHONY: update-date
