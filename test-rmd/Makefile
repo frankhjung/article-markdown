@@ -17,7 +17,7 @@ SVG_OUTS       := $(patsubst files/%.mmd,public/%.svg,$(MMD_SRCS))
 
 default: article.html
 
-article.html: article.Rmd make.R files/article.css mermaid
+article.html: article.Rmd make.R files/article.css
 	@mkdir -p public
 	@R --quiet --slave --vanilla --file=make.R --args article.Rmd $(HTML_OUT)
 
@@ -25,7 +25,7 @@ article.html: article.Rmd make.R files/article.css mermaid
 
 pdf: $(PDF_OUT)
 
-$(PDF_OUT): article.Rmd make.R files/preamble.tex mermaid
+$(PDF_OUT): article.Rmd make.R files/preamble.tex
 	@mkdir -p public
 	@R --quiet --slave --vanilla --file=make.R --args article.Rmd $(PDF_OUT)
 

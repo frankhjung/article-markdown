@@ -18,7 +18,7 @@ SVG_OUTS       := $(patsubst files/%.mmd,public/%.svg,$(MMD_SRCS))
 
 default: article.html
 
-article.html: article.md mermaid
+article.html: article.md
 	@mkdir -p public
 	@$(PANDOC) \
 		--from=gfm --to=html5 \
@@ -32,7 +32,7 @@ article.html: article.md mermaid
 
 pdf: $(PDF_OUT)
 
-$(PDF_OUT): article.md mermaid
+$(PDF_OUT): article.md
 	@mkdir -p public
 	@$(PANDOC) \
 		--include-in-header files/preamble.tex \
