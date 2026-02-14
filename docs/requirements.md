@@ -63,6 +63,7 @@ subfolder:
 - `files/article_rmd.mk` — shared build logic for R Markdown articles.
 - `files/make.R` — R script for rendering R Markdown.
 - `files/preamble.tex` — TeX preamble for PDF generation.
+- `files/puppeteer.json` — Puppeteer configuration for Mermaid CLI.
 
 ## Images
 

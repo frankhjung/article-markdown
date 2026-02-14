@@ -20,7 +20,7 @@ help:
 	@echo "  make new-article name=<name>          - Create a new article (default: md)"
 	@echo "  make new-article name=<name> type=rmd - Create a new Rmd article"
 	@echo "  make update-links                     - Re-link shared files for all articles"
-	@echo "  make <article> output=mermaid         - Build SVG diagrams for an article"
+	@echo "  make <article> output=mermaid         - Build PNG diagrams for an article"
 	@echo "  make clean                            - Clean all articles"
 	@echo ""
 	@echo "Available articles:"

@@ -57,4 +57,4 @@ update-date:
 
 .PHONY: clean
 clean:
-	@$(RM) -rf public
+	@$(RM) -rf public/

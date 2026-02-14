@@ -72,9 +72,10 @@ graph LR
     subgraph PublishJob ["Job: Publish"]
         direction LR
         StepDownload[/"Step: Download Artefact"/]
+        StepVerify["Step: Verify Artefact"]
         StepBlogger["Step: Publish to Blogger"]
 
-        StepDownload --> StepBlogger
+        StepDownload --> StepVerify --> StepBlogger
     end
 
     %% End State
@@ -104,7 +105,8 @@ markdown/
 │   ├── article_md.mk         # Template Markdown build rules
 │   ├── article_rmd.mk        # Template R Markdown build rules
 │   ├── make.R                # R script for rendering Rmd
-│   └── preamble.tex          # PDF preamble
+│   ├── preamble.tex          # PDF preamble
+│   └── puppeteer.json        # Puppeteer config for Mermaid CLI
 ├── images/                   # Shared images (if used)
 │   └── banner.jpg            # Template banner image
 ├── docs/                     # Project docs
@@ -258,7 +260,7 @@ docker pull ghcr.io/frankhjung/blogger:v1.3
 
 ## Mermaid Diagrams
 
-Mermaid diagrams could be included in an article.
+Mermaid diagrams can be included in an article.
 
 ### Install
 
@@ -272,8 +274,8 @@ npm install -g @mermaid-js/mermaid-cli
 ### Usage
 
 ```bash
-# Generate a SVG image from a Mermaid diagram
-mmdc -i input.mmd -o output.svg
+# Generate a PNG image from a Mermaid diagram
+mmdc -i input.mmd -o output.png
 ```
 
 ## Dependencies
@@ -284,8 +286,8 @@ mmdc -i input.mmd -o output.svg
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
 - [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) —
   Mermaid diagram conversion
-  - also requires `librsvg2-bin` for rendering PDF's
-  - also require Chrome browser installed
+  - also requires `librsvg2-bin` for rendering PDFs
+  - also requires a Chrome browser installed
 - [Pandoc](https://pandoc.org/) — document conversion
 - [R Markdown](https://rmarkdown.rstudio.com/) — R document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)
