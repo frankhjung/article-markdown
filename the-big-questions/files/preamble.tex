@@ -53,6 +53,15 @@
 \usepackage{enumitem}
 \setlist{topsep=0.5em, itemsep=0.25em}
 
+% Floats and images
+\usepackage{float}
+% Pandoc defines \maxheight as \textheight, but this does not
+% account for figure captions and float spacing. Reduce it to
+% leave room for captions and avoid "Float too large" warnings.
+\makeatletter
+\def\maxheight{\ifdim\Gin@nat@height>0.85\textheight 0.85\textheight\else\Gin@nat@height\fi}
+\makeatother
+
 % Captions
 \usepackage{caption}
 \captionsetup{font=small, labelfont=bf}
