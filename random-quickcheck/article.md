@@ -16,7 +16,7 @@ testing. Randomness in test invocation is common; for instance,
 test
 execution](https://junit.org/junit5/docs/current/user-guide/#writing-tests-test-execution-order).
 This article, however, examines a testing style using randomly generated input
-values to test *properties* of code, known as "Property Based Testing".
+values to test *properties* of code, known as "Property-Based Testing".
 
 Why use random values in testing? Defining suitable positive and negative test
 cases to exercise code is often difficult. Automating the execution of many
@@ -81,7 +81,7 @@ property-based testing tools for many other languages. A list of current
 implementations appears on the
 [QuickCheck](https://en.wikipedia.org/wiki/QuickCheck) Wikipedia page.
 
-## Introducing Property Based Testing
+## Introducing Property-Based Testing
 
 The core principle of property-based testing is that for a function or method,
 any valid input should yield a valid response, and any input outside this range
@@ -174,12 +174,12 @@ public final class AlphaNumericGenerator extends Generator<String> {
   /** Maximum word length. */
   private static final int MAX_WORD_LENGTH = 11;
 
-  /** Inherit form super class. */
+  /** Inherit from super class. */
   public AlphaNumericGenerator() {
     super(String.class);
   }
 
-  /** Generate a alphanumeric word of length 1 to 12 characters. Do not create null words. */
+  /** Generate an alphanumeric word of length 1 to 12 characters. Do not create null words. */
   @Override
   public String generate(final SourceOfRandomness randomness, final GenerationStatus status) {
     final int stringSize = randomness.nextInt(MAX_WORD_LENGTH) + 1; // non-empty words
@@ -243,17 +243,17 @@ uses the
 strategy:
 
 ```python
-@given(text(min_size=1, max_size=12, alphabet=ascii_letters + digits))
+@given(text(min_size=12, max_size=64, alphabet=ascii_letters + digits))
 def test_alphanumeric(a_string):
     """
     Generate alphanumeric sized strings like:
-        'LbkNCS4xl2Xl'
-        'z3M4jc1J'
-        'x'
+        'LbkNCS4xl2XlR9pQ2mSa'
+        'z3M4jc1JXk92LmA5'
+        'x8Kf9LmN2pQ3'
     """
     assert a_string.isalnum()
     a_length = len(a_string)
-    assert a_length >= 1 and a_length <= 12
+    assert a_length >= 12 and a_length <= 64
 ```
 
 These examples demonstrate how this testing style complements systematic tests,
