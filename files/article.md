@@ -7,6 +7,5 @@ tags: [test]
 
 ![© Frank H Jung 2026](images/banner.jpg)
 
-## Content Here
+This is a template Markdown project. Replace this text with your project content.
 
-*Introduction...*

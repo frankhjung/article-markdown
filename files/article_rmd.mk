@@ -46,5 +46,5 @@ update-date:
 
 .PHONY: clean
 clean:
-	@$(RM) *.log
+	@$(RM) *.log test.constant test.trend *.random *.zip
 	@$(RM) -rf public/
