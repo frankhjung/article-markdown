@@ -38,7 +38,7 @@ The three RNG's being evaluated here are:
 
 * [Bash](https://linux.die.net/man/1/bash) `RANDOM` variable
 * [Awk](https://linux.die.net/man/1/awk) `rand()` function
-  [/dev/urandom](https://linux.die.net/man/4/urandom) device
+* [/dev/urandom](https://linux.die.net/man/4/urandom) device
 
 **Words of caution:**
 
@@ -224,10 +224,10 @@ randomness.
 
 ### awk rand()
 
-The following code will generate a random sample using Here we are using `rand`
+The following code will generate a random sample. Here we are using `rand`
 function from [GNU Awk](https://www.gnu.org/software/gawk/). This function
-generates random numbers between 0 and 1. . The generated sample will then be
-tested using Bartels Rank test, where the null hypothsis is that the sequence
+generates random numbers between 0 and 1. The generated sample will then be
+tested using Bartels Rank test, where the null hypothesis is that the sequence
 is random.
 
 Example where `rand()` seeded
