@@ -1,9 +1,9 @@
 % LaTeX preamble for PDF article
 % Author: Frank H Jung
 
-% Page geometry (override pandoc default)
+% Page geometry (single source of truth — removed from make.R)
 \usepackage{geometry}
-\geometry{a4paper, margin=2.5cm}
+\geometry{a4paper, margin=1in}
 
 % Typography
 \usepackage{mathpazo}
@@ -16,17 +16,14 @@
 \definecolor{accent}{HTML}{1771ad}
 \usepackage{hyperref}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=accent,
-    urlcolor=accent,
-    citecolor=accent
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=accent,
+  citecolor=accent,
 }
 
-% Section headings
-\usepackage{titlesec}
-\titleformat*{\section}{\Large\bfseries\color{accent}}
-\titleformat*{\subsection}{\large\bfseries\color{accent}}
-\titleformat*{\subsubsection}{\normalsize\bfseries\color{accent}}
+% Tables (Pandoc generates booktabs-style tables by default)
+\usepackage{booktabs}
 
 % Headers and footers
 \usepackage{fancyhdr}
@@ -38,7 +35,10 @@
 \fancyhead[R]{\thepage}
 \fancyfoot[L]{Frank\textit{ly speaking...}}
 \fancyfoot[R]{\textcopyright\ Frank H Jung \the\year}
+% Pandoc maps ## headings to \subsection, so update \leftmark
+% from \subsectionmark (not just \sectionmark).
 \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markboth{#1}{}}
 
 \fancypagestyle{plain}{
   \fancyhf{}
@@ -59,7 +59,14 @@
 % account for figure captions and float spacing. Reduce it to
 % leave room for captions and avoid "Float too large" warnings.
 \makeatletter
-\def\maxheight{\ifdim\Gin@nat@height>0.85\textheight 0.85\textheight\else\Gin@nat@height\fi}
+\@ifpackageloaded{graphicx}{%
+  \def\maxheight{%
+    \ifdim\Gin@nat@height>0.85\textheight
+      0.85\textheight
+    \else
+      \Gin@nat@height
+    \fi}%
+}{}
 \makeatother
 
 % Captions
