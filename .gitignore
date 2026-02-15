@@ -5,3 +5,7 @@
 *.html
 .lsp/
 public/
+*.random
+test.constant
+test.trend
+*.zip
