@@ -2,7 +2,7 @@
 title: "Article Title"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
 date: "`r format(Sys.time(), format='%d %b %Y')`"
-labels: "[example]"
+tags: "[example]"
 ---
 
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
@@ -11,8 +11,6 @@ require(ggplot2)
 ```
 
 ![© Frank H Jung 2026](images/banner.jpg)
-
-## Article Title
 
 This is a template R Markdown project. Replace this text with your project content.
 

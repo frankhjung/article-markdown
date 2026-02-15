@@ -41,10 +41,10 @@ images/%.png: files/%.mmd
 
 .PHONY: update-date
 update-date:
-	@echo "Updating date for $(PROJECT)"
-	@sed -i "s/^date: .*/date: $(shell date +'%d %B %Y')/" article.Rmd
+	# null operation as date is set by R not by bash
+	@:
 
 .PHONY: clean
 clean:
-	@$(RM) *.log
+	@$(RM) *.log test.constant test.trend *.random *.zip
 	@$(RM) -rf public/
