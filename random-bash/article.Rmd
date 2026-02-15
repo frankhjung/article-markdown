@@ -42,7 +42,12 @@ The three RNG's being evaluated here are:
 
 **Words of caution:**
 
-None of these tools are suitable for generating passwords or for cryptography.
+The Bash `RANDOM` variable and Awk `rand()` function are not suitable for
+generating passwords or for cryptographic purposes.
+
+On modern Linux systems, `/dev/urandom` is generally intended to be
+cryptographically secure, but it should still be used carefully (for example,
+with appropriate encoding and length when generating keys or passwords).
 
 Source and test data for this article can be found
 [here](https://github.com/frankhjung/random).
@@ -122,8 +127,9 @@ Here, the sampled data provides weak evidence against the null hypothesis of
 randomness. Which does not support the alternative hypothesis of non-random
 data.
 
-(For a simple guide on how to interpret the p-value, see
-[this](https://www.dummies.com/education/math/statistics/what-a-p-value-tells-you-about-statistical-data/))
+(For a simple guide on how to interpret the p-value, see [What a p-value tells
+you about statistical
+data](https://www.dummies.com/education/math/statistics/what-a-p-value-tells-you-about-statistical-data/))
 
 ## Random Number Generators that can be used in Bash scripts
 
@@ -137,7 +143,7 @@ Bash, provides the shell variable
 [$RANDOM](http://tldp.org/LDP/abs/html/randomvar.html). It will generate a
 pseudorandom signed 16-bit integer between 0 and 32767.
 
-`RANDOM` is easy to use is bash:
+`RANDOM` is easy to use in bash:
 
 ```{bash bashrandom}
 RANDOM=314
@@ -236,7 +242,9 @@ Example where `rand()` seeded
 echo | awk -e 'BEGIN {srand(314)} {print rand();}'
 ```
 
-If you don't specify a seed in `srand()` it will return the same results.
+If you call `srand()` with no argument, it seeds the generator from the current
+time, so the sequence will vary between runs. If you never call `srand()` (or
+always pass the same numeric seed), you will get the same sequence each time.
 
 You can also generate random integers in a range.
 
@@ -420,4 +428,6 @@ zip constant test.constant
 
 So zipping is a good, if rough, proxy for a measure of randomness.
 
-*[Part Two](https://frankhjung.blogspot.com/2026/01/using-randomness-to-test-code.html) looks at how random data can be used in testing code.*
+*[Part
+Two](https://frankhjung.blogspot.com/2026/01/using-randomness-to-test-code.html)
+looks at how random data can be used in testing code.*
