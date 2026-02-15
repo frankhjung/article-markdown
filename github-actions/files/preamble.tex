@@ -22,12 +22,6 @@
     citecolor=accent
 }
 
-% Section headings
-\usepackage{titlesec}
-\titleformat*{\section}{\Large\bfseries\color{accent}}
-\titleformat*{\subsection}{\large\bfseries\color{accent}}
-\titleformat*{\subsubsection}{\normalsize\bfseries\color{accent}}
-
 % Headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -38,7 +32,10 @@
 \fancyhead[R]{\thepage}
 \fancyfoot[L]{Frank\textit{ly speaking...}}
 \fancyfoot[R]{\textcopyright\ Frank H Jung \the\year}
+% Pandoc maps ## headings to \subsection, so update \leftmark
+% from \subsectionmark (not just \sectionmark).
 \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markboth{#1}{}}
 
 \fancypagestyle{plain}{
   \fancyhf{}
