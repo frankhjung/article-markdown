@@ -2,7 +2,7 @@
 title: 'Thoughts on Random Number Generators - QuickCheck'
 author: '[Frank Jung](https://www.linkedin.com/in/frankjung/)'
 date: 15 February 2026
-labels: '[test,haskell,java,python]'
+tags: '[test,haskell,java,python]'
 ---
 
 ![© Frank H Jung 2026](images/banner.png)
