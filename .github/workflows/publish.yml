@@ -45,14 +45,40 @@ jobs:
             echo "ERROR: article_name, article_title, and article_labels are all required." >&2
             exit 1
           fi
-
           echo "build=true" >> "$GITHUB_OUTPUT"
+
+  detect:
+    name: detect ${{ inputs.article_name }}
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.build == 'true'
+    outputs:
+      type: ${{ steps.detect.outputs.type }}
+
+    steps:
+      - name: shallow checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: detect article type
+        id: detect
+        shell: bash
+        run: |
+          dir="${{ inputs.article_name }}"
+          if [[ -f "${dir}/article.md" ]]; then
+            echo "type=md" >> "$GITHUB_OUTPUT"
+          elif [[ -f "${dir}/article.Rmd" ]]; then
+            echo "type=rmd" >> "$GITHUB_OUTPUT"
+          else
+            echo "ERROR: No article found with name ${{ inputs.article_name }}" >&2
+            exit 1
+          fi
 
   build:
     name: build ${{ inputs.article_name }}
     runs-on: ubuntu-latest
-    needs: validate
-    if: needs.validate.outputs.build == 'true'
+    needs: detect
 
     steps:
       - name: shallow checkout
@@ -61,9 +87,17 @@ jobs:
           fetch-depth: 1
 
       - name: build html from md
+        if: needs.detect.outputs.type == 'md'
         uses: docker://frankhjung/pandoc:3.1.11.1
         with:
           args: make -B ${{ inputs.article_name }}
+
+      - name: build html from rmd
+        if: needs.detect.outputs.type == 'rmd'
+        uses: docker://ghcr.io/frankhjung/gnur:4.5.2
+        with:
+          entrypoint: /usr/bin/make
+          args: -B ${{ inputs.article_name }}
 
       - name: archive article
         uses: actions/upload-artifact@v4

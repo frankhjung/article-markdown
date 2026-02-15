@@ -1,25 +1,33 @@
 # Markdown Articles
 
-A reusable project for writing and publishing markdown articles to Blogger.
+A reusable project for writing and publishing Markdown or R Markdown articles to
+Blogger.
 
-This project will publish Markdown articles to Blogger using GitHub Actions.
+This project will publish Markdown or R Markdown articles to Blogger using
+GitHub Actions.
 
 Each sub-directory is its own article, with a Makefile, images and supporting
 files.
 
 ## Pipeline Overview
 
-The publishing pipeline is automated using GitHub Actions and consists of three
+The publishing pipeline is automated using GitHub Actions and consists of four
 sequential jobs:
 
 1. **Validate**: Checks that all required inputs (article name, title, and
    labels) are present.
-2. **Build**: Compiles the Markdown source into HTML using Pandoc and uploads
-   the result as an artifact.
-3. **Publish**: Downloads the HTML artifact and publishes it to Blogger using
+2. **Detect**: Identifies the article type (Markdown or R Markdown) based on the
+   presence of `article.md` or `article.Rmd`.
+3. **Build**: Compiles the source into HTML using the appropriate tool (Pandoc
+   for Markdown, R for R Markdown) and uploads the result as an artefact.
+4. **Publish**: Downloads the HTML artefact and publishes it to Blogger using
    the Google Blogger API.
 
 ```mermaid
+---
+config:
+  look: handDrawn
+---
 graph LR
     %% Trigger
     Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
@@ -34,30 +42,40 @@ graph LR
         InputLogic -- "All Provided" --> OutputBuild["Output: build=true"]
     end
 
+    %% Job: Detect
+    subgraph DetectJob ["Job: Detect Type"]
+        direction LR
+        DetectLogic{"Check Article File"}
+        DetectLogic -- "article.md" --> TypeMD["Output: type=md"]
+        DetectLogic -- "article.Rmd" --> TypeRMD["Output: type=rmd"]
+        DetectLogic -- "Not Found" --> DetectFail["Exit 1 (Fail)"]
+    end
+
    %% Conditional Logic between Jobs
     OutputSkip -.-> EndSkip([End: Skipped])
     ExitFail --> EndFail([End: Failed])
-   OutputBuild ==>|build=true| StepCheckout
+    OutputBuild ==>|build=true| DetectJob
+    DetectFail --> EndFail
 
       %% Job: Build
       subgraph BuildJob ["Job: Build"]
         direction LR
 
-        StepCheckout[/"Step: Checkout Code<br/>(actions/checkout)"/]
-        StepPandoc["Step: Build HTML<br/>(frankhjung/pandoc)"]
-        StepUpload[/"Step: Upload Artifact<br/>(actions/upload-artifact)"/]
+        TypeMD ==>|type=md| StepPandoc["Step: Build (Pandoc)"]
+        TypeRMD ==>|type=rmd| StepGNUR["Step: Build (GNUR)"]
 
-        StepCheckout --> StepPandoc
-        StepPandoc --> StepUpload
+        StepPandoc --> StepUpload[/"Step: Upload Artefact"/]
+        StepGNUR --> StepUpload
     end
 
     %% Job: Publish
     subgraph PublishJob ["Job: Publish"]
         direction LR
-        StepDownload[/"Step: Download Artifact<br/>(actions/download-artifact)"/]
-        StepBlogger["Step: Publish to Blogger<br/>(frankhjung/blogger)"]
+        StepDownload[/"Step: Download Artefact"/]
+        StepVerify["Step: Verify Artefact"]
+        StepBlogger["Step: Publish to Blogger"]
 
-        StepDownload --> StepBlogger
+        StepDownload --> StepVerify --> StepBlogger
     end
 
     %% End State
@@ -82,15 +100,20 @@ markdown/
 ├── Makefile                  # Top level build rules
 ├── files/                    # Shared resources
 │   ├── article.css           # HTML styling
-│   ├── article.md            # Template article content
-│   ├── article.mk            # Template article build rules
-│   └── preamble.tex          # PDF preamble
+│   ├── article.md            # Template Markdown content
+│   ├── article.Rmd           # Template R Markdown content
+│   ├── article_md.mk         # Template Markdown build rules
+│   ├── article_rmd.mk        # Template R Markdown build rules
+│   ├── make.R                # R script for rendering Rmd
+│   ├── preamble.tex          # PDF preamble
+│   └── puppeteer.json        # Puppeteer config for Mermaid CLI
 ├── images/                   # Shared images (if used)
 │   └── banner.jpg            # Template banner image
 ├── docs/                     # Project docs
 ├── <article>/                # Article subfolder
-│   ├── article.md            # Main content
-│   ├── Makefile              # Article build rules (hard link to article.mk)
+│   ├── article.md|.Rmd       # Main content
+│   ├── Makefile              # Article build rules (hard link to template)
+│   ├── make.R                # [IF Rmd] R script for rendering
 │   ├── docs/                 # [OPTIONAL] Supporting documents for article
 │   ├── files/                # Hard links to shared files
 │   ├── images/               # Article images
@@ -105,61 +128,21 @@ or `make <article>-clean`.
 
 ## Creating a New Article
 
-There are two ways to create a new article: manually or using the `new-article`
-Makefile target.
+Use the `new-article` Makefile target to automate the folder creation:
 
-### Manual Setup
-
-You can create a new article by following these steps:
-
-1. Create a new folder with the article name (e.g., `my-article/`)
-
-2. Create a hard link to the article Makefile template:
-
-   ```bash
-   ln -f files/article.mk my-article/Makefile
-   ```
-
-3. Create `article.md` with YAML front matter:
-
-   ```markdown
-   ---
-   title: My Article
-   author: "[Your Name](https://www.linkedin.com/in/yourname/)"
-   date: 2026-02-08       # updated automatically on publishing
-   tags: [article, blog]  # update with your own tags
-   ---
-
-   *Your content here.*
-   ```
-
-4. Create hard links to shared files:
-
-   ```bash
-   mkdir -p my-article/files
-   ln -f files/article.css my-article/files/article.css
-   ln -f files/preamble.tex my-article/files/preamble.tex
-   ```
-
-5. Create an images folder with a banner:
-
-   ```bash
-   mkdir -p my-article/images
-   cp images/banner.jpg my-article/images/banner.jpg
-   ```
-
-6. [Optional] Add supporting documents to `my-article/docs/`
-
-### Using the `new-article` Makefile target
-
-Alternatively, you can use the `new-article` target to automate this process:
+### Create a Markdown Article
 
 ```bash
-make new-article
+make new-article name=my-article
 ```
 
-This will prompt you for the article name and create the folder structure with
-the necessary files.
+### Create an R Markdown Article
+
+```bash
+make new-article name=my-rmd-article type=rmd
+```
+
+This will create the folder structure with the necessary files and hard links.
 
 ## Building Locally
 
@@ -185,7 +168,7 @@ To also build a PDF version:
 
 ```bash
 cd consciousness
-make consciousness.pdf
+make pdf
 ```
 
 This generates:
@@ -198,7 +181,7 @@ Update shared file hard links for all articles:
 make update-links
 ```
 
-Clean build artifacts:
+Clean build artefacts:
 
 ```bash
 make consciousness-clean
@@ -209,22 +192,25 @@ make clean  # cleans all articles' generated public folders
 ## Publishing to Blogger
 
 The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
-to Blogger. It first validates that all required inputs are provided, then
-builds the HTML using a Pandoc Docker image and publishes to Blogger using the
-Blogger API Docker image.
+to Blogger. It employs conditional validation for inputs:
+
+- **All inputs empty**: The workflow exits successfully but skips the build.
+- **Partial inputs**: The workflow fails with a validation error.
+- **All inputs provided**: The workflow proceeds to build and publish.
+
+Inputs are technically marked as optional in the workflow configuration to
+support the "all empty" skip path, but are enforced at runtime if any are
+provided.
 
 ### Trigger the Workflow
 
 1. Go to **Actions** → **publish article**
 2. Click **Run workflow**
-3. Enter the required inputs:
+3. Enter the inputs:
    - **Article folder name**: (e.g., `consciousness`)
    - **Article title**: The title of the post on Blogger
    - **Comma-separated list of labels**: Labels for the post
 4. Click **Run workflow**
-
-All three inputs are required. If any are missing, the workflow will fail with a
-validation error.
 
 ### Required Secrets
 
@@ -243,7 +229,7 @@ for setup instructions.
 
 ## Docker Images
 
-The pipeline uses two Docker images:
+The pipeline uses three Docker images:
 
 ### Pandoc (DockerHub)
 
@@ -252,11 +238,15 @@ Used to build HTML articles from Markdown.
 ```bash
 # Pull image
 docker pull frankhjung/pandoc:3.1.11.1
+```
 
-# Build an article (run from project root)
-docker run --rm -v "$(pwd)":/workspace -w /workspace \
-  frankhjung/pandoc:3.1.11.1 \
-  make -B consciousness
+### GNUR (GHCR)
+
+Used to build HTML articles from R Markdown.
+
+```bash
+# Pull image
+docker pull ghcr.io/frankhjung/gnur:4.5.2
 ```
 
 ### Blogger (GHCR)
@@ -266,17 +256,26 @@ Used to publish articles to Blogger.
 ```bash
 # Pull image
 docker pull ghcr.io/frankhjung/blogger:v1.3
+```
 
-# Publish an article
-docker run --rm -v "$(pwd)":/workspace -w /workspace \
-  ghcr.io/frankhjung/blogger:v1.3 \
-  --source-file "consciousness/public/article.html" \
-  --title "My Article Title" \
-  --labels "label1, label2" \
-  --blog-id "YOUR_BLOG_ID" \
-  --client-id "YOUR_CLIENT_ID" \
-  --client-secret "YOUR_CLIENT_SECRET" \
-  --refresh-token "YOUR_REFRESH_TOKEN"
+## Mermaid Diagrams
+
+Mermaid diagrams can be included in an article.
+
+### Install
+
+To use the Mermaid CLI tool, install [mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli):
+
+```bash
+# Install mermaid-cli globally via npm
+npm install -g @mermaid-js/mermaid-cli
+```
+
+### Usage
+
+```bash
+# Generate a PNG image from a Mermaid diagram
+mmdc -i input.mmd -o output.png
 ```
 
 ## Dependencies
@@ -285,5 +284,10 @@ docker run --rm -v "$(pwd)":/workspace -w /workspace \
   publishing platform
 - [GitHub Actions](https://github.com/features/actions) — workflow automation
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
+- [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) —
+  Mermaid diagram conversion
+  - also requires `librsvg2-bin` for rendering PDFs
+  - also requires a Chrome browser installed
 - [Pandoc](https://pandoc.org/) — document conversion
+- [R Markdown](https://rmarkdown.rstudio.com/) — R document conversion
 - [XeLaTeX](https://tug.org/xetex/) — PDF generation (via TeX Live)

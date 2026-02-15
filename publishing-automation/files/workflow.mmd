@@ -1,0 +1,65 @@
+---
+config:
+  look: handDrawn
+---
+graph TB
+    %% Trigger
+    Start(("User Trigger<br/>(workflow_dispatch)")) --> ValidateJob
+
+    %% Job: Validate
+    subgraph ValidateJob ["Job: Validate Inputs"]
+        direction TB
+        InputLogic{"Check Inputs:<br/>Name, Title, Labels"}
+
+        InputLogic -- "All Empty" --> OutputSkip["Output: build=false"]
+        InputLogic -- "Partial / Missing" --> ExitFail["Exit 1 (Fail)"]
+        InputLogic -- "All Provided" --> OutputBuild["Output: build=true"]
+    end
+
+    %% Job: Detect
+    subgraph DetectJob ["Job: Detect Type"]
+        direction TB
+        DetectLogic{"Check Article File"}
+        DetectLogic -- "article.md" --> TypeMD["Output: type=md"]
+        DetectLogic -- "article.Rmd" --> TypeRMD["Output: type=rmd"]
+        DetectLogic -- "Not Found" --> DetectFail["Exit 1 (Fail)"]
+    end
+
+   %% Conditional Logic between Jobs
+    OutputSkip -.-> EndSkip([End: Skipped])
+    ExitFail --> EndFail([End: Failed])
+    OutputBuild ==>|build=true| DetectJob
+    DetectFail --> EndFail
+
+      %% Job: Build
+      subgraph BuildJob ["Job: Build"]
+        direction TB
+
+        TypeMD ==>|type=md| StepPandoc["Step: Build (Pandoc)"]
+        TypeRMD ==>|type=rmd| StepGNUR["Step: Build (GNUR)"]
+
+        StepPandoc --> StepUpload[/"Step: Upload Artefact"/]
+        StepGNUR --> StepUpload
+    end
+
+    %% Job: Publish
+    subgraph PublishJob ["Job: Publish"]
+        direction TB
+        StepDownload[/"Step: Download Artefact"/]
+        StepBlogger["Step: Publish to Blogger"]
+
+        StepDownload --> StepBlogger
+    end
+
+    %% End State
+    StepUpload ==> StepDownload
+    StepBlogger --> EndSuccess((End: Success))
+
+    %% Styling
+    classDef green fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef red fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+    classDef yellow fill:#fffde7,stroke:#fbc02d,stroke-width:2px;
+
+    class Start,EndSuccess green;
+    class EndFail red;
+    class EndSkip yellow;

@@ -1,5 +1,7 @@
 *~
 *.bak
+.cli-kondo/
 *.code-workspace
 *.html
+.lsp/
 public/
