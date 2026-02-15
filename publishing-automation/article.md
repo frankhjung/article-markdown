@@ -7,16 +7,18 @@ tags: [blogger, automation, ci/cd, gitops]
 
 ![© Frank H Jung 2026](images/banner.jpg)
 
-*This article is a companion piece to
-[From Code to Content: Automating Your Blogger Workflow with GitHub](https://frankhjung.blogspot.com/2026/02/from-code-to-content-automating-your.html)
-which focused on the Blogger API and
-[The Art of the Repeatable Post: Why Structure Matters](https://frankhjung.blogspot.com/2026/02/the-art-of-repeatable-post-why.html),
-which focuses on the importance of structure for a consistent and
-high-quality blogging workflow.*
+*This article is a companion piece to [From Code to Content: Automating Your
+Blogger Workflow with
+GitHub](https://frankhjung.blogspot.com/2026/02/from-code-to-content-automating-your.html)
+which focused on the Blogger API and [The Art of the Repeatable Post: Why
+Structure
+Matters](https://frankhjung.blogspot.com/2026/02/the-art-of-repeatable-post-why.html),
+which focuses on the importance of structure for a consistent and high-quality
+blogging workflow.*
 
 *This article ties together the concepts of automation and structure, showing
-how to build a CI/CD pipeline for your technical blog using GitHub Actions
-and Docker.*
+how to build a CI/CD pipeline for your technical blog using GitHub Actions and
+Docker.*
 
 ## The Hook: Escaping the Manual Blogging Loop
 
@@ -35,7 +37,7 @@ of files into a disciplined content lifecycle.*
 
 ## Objective: A Unified, Repeatable Build Process
 
-The primary goal of this architecture is to establish a consistent, automated
+The primary goal of this project is to establish a consistent, automated
 build process. It generates a single, web-ready HTML file from either standard
 Markdown or R Markdown. Whether your content is a simple text-based tutorial or
 a complex data-driven analysis, the output must be perfectly styled and ready
@@ -52,7 +54,7 @@ environment to the global reader.*
 
 ## The Foundation: Using Makefiles for Local and Cloud Consistency
 
-In this system, GNU Make serves as the declarative blueprint for the entire
+In this project, GNU Make serves as the declarative blueprint for the entire
 content lifecycle. Makefiles ensure the command used to build and preview an
 article on your local machine is identical to the command executed by the
 GitHub Actions runner in the cloud.
@@ -72,7 +74,7 @@ containers package every dependency—from XeLaTeX for document processing to
 specific R packages—ensuring that the build never breaks due to a missing
 library on a local machine or a cloud runner.
 
-The pipeline utilises three specialised images to drive the workflow:
+The pipeline uses three specialised images to drive the workflow:
 
 * **frankhjung/pandoc (v3.1.11.1):** The industry standard for converting
   Markdown into clean, standalone HTML.
@@ -96,9 +98,8 @@ select the correct Docker image based on the file extension (e.g., `.md` or
 *Because both the Markdown and R Markdown subfolders utilise the same shared
 `article.mk` logic, the pipeline maintains a "single source of truth." Different
 content types coexist harmoniously, following the same validation and build
-steps. This unified approach lets you focus on the story you're
-telling—whether it's a code snippet or a data plot—knowing the deployment path
-is already set.*
+steps. This unified approach lets you focus on the story you're telling—whether
+it's a code snippet or a data plot—knowing the deployment path is already set.*
 
 ## Why Automate? The Operational Advantages of Content CI/CD
 
@@ -120,24 +121,24 @@ simple time-saving:
   your intellectual contributions.
 
 *Treating your blog as a deployment target via an API offers three key
-advantages for the DevOps-minded writer: Version Control, Consistency, and
-GitOps for Content.*
+advantages for the DevOps-minded writer: **Version Control**, **Consistency**, and
+**GitOps for Content**.*
 
 ## Conclusion: The Future of Your Technical Writing
 
 While building an automated deployment pipeline requires an initial investment
 in configuration, it pays immediate dividends by permanently removing
 administrative overhead. It bridges the gap between how we work—in editors and
-version control—and how we share—on the web.
-*By treating your blog as a deployment target, you clear the path for your
-creativity. You no longer need to worry about the software required to display
-your insights; you only need to worry about the insights themselves. Embrace the
-"Blogging as Code" philosophy, build your pipeline, and get back to the story.*
+version control—and how we share—on the web. *By treating your blog as a
+deployment target, you clear the path for your creativity. You no longer need to
+worry about the software required to display your insights; you only need to
+worry about the insights themselves. Embrace the "Blogging as Code" philosophy,
+build your pipeline, and get back to the story.*
 
 ## Explore the Source: Repositories and Images
 
 Ready to implement "Blogging as Code" for yourself? All the components of this
-pipeline are open-source and available for you to fork, adapt, or study.
+project are open-source and available for you to fork, adapt, or study.
 
 ### The Toolchain (Docker Images)
 
@@ -152,13 +153,8 @@ These images handle the heavy lifting of conversion and deployment:
 
 ### The Orchestration (GitHub Repositories)
 
-Find the Makefiles and GitHub Action workflows in these repositories:
+Find the Makefiles and GitHub Action workflows in this repository:
 
 * **[frankhjung/article-markdown](https://github.com/frankhjung/article-markdown):**
   The blueprint for standard Markdown workflows.
-* **[frankhjung/article-rmarkdown](https://github.com/frankhjung/article-rmarkdown):**
-  The configuration for R-based technical articles.
 
-*These repositories are in the process of being unified into a single project to
-further streamline the pipeline. Meanwhile, they both offer templates
-for your automation journey.*
