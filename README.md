@@ -1,26 +1,25 @@
 # Markdown Articles
 
-A reusable project for writing and publishing Markdown or R Markdown articles to
-Blogger.
+A reusable project for writing and publishing Markdown (including R Markdown)
+articles to Blogger using GitHub Actions.
 
-This project will publish Markdown or R Markdown articles to Blogger using
-GitHub Actions.
-
-Each sub-directory is its own article, with a Makefile, images and supporting
-files.
+Each subdirectory contains a single article with a Makefile, images, and
+supporting files.
 
 ## Pipeline Overview
 
-The publishing pipeline is automated using GitHub Actions and consists of four
-sequential jobs:
+The publishing pipeline is automated using GitHub Actions and consists of five
+jobs with conditional branches:
 
 1. **Validate**: Checks that all required inputs (article name, title, and
    labels) are present.
 2. **Detect**: Identifies the article type (Markdown or R Markdown) based on the
    presence of `article.md` or `article.Rmd`.
-3. **Build**: Compiles the source into HTML using the appropriate tool (Pandoc
-   for Markdown, R for R Markdown) and uploads the result as an artefact.
-4. **Publish**: Downloads the HTML artefact and publishes it to Blogger using
+3. **Build MD**: Runs when `type=md`, compiles Markdown to HTML with Pandoc, and
+   uploads the artefact.
+4. **Build RMD**: Runs when `type=rmd`, compiles R Markdown to HTML, and uploads
+   the artefact.
+5. **Publish**: Downloads the HTML artefact and publishes it to Blogger using
    the Google Blogger API.
 
 ```mermaid
@@ -57,16 +56,20 @@ graph LR
     OutputBuild ==>|build=true| DetectJob
     DetectFail --> EndFail
 
-      %% Job: Build
-      subgraph BuildJob ["Job: Build"]
+      %% Job: Build MD
+      subgraph BuildMDJob ["Job: Build MD"]
         direction LR
+        StepPandoc["Step: Build (Pandoc)"] --> StepUploadMD[/"Step: Upload Artefact"/]
+      end
 
-        TypeMD ==>|type=md| StepPandoc["Step: Build (Pandoc)"]
-        TypeRMD ==>|type=rmd| StepGNUR["Step: Build (GNUR)"]
+      %% Job: Build RMD
+      subgraph BuildRMDJob ["Job: Build RMD"]
+        direction LR
+        StepGNUR["Step: Build (GNUR)"] --> StepUploadRMD[/"Step: Upload Artefact"/]
+      end
 
-        StepPandoc --> StepUpload[/"Step: Upload Artefact"/]
-        StepGNUR --> StepUpload
-    end
+      TypeMD ==>|type=md| BuildMDJob
+      TypeRMD ==>|type=rmd| BuildRMDJob
 
     %% Job: Publish
     subgraph PublishJob ["Job: Publish"]
@@ -79,7 +82,8 @@ graph LR
     end
 
     %% End State
-    StepUpload ==> StepDownload
+    StepUploadMD ==>|build_md success| StepDownload
+    StepUploadRMD ==>|build_rmd success| StepDownload
     StepBlogger --> EndSuccess((End: Success))
 
     %% Styling
@@ -189,6 +193,35 @@ make consciousness-clean
 make clean  # cleans all articles' generated public folders
 ```
 
+## Blog Images
+
+Images for the blog post should be placed in the article's `images/` folder.
+
+### Size
+
+Blogger recommends images be no wider than 1600px for optimal display across
+devices. The `article.css` file includes styles to ensure images scale
+appropriately. The command below uses ImageMagick to resize images to a maximum
+width of 1600px while maintaining aspect ratio:
+
+```bash
+# ImageMagick v7:
+magick input.png -resize 1600x output.png
+```
+
+Run the following commands to ensure they have author and copyright correctly
+set:
+
+```bash
+exiftool -Copyright="© Frank H Jung 2026" -Artist="Frank H Jung" banner.jpg
+```
+
+Display metadata for verification:
+
+```bash
+exiftool banner.jpg
+```
+
 ## Publishing to Blogger
 
 The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
@@ -210,6 +243,7 @@ provided.
    - **Article folder name**: (e.g., `consciousness`)
    - **Article title**: The title of the post on Blogger
    - **Comma-separated list of labels**: Labels for the post
+   - **Workflow input names:** `article_name`, `article_title`, `article_labels`
 4. Click **Run workflow**
 
 ### Required Secrets
@@ -226,6 +260,9 @@ Configure these in **Settings** → **Secrets and variables** → **Actions**:
 See
 [Blogger API documentation](https://developers.google.com/blogger/docs/3.0/using)
 for setup instructions.
+
+For guidance on obtaining an OAuth refresh token (required for
+`BLOGGER_REFRESH_TOKEN`), see the Google OAuth 2.0 documentation.
 
 ## Docker Images
 
@@ -264,7 +301,8 @@ Mermaid diagrams can be included in an article.
 
 ### Install
 
-To use the Mermaid CLI tool, install [mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli):
+To use the Mermaid CLI tool, install
+[mermaid-js/mermaid-cli](https://www.npmjs.com/package/@mermaid-js/mermaid-cli):
 
 ```bash
 # Install mermaid-cli globally via npm
@@ -284,8 +322,8 @@ mmdc -i input.mmd -o output.png
   publishing platform
 - [GitHub Actions](https://github.com/features/actions) — workflow automation
 - [GNU Make](https://www.gnu.org/software/make/) — build tool
-- [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) —
-  Mermaid diagram conversion
+- [Mermaid CLI](https://www.npmjs.com/package/@mermaid-js/mermaid-cli) — Mermaid
+  diagram conversion
   - also requires `librsvg2-bin` for rendering PDFs
   - also requires a Chrome browser installed
 - [Pandoc](https://pandoc.org/) — document conversion
