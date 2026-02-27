@@ -1,8 +1,8 @@
 ---
-title: "The Portable Brain: Why I Still Maintain a Private Wiki in the Age of AI"
+title: "Why I Still Maintain a Private Wiki in the Age of AI"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
 date: 27 February 2026
-tags: [test]
+tags: [knowledge management, AI, personal wiki]
 ---
 
 ![© Frank H Jung 2026](images/banner.jpg)
@@ -26,24 +26,24 @@ luxury, not a guarantee.
 I realised early on that I couldn't rely on the client’s internal systems to
 store my personal breakthroughs. I needed a knowledge base that moved with me.
 Whether I was troubleshooting a niche Git conflict or configuring a Debian
-environment on a locked-down network, I needed my "how-tos" at my fingertips.
+environment on a locked-down network, I needed my how-tos at my fingertips.
 
 More importantly, technical skills are often cyclical. You might master a
-specific data engineering pattern or a complex Haskell logic today, only to not
+specific data engineering pattern or complex Haskell code today, only to not
 touch it again for two years. The wiki allows me to "offload" the syntax while
 retaining the core concept. Tools become more refined, but the fundamental logic
-rarely changes. My wiki is the bridge between those recurrences.
+rarely changes. My wiki bridges those recurring gaps.
 
 ## **From Solo Stash to a Source of Truth**
 
-As my role evolved from Developer to DevOps, and eventually into Data
-Engineering and mentoring, the wiki evolved with me.
+As my role evolved from developer to DevOps and, eventually, to data engineering
+and mentoring, the wiki evolved with me.
 
 What started as a collection of personal technical hints became a professional
 force multiplier. When I began mentoring graduates, I noticed the same questions
 surfacing week after week. Instead of repeating myself, I turned my wiki into a
-"Single Source of Truth." If a colleague encountered a "tricky issue" I’d
-already solved, the answer was already there, documented and verified. The wiki
+single source of truth. If a colleague encountered a tricky issue I’d already
+solved, the answer was already there, documented and verified. The wiki
 transitioned from a personal notebook to a team asset that reduced friction and
 saved hours of redundant troubleshooting.
 
@@ -63,7 +63,7 @@ I now use AI as:
 * **A Content Critic:** I use AI to "peer review" my pages, ensuring my tone is
   consistent and checking for errors or outdated logic.
 * **An Update Assistant:** When a tool’s functionality improves, I ask AI to
-  help me integrate those new features into my existing "core" documentation.
+  help me integrate those new features into my existing core documentation.
 
 AI provides the speed, but the wiki provides the ground truth.
 
