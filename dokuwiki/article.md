@@ -1,21 +1,21 @@
 ---
 title: "Why I Still Maintain a Private Wiki in the Age of AI"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 27 February 2026
+date: 28 February 2026
 tags: [knowledge management, AI, personal wiki]
 ---
 
-![© Frank H Jung 2026](images/banner.jpg)
+![Banner: notebook and notes on a desk](images/banner.jpg)
 
-_For a consultant, the most valuable asset isn’t the laptop or the
-credentials—it’s the knowledge. A recurring problem exists: when you move from
-client to client, your work stays behind. You hand back the hardware, lose
-access to the Jira tickets, and the internal documentation you wrote becomes a
-ghost in someone else's machine._
+_For a consultant, the most valuable asset isn’t the hardware or certifications
+—it’s the knowledge. Too often, that knowledge is left behind when you move
+between clients. You hand back the hardware, lose access to the Jira tickets,
+and the internal documentation you wrote becomes a ghost in someone else's
+machine._
 
-_Years ago, I solved this by using a private [wiki](https://www.dokuwiki.org/).
-It has survived firewalls, shifting tech stacks, and my own career evolution.
-Here is why, even in the age of LLMs, it remains an important tool._
+_Years ago I adopted a private [DokuWiki](https://www.dokuwiki.org/) that
+travelled with me through firewalls, tech changes, and career moves. Here is
+why, even in the age of LLMs, it remains an important tool._
 
 ## **The Consultant’s Dilemma: Firewalls and "Fading" Skills**
 
@@ -30,8 +30,8 @@ environment on a locked-down network, I needed my how-tos at my fingertips.
 
 More importantly, technical skills are often cyclical. You might master a
 specific data engineering pattern or complex code today, only to not touch it
-again for two years. The wiki allows me to "offload" the syntax while retaining
-the core concept. Tools become more refined, but the fundamental logic rarely
+again for two years. The wiki lets me offload rote syntax while preserving the
+underlying concepts. Tools become more refined, but the fundamental logic rarely
 changes. My wiki bridges those recurring gaps.
 
 ## **From Solo Stash to a Source of Truth**
@@ -49,7 +49,7 @@ of redundant troubleshooting.
 
 ## **The AI Inflection: From Librarian to Editor**
 
-People often ask: "Why maintain a wiki when you can just ask AI?"
+Why maintain a wiki when you can ask AI?
 
 The answer is **Trust.** AI is a brilliant generalist, but my wiki is a verified
 specialist. It contains the exact solutions that worked in specific client
@@ -58,11 +58,11 @@ powerful.
 
 I now use AI as:
 
-* **The Ultimate Search Tool:** Instead of manual scrolling, I use AI to scan my
+* **The powerful search tool:** Instead of manual scrolling, I use AI to scan my
   wiki and retrieve specific technical hints instantly.
-* **A Content Critic:** I use AI to "peer review" my pages, ensuring my tone is
+* **A content critic:** I use AI to "peer review" my pages, ensuring my tone is
   consistent and checking for errors or outdated logic.
-* **An Update Assistant:** When a tool’s functionality improves, I ask AI to
+* **An update assistant:** When a tool’s functionality improves, I ask AI to
   help me integrate those new features into my existing core documentation.
 
 AI provides the speed, but the wiki provides the ground truth.
@@ -78,10 +78,9 @@ folder of files; it is a documented history of my learning journey. It is the
 one piece of "infrastructure" I truly own, regardless of which client I’m
 serving or which tool is currently in fashion.
 
-In a world of generative noise, there is immense value in a private, trusted
-signal.
+Amid generative noise, a private, trusted signal still has real value.
 
-## Resources
+## Notes
 
 The wiki I'm using is [DokuWiki](https://www.dokuwiki.org/), which is a simple,
 file-based wiki that doesn't require a database. It's perfect for personal use
@@ -90,8 +89,11 @@ Written in PHP, it has a large community and a wide range of plugins to extend
 its functionality. If you're looking for a way to maintain your own knowledge
 base, I highly recommend giving it a try.
 
-As mentioned previously, I used my wiki to learn: I developed Ansible scripts to
-automate setup and customisations. I also use Git to manage the wiki's content,
-which allows me to track changes and maintain version control. This setup has
-been invaluable for keeping my knowledge organized and accessible across
-different environments.
+As mentioned previously, I used my wiki to learn: I developed
+[Ansible](https://www.ansible.com/) playbooks to automate setup and
+customisations. I also use Git to manage the wiki's content, which allows me to
+track changes and maintain version control. This setup has been invaluable for
+keeping my knowledge organized and accessible across different environments.
+
+Avoid storing client‑sensitive or proprietary data in a personal wiki —
+anonymise or omit such details.

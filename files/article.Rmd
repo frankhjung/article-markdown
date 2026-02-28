@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 require(ggplot2)
 ```
 
-![© Frank H Jung 2026](images/banner.jpg)
+![Banner: description](images/banner.jpg)
 
 This is a template R Markdown project. Replace this text with your project content.
 

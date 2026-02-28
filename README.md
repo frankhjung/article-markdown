@@ -1,13 +1,10 @@
 # Markdown Articles
 
-A reusable project for writing and publishing Markdown or R Markdown articles to
-Blogger.
+A reusable project for writing and publishing Markdown (including R Markdown)
+articles to Blogger using GitHub Actions.
 
-This project will publish Markdown or R Markdown articles to Blogger using
-GitHub Actions.
-
-Each sub-directory is its own article, with a Makefile, images and supporting
-files.
+Each subdirectory contains a single article with a Makefile, images, and
+supporting files.
 
 ## Pipeline Overview
 
@@ -196,6 +193,35 @@ make consciousness-clean
 make clean  # cleans all articles' generated public folders
 ```
 
+## Blog Images
+
+Images for the blog post should be placed in the article's `images/` folder.
+
+### Size
+
+Blogger recommends images be no wider than 1600px for optimal display across
+devices. The `article.css` file includes styles to ensure images scale
+appropriately. The command below uses ImageMagick to resize images to a maximum
+width of 1600px while maintaining aspect ratio:
+
+```bash
+# ImageMagick v7:
+magick input.png -resize 1600x output.png
+```
+
+Run the following commands to ensure they have author and copyright correctly
+set:
+
+```bash
+exiftool -Copyright="© Frank H Jung 2026" -Artist="Frank H Jung" banner.jpg
+```
+
+Display metadata for verification:
+
+```bash
+exiftool banner.jpg
+```
+
 ## Publishing to Blogger
 
 The GitHub Actions [workflow](.github/workflows/publish.yml) publishes articles
@@ -217,6 +243,7 @@ provided.
    - **Article folder name**: (e.g., `consciousness`)
    - **Article title**: The title of the post on Blogger
    - **Comma-separated list of labels**: Labels for the post
+   - **Workflow input names:** `article_name`, `article_title`, `article_labels`
 4. Click **Run workflow**
 
 ### Required Secrets
@@ -233,6 +260,9 @@ Configure these in **Settings** → **Secrets and variables** → **Actions**:
 See
 [Blogger API documentation](https://developers.google.com/blogger/docs/3.0/using)
 for setup instructions.
+
+For guidance on obtaining an OAuth refresh token (required for
+`BLOGGER_REFRESH_TOKEN`), see the Google OAuth 2.0 documentation.
 
 ## Docker Images
 
