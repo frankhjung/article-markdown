@@ -131,11 +131,11 @@ Control" that helps you avoid mistakes?
 
 ## Resources
 
-* The Clojure & Haskell code for this project is available on:
+I developed this pipeline workflow for the Clojure & Haskell projects. The code is available on:
 
-  * **GitHub:**
-    * [frankhjung/haskell-clojure](https://github.com/frankhjung/haskell-clojure)
-    * [frankhjung/haskell-wordpuzzle](https://github.com/frankhjung/haskell-wordpuzzle)
-  * **GitLab:**
-    * [frankhjung1/haskell-clojure](https://gitlab.com/frankhjung1/haskell-clojure)
-    * [frankhjung1/haskell-wordpuzzle](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
+* **GitHub:**
+  * [frankhjung/haskell-clojure](https://github.com/frankhjung/haskell-clojure)
+  * [frankhjung/haskell-wordpuzzle](https://github.com/frankhjung/haskell-wordpuzzle)
+* **GitLab:**
+  * [frankhjung1/haskell-clojure](https://gitlab.com/frankhjung1/haskell-clojure)
+  * [frankhjung1/haskell-wordpuzzle](https://gitlab.com/frankhjung1/haskell-wordpuzzle)
