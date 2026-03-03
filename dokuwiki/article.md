@@ -1,7 +1,7 @@
 ---
 title: "Why I Still Maintain a Private Wiki in the Age of AI"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 28 February 2026
+date: 03 March 2026
 tags: [knowledge management, AI, personal wiki]
 ---
 
@@ -85,15 +85,15 @@ Amid generative noise, a private, trusted signal still has real value.
 The wiki I'm using is [DokuWiki](https://www.dokuwiki.org/), which is a simple,
 file-based wiki that doesn't require a database. It's perfect for personal use
 and can be easily hosted on a private server or even locally on your machine.
-Written in PHP, it has a large community and a wide range of plugins to extend
-its functionality. If you're looking for a way to maintain your own knowledge
-base, I highly recommend giving it a try.
+DokuWiki is written in PHP and has a large community and a wide range of plugins
+to extend its functionality. If you're looking for a way to maintain your own
+knowledge base, I highly recommend giving it a try.
 
-As mentioned previously, I used my wiki to learn: I developed
+As mentioned previously, I use my wiki to learn: I maintain and develop
 [Ansible](https://www.ansible.com/) playbooks to automate setup and
 customisations. I also use Git to manage the wiki's content, which allows me to
-track changes and maintain version control. This setup has been invaluable for
-keeping my knowledge organized and accessible across different environments.
+track changes and keep it under version control. This setup has been invaluable
+for keeping my knowledge organised and accessible across different environments.
 
 Avoid storing client‑sensitive or proprietary data in a personal wiki —
 anonymise or omit such details.
