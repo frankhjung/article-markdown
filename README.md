@@ -206,7 +206,7 @@ width of 1600px while maintaining aspect ratio:
 
 ```bash
 # ImageMagick v7:
-magick input.png -resize 1600x output.png
+magick banner.png -resize 1600x banner.jpg
 ```
 
 Run the following commands to ensure they have author and copyright correctly

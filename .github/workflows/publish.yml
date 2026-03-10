@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       article_name:
-        description: "Article folder name (e.g., consciousness)"
+        description: "Article folder name"
         required: false
         type: string
       article_title:
@@ -57,7 +57,7 @@ jobs:
 
     steps:
       - name: shallow checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: shallow checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -106,7 +106,7 @@ jobs:
 
     steps:
       - name: shallow checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -142,7 +142,7 @@ jobs:
         run: ls -l article.html
 
       - name: publish to blog
-        uses: docker://ghcr.io/frankhjung/blogger:v1.3
+        uses: docker://ghcr.io/frankhjung/blogger:1.4
         with:
           args: >-
             --source-file "article.html"

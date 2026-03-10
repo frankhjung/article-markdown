@@ -9,32 +9,24 @@ SHELL    := /bin/bash
 
 .PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
 
-help:
-	@echo "Markdown Articles Pipeline"
+help: ## Show this help message
+	@echo Markdown Articles Pipeline
 	@echo ""
-	@echo "Usage:"
-	@echo "  make list                             - List available articles"
-	@echo "  make <article>                        - Build HTML for a specific article"
-	@echo "  make <article> output=pdf             - Build PDF for a specific article"
-	@echo "  make <article>-clean                  - Clean a specific article"
-	@echo "  make new-article name=<name>          - Create a new article (default: md)"
-	@echo "  make new-article name=<name> type=rmd - Create a new Rmd article"
-	@echo "  make update-links                     - Re-link shared files for all articles"
-	@echo "  make <article> output=mermaid         - Build PNG diagrams for an article"
-	@echo "  make clean                            - Clean all articles"
+	@echo Available targets:
+	@awk 'match($$0, /^([^[:space:]#].*):[[:space:]]*##[[:space:]]*(.*)$$/, m) {printf "  %-30s %s\n", m[1], m[2]}' $(MAKEFILE_LIST)
 	@echo ""
-	@echo "Available articles:"
+	@echo Available articles:
 	@$(foreach art,$(ARTICLES),echo "  - $(art)";)
 
-list:
+list: ## List available articles
 	@echo "Available articles:"
 	@$(foreach art,$(ARTICLES),echo "  $(art)";)
 
-$(ARTICLES):
+$(ARTICLES): ## Build a specific article (default: HTML)
 	@echo "Building article: $@"
 	$(MAKE) -C $@ update-date $(ARTICLE_TARGET)
 
-new-article:
+new-article: ## Create a new article with boilerplate (requires name)
 	@if [ -z "$(name)" ]; then \
 		echo "ERROR: name is required."; \
 		echo "Usage: make new-article name=<name> [type=md|rmd]"; \
@@ -62,7 +54,7 @@ new-article:
 	@echo "Article '$(name)' created successfully:"
 	@find "$(name)/" -type f
 
-update-links:
+update-links: ## Re-link shared files for all articles (useful if files are updated)
 	@for art in $(ARTICLES); do \
 		echo "Linking Makefile for $$art..."; \
 		if [ -f $$art/article.Rmd ]; then \
@@ -78,13 +70,11 @@ update-links:
 		ln -f files/puppeteer.json $$art/files/puppeteer.json; \
 	done
 
-# Clean specific article
-$(ARTICLES:%=%-clean):
+$(ARTICLES:%=%-clean): ## Clean a specific article
 	@echo "Cleaning article: $(@:%-clean=%)"
 	$(MAKE) -C $(@:%-clean=%) clean
 
-# Clean all articles
-clean:
+clean: ## Clean all articles
 	@for art in $(ARTICLES); do \
 		echo "Cleaning $$art..."; \
 		$(MAKE) -C "$$art" clean; \
