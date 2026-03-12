@@ -197,23 +197,23 @@ make clean  # cleans all articles' generated public folders
 
 Images for the blog post should be placed in the article's `images/` folder.
 
-### Size
+### Convert and Annotate
 
 Blogger recommends images be no wider than 1600px for optimal display across
-devices. The `article.css` file includes styles to ensure images scale
-appropriately. The command below uses ImageMagick to resize images to a maximum
-width of 1600px while maintaining aspect ratio:
+devices. Use the root `Makefile` target below to convert an image to JPG
+(`1600px` max width) and set author/copyright EXIF metadata with the current
+year:
 
 ```bash
-# ImageMagick v7:
-magick banner.png -resize 1600x banner.jpg
+make image-annotate image=antibiotics/images/banner.png
 ```
 
-Run the following commands to ensure they have author and copyright correctly
-set:
+Equivalent commands run by the target:
 
 ```bash
-exiftool -Copyright="© Frank H Jung 2026" -Artist="Frank H Jung" banner.jpg
+magick banner.png -resize 1600x banner.jpg
+YEAR=$(date +%Y)
+exiftool -overwrite_original -Copyright="© Frank H Jung $YEAR" -Artist="Frank H Jung" banner.jpg
 ```
 
 Display metadata for verification:

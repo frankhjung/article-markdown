@@ -7,7 +7,7 @@ ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
 ARTICLE_TARGET := $(or $(output),default)
 SHELL    := /bin/bash
 
-.PHONY: help list clean $(ARTICLES) $(ARTICLES:%=%-clean)
+.PHONY: help list clean image-annotate $(ARTICLES) $(ARTICLES:%=%-clean)
 
 help: ## Show this help message
 	@echo Markdown Articles Pipeline
@@ -53,6 +53,23 @@ new-article: ## Create a new article with boilerplate (requires name)
 	@cp images/banner.jpg "$(name)/images/banner.jpg"
 	@echo "Article '$(name)' created successfully:"
 	@find "$(name)/" -type f
+
+image-annotate: ## Convert image to JPG (1600px wide) and set copyright metadata (usage: make image-annotate image=path/to/banner.png)
+	@if [ -z "$(image)" ]; then \
+		echo "ERROR: image is required."; \
+		echo "Usage: make image-annotate image=<path/to/image.png>"; \
+		exit 1; \
+	fi
+	@if [ ! -f "$(image)" ]; then \
+		echo "ERROR: file not found: $(image)"; \
+		exit 1; \
+	fi
+	@input="$(image)"; \
+	output="$${input%.*}.jpg"; \
+	YEAR=$$(date +%Y); \
+	magick "$$input" -resize 1600x "$$output"; \
+	exiftool -overwrite_original -Copyright="© Frank H Jung $$YEAR" -Artist="Frank H Jung" "$$output"; \
+	echo "Created and annotated: $$output"
 
 update-links: ## Re-link shared files for all articles (useful if files are updated)
 	@for art in $(ARTICLES); do \
