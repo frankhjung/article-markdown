@@ -55,12 +55,12 @@ new-article: ## Create a new article with boilerplate (requires name)
 	@find "$(name)/" -type f
 
 image-annotate: ## Convert image to JPG (1600px wide) and set copyright metadata (usage: make image-annotate image=path/to/banner.png)
-	@if [ -z "$(image)" ]; then \
+	@if [[ -z "$(image)" ]]; then \
 		echo "ERROR: image is required."; \
 		echo "Usage: make image-annotate image=<path/to/image.png>"; \
 		exit 1; \
 	fi
-	@if [ ! -f "$(image)" ]; then \
+	@if [[ ! -f "$(image)" ]]; then \
 		echo "ERROR: file not found: $(image)"; \
 		exit 1; \
 	fi
