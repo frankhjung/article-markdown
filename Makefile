@@ -13,14 +13,14 @@ help: ## Show this help message
 	@echo Markdown Articles Pipeline
 	@echo ""
 	@echo Available targets:
-	@awk 'match($$0, /^([^[:space:]#].*):[[:space:]]*##[[:space:]]*(.*)$$/, m) {printf "  %-30s %s\n", m[1], m[2]}' $(MAKEFILE_LIST)
+	@awk 'match($$0, /^([^[:space:]#].*):[[:space:]]*##[[:space:]]*(.*)$$/, m) {printf "  \033[1;36m%-30s\033[0m %s\n", m[1], m[2]}' $(MAKEFILE_LIST)
 	@echo ""
 	@echo Available articles:
-	@$(foreach art,$(ARTICLES),echo "  - $(art)";)
+	@$(foreach art,$(ARTICLES),printf "  - \033[1;33m%s\033[0m\n" "$(art)";)
 
 list: ## List available articles
 	@echo "Available articles:"
-	@$(foreach art,$(ARTICLES),echo "  $(art)";)
+	@$(foreach art,$(ARTICLES),printf "  \033[1;33m%s\033[0m\n" "$(art)";)
 
 $(ARTICLES): ## Build a specific article (default: HTML)
 	@echo "Building article: $@"

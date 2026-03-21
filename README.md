@@ -292,7 +292,7 @@ Used to publish articles to Blogger.
 
 ```bash
 # Pull image
-docker pull ghcr.io/frankhjung/blogger:v1.3
+docker pull ghcr.io/frankhjung/blogger:1.4
 ```
 
 ## Mermaid Diagrams

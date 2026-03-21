@@ -93,7 +93,7 @@ jobs:
           args: make -B ${{ inputs.article_name }}
 
       - name: archive article
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: article
           path: ${{ inputs.article_name }}/public/article.html
@@ -117,7 +117,7 @@ jobs:
           args: -B ${{ inputs.article_name }}
 
       - name: archive article
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: article
           path: ${{ inputs.article_name }}/public/article.html
@@ -134,7 +134,7 @@ jobs:
 
     steps:
       - name: download article
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: article
 

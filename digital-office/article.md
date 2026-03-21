@@ -71,7 +71,6 @@ has also improved significantly, allowing me to extract text from scanned
 documents. This can then be added as metadata to the PDF, making specific
 information simpler to locate within it.
 
-
 I prefer using [Google Drive](https://drive.google.com/) for collaborative work
 and sharing documents with others. This allows me to easily share and access
 documents from anywhere. For instance, my favourite recipes are online, easily
