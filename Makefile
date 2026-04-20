@@ -7,7 +7,7 @@ ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
 ARTICLE_TARGET := $(or $(output),default)
 SHELL    := /bin/bash
 
-.PHONY: help list clean image-annotate $(ARTICLES) $(ARTICLES:%=%-clean)
+.PHONY: help clean image-annotate image-resize new-article update-links $(ARTICLES) $(ARTICLES:%=%-clean)
 
 help: ## Show this help message
 	@echo Markdown Articles Pipeline
@@ -18,26 +18,22 @@ help: ## Show this help message
 	@echo Available articles:
 	@$(foreach art,$(ARTICLES),printf "  - \033[1;33m%s\033[0m\n" "$(art)";)
 
-list: ## List available articles
-	@echo "Available articles:"
-	@$(foreach art,$(ARTICLES),printf "  \033[1;33m%s\033[0m\n" "$(art)";)
-
-$(ARTICLES): ## Build a specific article (default: HTML)
+$(ARTICLES): ## Build HTML for a specific article
 	@echo "Building article: $@"
-	$(MAKE) -C $@ update-date $(ARTICLE_TARGET)
+	$(MAKE) -C "$@" update-date $(ARTICLE_TARGET)
 
 new-article: ## Create a new article with boilerplate (requires name)
-	@if [ -z "$(name)" ]; then \
+	@if [[ -z "$(name)" ]]; then \
 		echo "ERROR: name is required."; \
 		echo "Usage: make new-article name=<name> [type=md|rmd]"; \
 		exit 1; \
 	fi
-	@if [ -d "$(name)" ]; then \
+	@if [[ -d "$(name)" ]]; then \
 		echo "Article '$(name)' already exists!"; \
 		exit 1; \
 	fi
 	@mkdir -p "$(name)"
-	@if [ "$(type)" = "rmd" ]; then \
+	@if [[ "$(type)" = "rmd" ]]; then \
 		cp files/article.Rmd "$(name)/article.Rmd"; \
 		ln -f files/article_rmd.mk "$(name)/Makefile"; \
 		ln -f files/make.R "$(name)/make.R"; \
@@ -54,10 +50,24 @@ new-article: ## Create a new article with boilerplate (requires name)
 	@echo "Article '$(name)' created successfully:"
 	@find "$(name)/" -type f
 
-image-annotate: ## Convert image to JPG (1600px wide) and set copyright metadata (usage: make image-annotate image=path/to/banner.png)
+image-annotate: ## Set copyright metadata on image (usage: make image-annotate image=path/to/banner.jpg)
 	@if [[ -z "$(image)" ]]; then \
 		echo "ERROR: image is required."; \
-		echo "Usage: make image-annotate image=<path/to/image.png>"; \
+		echo "Usage: make image-annotate image=<path/to/image.jpg>"; \
+		exit 1; \
+	fi
+	@if [[ ! -f "$(image)" ]]; then \
+		echo "ERROR: file not found: $(image)"; \
+		exit 1; \
+	fi
+	@YEAR=$$(date +%Y); \
+	exiftool -overwrite_original -Copyright="© Frank H Jung $$YEAR" -Artist="Frank H Jung" "$(image)"; \
+	echo "Annotated: $(image)"
+
+image-resize: ## Resize image to JPG (1600px wide) (usage: make image-resize image=path/to/banner.png)
+	@if [[ -z "$(image)" ]]; then \
+		echo "ERROR: image is required."; \
+		echo "Usage: make image-resize image=<path/to/image.png>"; \
 		exit 1; \
 	fi
 	@if [[ ! -f "$(image)" ]]; then \
@@ -66,33 +76,27 @@ image-annotate: ## Convert image to JPG (1600px wide) and set copyright metadata
 	fi
 	@input="$(image)"; \
 	output="$${input%.*}.jpg"; \
-	YEAR=$$(date +%Y); \
 	magick "$$input" -resize 1600x "$$output"; \
-	exiftool -overwrite_original -Copyright="© Frank H Jung $$YEAR" -Artist="Frank H Jung" "$$output"; \
-	echo "Created and annotated: $$output"
+	echo "Resized: $$output"
 
 update-links: ## Re-link shared files for all articles (useful if files are updated)
 	@for art in $(ARTICLES); do \
 		echo "Linking Makefile for $$art..."; \
-		if [ -f $$art/article.Rmd ]; then \
-			ln -f files/article_rmd.mk $$art/Makefile; \
-			ln -f files/make.R $$art/make.R; \
+		if [[ -f "$$art/article.Rmd" ]]; then \
+			ln -f files/article_rmd.mk "$$art/Makefile"; \
+			ln -f files/make.R "$$art/make.R"; \
 		else \
-			ln -f files/article_md.mk $$art/Makefile; \
+			ln -f files/article_md.mk "$$art/Makefile"; \
 		fi; \
 		echo "Linking files for $$art..."; \
-		mkdir -p $$art/files; \
-		ln -f files/article.css $$art/files/article.css; \
-		ln -f files/preamble.tex $$art/files/preamble.tex; \
-		ln -f files/puppeteer.json $$art/files/puppeteer.json; \
+		mkdir -p "$$art/files"; \
+		ln -f files/article.css "$$art/files/article.css"; \
+		ln -f files/preamble.tex "$$art/files/preamble.tex"; \
+		ln -f files/puppeteer.json "$$art/files/puppeteer.json"; \
 	done
 
 $(ARTICLES:%=%-clean): ## Clean a specific article
 	@echo "Cleaning article: $(@:%-clean=%)"
 	$(MAKE) -C $(@:%-clean=%) clean
 
-clean: ## Clean all articles
-	@for art in $(ARTICLES); do \
-		echo "Cleaning $$art..."; \
-		$(MAKE) -C "$$art" clean; \
-	done
+clean: $(ARTICLES:%=%-clean) ## Clean all articles

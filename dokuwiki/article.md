@@ -17,7 +17,7 @@ _Years ago I adopted a private [DokuWiki](https://www.dokuwiki.org/) that
 travelled with me through firewalls, tech changes, and career moves. Here is
 why, even in the age of LLMs, it remains an important tool._
 
-## **The Consultant’s Dilemma: Firewalls and "Fading" Skills**
+## The Consultant’s Dilemma: Firewalls and "Fading" Skills
 
 Consulting is a nomadic life. You spend months deep in a client’s
 infrastructure, often behind restrictive firewalls where online resources are a
@@ -34,7 +34,7 @@ again for two years. The wiki lets me offload rote syntax while preserving the
 underlying concepts. Tools become more refined, but the fundamental logic rarely
 changes. My wiki bridges those recurring gaps.
 
-## **From Solo Stash to a Source of Truth**
+## From Solo Stash to a Source of Truth
 
 As my role evolved from developer to DevOps and, eventually, to data engineering
 and mentoring, the wiki evolved with me.
@@ -47,7 +47,7 @@ was already there, documented and verified. The wiki was my personal notebook,
 an asset I used to support my team members, reducing friction and saving hours
 of redundant troubleshooting.
 
-## **The AI Inflection: From Librarian to Editor**
+## The AI Inflection: From Librarian to Editor
 
 Why maintain a wiki when you can ask AI?
 
@@ -67,7 +67,7 @@ I now use AI as:
 
 AI provides the speed, but the wiki provides the ground truth.
 
-## **Conclusion: The Future of the Personal Knowledge Base**
+## Conclusion: The Future of the Personal Knowledge Base
 
 As AI grows more capable, the way we store information will undoubtedly change.
 We may eventually reach a point where a manually maintained wiki feels like a

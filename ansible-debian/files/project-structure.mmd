@@ -1,0 +1,28 @@
+---
+config:
+  look: handDrawn
+---
+graph TD
+  Root[Project Root]
+  Root --> Make[Makefile]
+  Root --> Inv[inventory.yaml]
+  Root --> Site[site.yaml]
+  Root --> Roles[roles/]
+
+  Make -->|runs| Site
+  Inv -->|provides host groups and variables| Site
+
+  subgraph RoleTree[roles/]
+    Active[Active install roles\npackages, ssh, ai]
+    Remove[Remove roles\n*_remove]
+    Archived[Archived roles\nkept inactive but available]
+  end
+
+  Roles --> Active
+  Roles --> Remove
+  Roles --> Archived
+
+  Site -->|conditionally imports| Active
+  Site -->|conditionally imports| Remove
+  Archived -.->|not imported by default| Site
+  Inv -.->|may retain matching groups| Archived
