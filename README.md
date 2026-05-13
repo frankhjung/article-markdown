@@ -339,3 +339,39 @@ mmdc -i input.mmd -o output.png
 - [Java](https://github.com/frankhjung/java-wordpuzzle)
 - [Kotlin](https://github.com/frankhjung/kotlin-wordpuzzle)
 - [Python](https://github.com/frankhjung/python-wordpuzzle)
+
+## Archiving Articles
+
+To reduce the number of articles in the main repository while preserving their
+history, you can archive them using git tags and optionally export them as
+standalone tarballs. This keeps the main repo clean while still allowing access
+to the archived content if needed.
+
+The workflow:
+
+```bash
+# 1. Tag the current state with a clear annotation
+git tag -a archive/name -m "archive: name"
+
+# 2. (Optional but recommended) Export a standalone tarball
+git archive --format=tar.gz -o ./archives/name.tar.gz archive/name name
+
+# 3. Remove from the working tree
+git rm -r name
+git commit -m "chore: archive name (see tag archive/name)"
+
+# 4. Push both the commit and the tag
+git push origin main
+git push origin archive/name
+```
+
+The tarball in step 2 is optional but gives you a portable, truly read-only
+snapshot that doesn't require git to access - useful if the repo ever moves or
+is reorganised.
+
+To restore for read-only inspection later:
+
+```bash
+git checkout archive/article-2026
+# You're in detached HEAD — browse freely, can't commit back
+```
