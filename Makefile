@@ -7,7 +7,7 @@ ARTICLES := $(patsubst %/Makefile,%,$(wildcard */Makefile))
 ARTICLE_TARGET := $(or $(output),default)
 SHELL    := /bin/bash
 
-.PHONY: help clean image-annotate image-resize new-article update-links $(ARTICLES) $(ARTICLES:%=%-clean)
+.PHONY: help archive clean image-annotate image-resize new-article update-links $(ARTICLES) $(ARTICLES:%=%-clean)
 
 help: ## Show this help message
 	@echo Markdown Articles Pipeline
@@ -94,6 +94,23 @@ update-links: ## Re-link shared files for all articles (useful if files are upda
 		ln -f files/preamble.tex "$$art/files/preamble.tex"; \
 		ln -f files/puppeteer.json "$$art/files/puppeteer.json"; \
 	done
+
+archive: ## Archive an article (usage: make archive name=article-name)
+	@if [[ -z "$(name)" ]]; then \
+		echo "ERROR: name is required."; \
+		echo "Usage: make archive name=<article-name>"; \
+		exit 1; \
+	elif [[ ! -d "$(name)" ]]; then \
+		echo "ERROR: article not found: $(name)"; \
+		exit 1; \
+	else \
+		echo "Archiving article: $(name)"; \
+	fi
+	@git tag -a archive/$(name) -m "archive: $(name)"
+	@git rm -r "$(name)"
+	@git commit -m "chore: archive $(name) (see tag archive/$(name))"
+	@git push origin "$$(git rev-parse --abbrev-ref HEAD)"
+	@git push origin archive/$(name)
 
 $(ARTICLES:%=%-clean): ## Clean a specific article
 	@echo "Cleaning article: $(@:%-clean=%)"

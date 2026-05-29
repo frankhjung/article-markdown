@@ -350,19 +350,21 @@ to the archived content if needed.
 The workflow:
 
 ```bash
+article="name"  # Replace with your article name
+
 # 1. Tag the current state with a clear annotation
-git tag -a archive/name -m "archive: name"
+git tag -a archive/$article -m "archive: $article"
 
 # 2. (Optional but recommended) Export a standalone tarball
-git archive --format=tar.gz -o ./archives/name.tar.gz archive/name name
+git archive --format=tar.gz -o ./archives/$article.tar.gz archive/$article $article
 
 # 3. Remove from the working tree
-git rm -r name
-git commit -m "chore: archive name (see tag archive/name)"
+git rm -r $article
+git commit -m "chore: archive $article (see tag archive/$article)"
 
 # 4. Push both the commit and the tag
 git push origin main
-git push origin archive/name
+git push origin archive/$article
 ```
 
 The tarball in step 2 is optional but gives you a portable, truly read-only
