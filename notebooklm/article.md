@@ -1,7 +1,7 @@
 ---
 title: "How I Use Notebook LM for Research Deep Dives and Study Guides"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 29 May 2026
+date: 30 May 2026
 tags: [ai, notebook-lm, research, prompts, productivity]
 ---
 
@@ -19,8 +19,9 @@ From there, I use studio features to generate podcasts, video overviews,
 infographics, and custom reports.
 
 In practical terms, Notebook LM feels like a custom ad hoc
-[retrieval-augmented generation (RAG)][rag-wiki] tool. You upload your corpus,
-then query it in context rather than relying on a general model response.
+[retrieval-augmented generation (RAG)][rag-wiki] tool. You upload your
+documents, then query it in context rather than relying on a general model
+response.
 
 ## Custom Personas
 
@@ -33,7 +34,7 @@ to how I customise agents for LLM workflows in my IDE.
 
 There is a large context window to describe a persona or role you want Notebook
 LM to adopt. This can be as simple as "You are a helpful assistant" or as
-detailed as a full CV. The **Learning Coach** below is based on one from
+detailed as a full CV. The **Learning Coach** below is adapted from
 [ShareUHack][shareuhack-guide]:
 
 ```text
@@ -57,7 +58,7 @@ without needing to rewrite them each time.
 
 ## Use Cases
 
-I have used Notebook LM for several recurring use cases.
+Here are a few use cases I have explored with Notebook LM:
 
 ### Daily Brief
 
@@ -86,13 +87,12 @@ Give a summary of "XYZ":
 - What current implementations of this work exist?
 ```
 
-This gives me a fast orientation pass and helps me decide where to spend time.
+This gives me a quick overview so I can decide whether to read the full paper.
 
 ### Review Product Information
 
-I have used Notebook LM to make sense of superannuation documentation and
-government legal information. It is especially helpful for answering targeted
-questions quickly.
+I have used Notebook LM to make sense of product brochures and government
+information. It is especially helpful for answering targeted questions quickly.
 
 What I value most is citation tracing. Notebook LM links responses back to the
 source passages, which makes verification straightforward. Even when summaries
@@ -105,8 +105,8 @@ documents, and links to websites, then use chat for rapid summarisation and
 follow-up questions.
 
 I mainly use the studio features to generate audio and video summaries. The
-audio output is particularly useful for me because I can listen while commuting
-or walking. I have prepared two examples. The first is a
+audio output is particularly useful for me because I can listen while commuting.
+I have prepared two examples. The first is a
 [podcast discussing the features of Notebook LM][notebooklm-podcast]. The second
 is a [short video on how to master Notebook LM][notebooklm-video].
 
