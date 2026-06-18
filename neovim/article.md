@@ -96,8 +96,9 @@ Elan works as a toolchain manager similar to Rust's `rustup` or Haskell's
 updates. Once installed, it manages Lean versions. I now have all the tools
 ready to start learning Lean 4.
 
-This will be covered in the next blog post. For an introduction I generated from
-my Lean 4 NotebookLM, listen to [Software as Absolute Mathematical Proof][31].
+This will be covered in the next blog post. The following introduction was
+generated from my Lean 4 NotebookLM: [Software as Absolute Mathematical
+Proof][31].
 
 [1]: https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
 [2]: https://lean-lang.org/
