@@ -22,7 +22,7 @@ $(ARTICLES): ## Build HTML for a specific article
 	@echo "Building article: $@"
 	$(MAKE) -C "$@" update-date $(ARTICLE_TARGET)
 
-new-article: ## Create a new article with boilerplate (requires name)
+new-article: ## Create a new article with boilerplate (usage: make new-article name=path [type=md|rmd])
 	@if [[ -z "$(name)" ]]; then \
 		echo "ERROR: name is required."; \
 		echo "Usage: make new-article name=<name> [type=md|rmd]"; \
