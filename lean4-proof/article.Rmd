@@ -157,9 +157,10 @@ pick up a factor of 2.
 
 I assume, for contradiction, that `2 ∣ 3^b`. `Nat.Prime.dvd_of_dvd_pow` says a
 prime dividing a power also divides the base, so `2 ∣ 3^b` collapses to
-`2 ∣ 3`. Reverting `h_2_dvd_3` turns the goal from `False` into
-`2 ∣ 3 → False`, and [decide][decide] closes it by computation because
-divisibility on concrete naturals is decidable, and `2 ∣ 3`.
+`2 ∣ 3`. At that point, the goal is `False`, with `h_2_dvd_3 : 2 ∣ 3` in
+context. `revert h_2_dvd_3` moves that hypothesis into the goal, changing it to
+`2 ∣ 3 → False`. Then [decide][decide] proves this implication by computation,
+because divisibility on concrete naturals is decidable and `2 ∣ 3` is false.
 
 #### Transport evenness across the equation
 
@@ -185,9 +186,9 @@ The final line is as direct as it looks: applying
 `h_right_odd : 2 ∣ 3^b → False` to `h_right_even : 2 ∣ 3^b` with the
 [`exact`][exact] tactic closing the goal, yielding `False`.
 
-Feeding `h_right_even` into `h_right_odd` is just Lean's formal way of saying:
-"Look, I have a proof that `3^b` is even, and a proof that it can't be even.
-This is a paradox, so the original assumption is False."
+This is just Lean's formal way of saying: "Look, I have a proof that `3^b` is
+even, and a proof that it can't be even. This is a paradox, so the original
+assumption is False."
 
 So the proof is done.
 
