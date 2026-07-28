@@ -1,0 +1,157 @@
+---
+title: "Is Gravity Just Spacetime's Temperature?"
+author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
+date: "`r format(Sys.time(), format='%d %B %Y')`"
+tags: [physics, gravity, cosmology, information-theory, entropy, quantum-gravity]
+---
+
+![Spacetime curvature and thermodynamic entropy visual](images/banner.jpg)
+
+## Why This Debate Matters
+
+Contemporary physics faces a quiet but profound crisis. Our picture of the
+universe rests on two extraordinary frameworks that do not fit neatly together:
+[General Relativity][general-relativity] (GR), which describes spacetime as a
+smooth continuum curved by mass, and [Quantum Mechanics][quantum-mechanics]
+(QM), which describes reality as discrete particles governed by chance.
+
+That tension sits alongside another stubborn cosmic puzzle: if the [second law
+of thermodynamics][second-law] dictates that the universe must become
+increasingly disordered over time, how can an expanding cosmos give rise to
+complex, ordered structures like galaxies, stars, planets, and life? Standard
+cosmology often attributes cosmic acceleration to a static cosmological
+constant or an undetected form of dynamical dark energy.
+
+[Gravity from Entropy][gfe-founding] (GfE), developed by mathematician
+[Ginestra Bianconi][gbianconi], offers a fresh perspective. Rather than adding
+missing particles or modifying GR arbitrarily, GfE treats gravity as an
+emergent, thermodynamic consequence of microscopic geometry interacting with
+matter.
+
+## The Core Claim: Gravity as an Equation of State
+
+To understand GfE, consider a simple hydrodynamic analogy: fluid pressure and
+temperature are not properties of individual molecules. You do not ask for the
+'temperature of a single molecule'; temperature is a collective, statistical
+average over countless microscopic collisions.
+
+The same logic applies to gravity under GfE. In this theory, Einstein's field
+equations are not microscopic first principles, but macroscopic equations of
+state. Just as water pressure and temperature describe an entire ocean rather
+than a single $H_2O$ molecule, spacetime geometry responds to expanding space
+with its own macro-level thermodynamic balance.
+
+In short, what we perceive as gravitational force may be a large-scale
+thermodynamic response maintained by underlying geometric degrees of freedom.
+
+## The GfE Mechanism: Volumetric Entropy and Structure
+
+Earlier entropic gravity models focused only on black hole horizon surfaces.
+In contrast, GfE introduces a local, volumetric measure called Geometric
+Quantum Relative Entropy (GQRE), which tracks the information-theoretic tension
+between spacetime geometry and matter.
+
+This mechanism reveals a striking thermodynamic dual behaviour in an expanding
+universe:
+
+1. **Total entropy** of the cosmos ($S$) increases monotonically over time,
+   fully satisfying the [second law of thermodynamics][second-law].
+2. **Local entropy per unit volume** ($\delta s / \delta v$) decreases over
+   time as spatial volume expands.
+
+Think of an expanding balloon. While total disorder grows across the entire
+volume, the *density* of disorder thins out locally as space stretches. This
+local entropy decay resolves a long-standing cosmological paradox, creating
+ample thermodynamic room for galaxies, solar systems, and complex life to form
+naturally without violating global laws.
+
+## Emergent Dark Energy and Spacetime Temperature
+
+A key mathematical feature of GfE is that its modified field equations
+naturally generate a dynamical dark energy term ($\Lambda_G$). Dark energy is
+not added by hand as an arbitrary cosmological constant; it arises directly as
+a thermodynamic response of the geometry itself.
+
+Furthermore, GfE assigns physical temperatures and pressures to macroscopic
+geometric degrees of freedom. Spacetime possesses an inherent thermal nature,
+meaning gravity behaves much like heat flowing across geometric boundaries to
+maintain thermodynamic equilibrium.
+
+## Context: Entropic Gravity and Alternative Frameworks
+
+GfE forms part of a broader landscape of emergent quantum gravity theories:
+
+- **[Jacobson's Spacetime Thermodynamics][jacobson]:** Derives Einstein's
+  equations from horizon entropy and thermodynamic relations ($dQ = T dS$).
+- **[Verlinde's Emergent Gravity][verlinde]:** Treats gravity as an entropic
+  force arising from holographic boundaries to explain galaxy rotation.
+- **Quantum Gravity Candidates:** Theories like [Loop Quantum
+  Gravity][lqg] and [String Theory][string-theory] quantise geometry directly,
+  while approaches like [Asymptotic Safety][as] and [Causal Dynamical
+  Triangulations][cdt] explore scale-dependent spacetime structure.
+
+Gravity from Entropy (GfE) stands out within this landscape by offering a
+local, volumetric statistical mechanics framework that reconciles structure
+growth with the global Second Law.
+
+## Opinion: Promising, But It Needs Hard Tests
+
+GfE replaces a substance-first cosmological ontology with an
+information-theoretic one. Gravity becomes macroscopic thermodynamic
+bookkeeping, explaining both General Relativity at low energies and cosmic
+acceleration at large scales.
+
+The strength of Bianconi's formulation lies in its falsifiability. At solar
+system scales, GfE reduces smoothly to standard General Relativity. At
+cosmological scales, however, its dynamical dark energy term yields distinct
+observational signatures.
+
+To validate GfE, researchers must test its predictions against high-redshift
+galaxy dynamics, early-universe expansion rates, and precision data from
+observatories like the [James Webb Space Telescope][jwst] (JWST). If these
+predictions fail statistical comparison against standard cosmology, the theory
+must be refined or abandoned. If they hold, GfE offers an elegant bridge
+between thermodynamics and geometry.
+
+Whether GfE ultimately succeeds or fails, it reframes two of physics' deepest
+mysteries—the friction between quantum mechanics and general relativity, and
+the riddle of cosmic organisation—not as irreconcilable paradoxes, but as two
+sides of a single thermodynamic story. By showing how local order can emerge
+from expanding spacetime, Bianconi reminds us that gravity may not be a
+fundamental force pulling matter together, but rather the cosmos keeping its
+thermodynamic books balanced.
+
+## Sources
+
+1. Founding paper by Ginestra Bianconi: [Gravity from entropy][gfe-founding]
+   (*Physical Review D*, 2025).
+2. Thermodynamic follow-up paper by Ginestra Bianconi: [Thermodynamics of the
+   gravity from entropy theory][gfe-thermo] (*Physical Review D*, 2026).
+3. Phys.org coverage: [How Gravity from Entropy theory connects the second law
+   of thermodynamics with the emergence of cosmic structure][physorg-article].
+
+## Other Resources
+
+- [Gravity from Entropy Theory Resolves Century-Old Clash Between Structure
+  and Entropy][techtimes-article]
+- [This Physicist (Just) Found a New Origin for Gravity
+  (YouTube)][curt-jaimungal]
+- [Is Gravity a Thermodynamic Illusion?][frankly-speaking-spotify]
+
+[as]: https://en.wikipedia.org/wiki/Asymptotic_safety
+[cdt]: https://en.wikipedia.org/wiki/Causal_dynamical_triangulation
+[curt-jaimungal]: https://www.youtube.com/watch?v=ydzuuJU93Xo
+[frankly-speaking-spotify]: https://short.do/lon8n1
+[gbianconi]: https://en.wikipedia.org/wiki/Ginestra_Bianconi
+[general-relativity]: https://en.wikipedia.org/wiki/General_relativity
+[gfe-founding]: https://arxiv.org/abs/2408.14391
+[gfe-thermo]: https://journals.aps.org/prd/abstract/10.1103/26kn-thgp
+[jacobson]: https://pirsa.org/06090001
+[jwst]: https://en.wikipedia.org/wiki/James_Webb_Space_Telescope
+[lqg]: https://en.wikipedia.org/wiki/Loop_quantum_gravity
+[physorg-article]: https://short.do/svP7d7
+[quantum-mechanics]: https://en.wikipedia.org/wiki/Quantum_mechanics
+[second-law]: https://en.wikipedia.org/wiki/Second_law_of_thermodynamics
+[string-theory]: https://en.wikipedia.org/wiki/String_theory
+[techtimes-article]: https://short.do/eZbz_B
+[verlinde]: https://short.do/gpJqBb

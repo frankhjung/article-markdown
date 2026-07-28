@@ -26,7 +26,7 @@ source_file <- args[1]
 output_file <- args[2]
 ensure_output_dir(output_file)
 
-if (endsWith(output_file, "html")) {
+if (endsWith(output_file, ".html")) {
   render(source_file,
     html_document(
       css = "files/article.css",
@@ -36,7 +36,7 @@ if (endsWith(output_file, "html")) {
     ),
     output_file = output_file
   )
-} else if (endsWith(output_file, "pdf")) {
+} else if (endsWith(output_file, ".pdf")) {
   # Use standard LaTeX PDF rendering to honour preamble.tex
   render(source_file, pdf_document(
     toc = TRUE,
