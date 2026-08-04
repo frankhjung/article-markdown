@@ -1,7 +1,7 @@
 ---
 title: "Information Theory as the Fundamental Architecture of Reality"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: "`r format(Sys.time(), format='%d %b %Y')`"
+date: "`r format(Sys.time(), format='%d %B %Y')`"
 tags: [information theory, physics, biology, data, quantum mechanics,
        thermodynamics, entropy, evolution, political science, gravity]
 ---
@@ -24,6 +24,11 @@ human being? The answer lies not just in chemistry but in the sophisticated
 processing of data. By shifting our perspective to information theory, we can
 begin to decode the underlying software of existence and see ourselves as nodes
 within a vast, self-optimising system.
+
+This article follows that idea from first principles to wider systems. It moves
+from Shannon's formal definition of information, through biology and
+thermodynamics, then into active theoretical debates in physics, and finally to
+analogy-driven applications in social systems.
 
 ## Information Theory: Claude Shannon and the Mathematics of Meaning
 
@@ -59,6 +64,8 @@ as its opposite — is the foundation everything else in this piece builds on,
 from the bits stored in your DNA to the channel capacity of a nation's public
 discourse.
 
+Evidence status: foundational and mathematically settled.
+
 ## Biology: Storing, Copying, and Reading the Genome
 
 In the realm of biological replication, a cell functions less like a simple
@@ -81,6 +88,8 @@ Beyond copying, cells also regulate gene expression through epigenetics. These
 molecular tags modify how genetic information is read without altering the
 underlying sequence, acting as structural controls on genomic access.
 
+Evidence status: strong empirical and mechanistic support.
+
 ## Chemistry: Maximum Entropy and the Shape of a Spectrum
 
 Real laboratory instruments never hand chemists a clean signal — every [Nuclear
@@ -102,6 +111,8 @@ mathematics used as a working laboratory tool. Maximum entropy reconstruction is
 routine in modern NMR spectroscopy and mass spectrometry, where it lets chemists
 recover sharp, reliable spectra from measurements that would otherwise be too
 sparse or noisy to interpret with confidence.
+
+Evidence status: strong applied-method support in instrument analysis.
 
 ## Thermodynamics: The Physical Cost of Information Erasure
 
@@ -130,6 +141,8 @@ erasure generates heat, preserving the [Second Law of
 Thermodynamics][second-law]. Information is not a ghost in the machine; it is a
 physical currency.
 
+Evidence status: strong theoretical and experimental support.
+
 ## Physics: Gravity as an Emergent Informational Phenomenon
 
 In theoretical physics, gravity is increasingly explored not as a fundamental
@@ -144,9 +157,10 @@ While still a subject of active debate and theoretical refinement, the logic is
 purely informational: when matter moves, it shifts the underlying microscopic
 data distribution of the universe. Gravity is the macroscopic representation of
 the universe adjusting itself to maintain maximum entropy. By tracking these
-informational shifts, physicists have shown that Newton's laws and Einstein's
-equations can be derived simply by assuming the universe is optimising its data
-layout.
+informational shifts, some approaches recover Newton-like and Einstein-like
+behaviour by assuming the universe optimises its data layout.
+
+Evidence status: active and unresolved theoretical research.
 
 ## Quantum Mechanics: Entanglement and Non-Local Information
 
@@ -179,6 +193,9 @@ remains an active, unconfirmed research direction rather than an experimentally
 settled result — a compelling theoretical hint about where entanglement and
 information might lead.
 
+Evidence status: Bell-violation results are settled; spacetime-from-entanglement
+remains speculative.
+
 ## Evolution: Viral Mutation and the Error Threshold
 
 Where physics leverages quantum coherence, biology must constantly contend with
@@ -202,6 +219,8 @@ If mutations exceed this threshold, the genetic code accumulates "noise" faster
 than natural selection can weed it out. The data dissolves into random
 gibberish, leading to a total collapse of the biological system.
 
+Evidence status: strong conceptual and empirical support in molecular evolution.
+
 ## Political Science: Governance as Distributed Data Processing
 
 Stretching the information-theoretic metaphor further into social architecture,
@@ -218,6 +237,11 @@ whereas a large nation like the United States (350 million participants) can
 sustain hundreds of Mbps — providing a far richer data pipeline for policy
 adaptation.
 
+This section is best read as an explanatory analogy rather than a direct,
+physics-level equivalence.
+
+Evidence status: useful modelling metaphor with mixed empirical grounding.
+
 ## Conclusion: The Informational Bedrock
 
 Pulling these threads together, each field turns out to have its own
@@ -233,7 +257,8 @@ knitr::kable(
       "Thermodynamics",
       "Physics",
       "Quantum Mechanics",
-      "Politics"
+      "Evolution",
+      "Political Science"
     ),
     `Traditional View` = c(
       "Meaning and messages",
@@ -242,6 +267,7 @@ knitr::kable(
       "Heat and entropy",
       "Energy and work",
       "Subatomic particles",
+      "Mutation and selection",
       "Power struggle"
     ),
     `Information-Theoretic View` = c(
@@ -249,8 +275,9 @@ knitr::kable(
       "Biochemical machinery running proofreading",
       "Maximum-entropy spectral reconstruction",
       "Mandatory physical cost of erasure",
-      "Information as physical currency",
+      "Entropy-guided emergent behaviour",
       "Non-local shared information resource",
+      "Error-threshold-limited adaptation",
       "Distributed societal data processing"
     ),
     check.names = FALSE
@@ -258,12 +285,11 @@ knitr::kable(
 )
 ```
 
-This has been a brief survey of a handful of the domains where information
-theory has left its mark — from the mechanics of a single cell, through
-thermodynamics and gravity, to the noisy feedback loops of a virus or a nation.
-It's a fascinating lens: one that keeps turning up in places you wouldn't
-expect, and quietly reframes some of science's oldest questions as questions
-about data.
+Across all of these domains, the central claim stays the same: systems differ,
+but a common informational logic keeps reappearing. Sometimes this logic is
+fully formal and measured, as in Shannon entropy or Landauer's bound. Sometimes
+it is theoretical but promising, as in entropic gravity. Sometimes it is an
+analogy that helps us think more clearly about complex social behaviour.
 
 A growing school of thought holds that information may be the bedrock of reality
 itself. This perspective even redefines the end of time. The "[Heat
@@ -303,20 +329,24 @@ concepts:
 [er-epr]: https://en.wikipedia.org/wiki/ER_%3D_EPR
 [error-catastrophe]: https://en.wikipedia.org/wiki/Error_catastrophe
 [error-threshold]: https://en.wikipedia.org/wiki/Error_threshold_(evolution)
-[gravity-from-entropy]: https://frankhjung.blogspot.com/2026/07/is-gravity-just-spacetimes-temperature.html
+[gravity-from-entropy]:
+  https://frankhjung.blogspot.com/2026/07/is-gravity-just-spacetimes-temperature.html
 [heat-death]: https://en.wikipedia.org/wiki/Heat_death_of_the_universe
 [holographic-principle]: https://en.wikipedia.org/wiki/Holographic_principle
-[information-entropy]: https://en.wikipedia.org/wiki/Entropy_(information_theory)
+[information-entropy]:
+  https://en.wikipedia.org/wiki/Entropy_(information_theory)
 [landauer-1961]: https://en.wikipedia.org/wiki/Landauer%27s_principle
 [landauer-principle]: https://en.wikipedia.org/wiki/Landauer%27s_principle
-[maxent-method]: https://en.wikipedia.org/wiki/Maximum_entropy_spectral_estimation
+[maxent-method]:
+  https://en.wikipedia.org/wiki/Maximum_entropy_spectral_estimation
 [maxwells-demon]: https://en.wikipedia.org/wiki/Maxwell%27s_demon
 [nmr]: https://en.wikipedia.org/wiki/Nuclear_magnetic_resonance_spectroscopy
 [nobel-2022]: https://www.nobelprize.org/prizes/physics/2022/summary/
 [omicron-variant]: https://en.wikipedia.org/wiki/SARS-CoV-2_Omicron_variant
 [sars-cov-2]: https://en.wikipedia.org/wiki/SARS-CoV-2
 [second-law]: https://en.wikipedia.org/wiki/Second_law_of_thermodynamics
-[shannon-1948]: https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication
+[shannon-1948]:
+  https://en.wikipedia.org/wiki/A_Mathematical_Theory_of_Communication
 [shannon-hartley]: https://en.wikipedia.org/wiki/Shannon%E2%80%93Hartley_theorem
 [verlinde-2011]: https://arxiv.org/abs/1001.0785
 [wheeler-1989]: https://en.wikipedia.org/wiki/It_from_bit
