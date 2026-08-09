@@ -1,109 +1,108 @@
 ---
 title: "Beyond Parroting: Why AI is an Alien Intelligence, Not a Human Copycat"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: "09 August 2026"
+date: 09 August 2026
 tags: [ai, artificial-intelligence, creativity, philosophy, innovation]
 ---
 
 ![Alien Intelligence Banner](images/banner.jpg)
 
-It is a comfortable, reassuring belief: AI just parrots human knowledge. Critics
-and sceptics frequently dismiss large language models and generative tools as
-mere statistical mirrors, reflecting back our own words, art, and ideas without
-genuine understanding.
+It is a comfortable belief: AI is just a mirror. Critics often dismiss large
+language models as statistical parrots that reflect our words, images, and ideas
+without any deeper agency.
 
-But before we dismiss artificial intelligence as a glorified copycat, we must
-ask ourselves a candid question: don't we all do that? Human civilisation is
-built almost entirely upon people copying, adapting, and sharing ideas across
-generations. Culture, science, and language advance through cumulative
-borrowing.
+I think that misses the point. The question is not whether AI has consciousness
+or human-style understanding. The question is whether it can see associations
+and links that humans often miss. Human civilisation also advances through
+copying and recombination. We build on what came before. AI does something
+related, though in a different manner. It notices connections across vast bodies
+of data and turns those relationships into outputs that can feel surprising to
+us.
 
-If AI were strictly parroting human inputs, its achievements would remain
-inherently bounded by human precedent and cultural consensus. Yet across
-strategy, physical engineering, artistic expression, medicine, and pure
-mathematics, AI systems are producing outputs that no human mind would ever
-attribute to human invention.
+In this essay I will give some examples where I think AI has done something
+novel.
 
-## Move 37: Strategic Play Beyond Human Intuition
+## Move 37: a strategy that broke human intuition
 
-In March 2016, during the second game of the historic Go match between DeepMind's
-AlphaGo and world champion Lee Sedol, the AI executed Move 37—a shoulder hit
-on the 5th line. To human Go masters observing the board, the move was
-bewildering, as traditional Go theory strictly avoids opening plays on the
-5th line. Commentators initially characterised it as an error—a move no human
-player would make in thousands of years of documented play.
+In March 2016, during the second game of the historic Go match between
+DeepMind's AlphaGo and world champion Lee Sedol, AlphaGo played Move 37, a
+shoulder hit on the 5th line. To human Go masters, the move looked wrong.
+Traditional theory tells players to avoid opening plays on that line, so many
+commentators first treated it as a mistake.
 
-It was not a mistake. Move 37 was a deep, non-human strategic calculation that
-fundamentally reshaped how the game was played. AlphaGo had not simply
-memorised human grandmaster matches; it had discovered an entirely novel
-conceptual strategy outside the bounds of human intuition.
+It was not a mistake. I see Move 37 as a sign that AlphaGo could recognise a
+pattern of play that human intuition had not seen. It was not simply memorising
+grandmaster games. It had found a structure in the game that was hidden in the
+space of possible moves.[^1]
 
-## Organic Engineering: Rocket Engines Grown from Pure Physics
+## Organic engineering: building rockets from physics
 
-Consider the physical world of engineering. Traditional computer-aided design
-(CAD) relies heavily on human draftsmanship, geometric symmetry, and
-established manufacturing conventions. However, computational engineering
-companies like LEAP 71 and Hyperganic are turning this paradigm on its head.
+I also see this pattern in engineering. Traditional computer-aided design
+depends on human draftsmanship, geometric symmetry, and familiar manufacturing
+rules. But companies such as LEAP 71 and Hyperganic are changing that.
 
-Using their Noyron Large Computational Model (LCM), LEAP 71 generated a fully
-functional copper-alloy liquid rocket engine completely from code. Rather than
-modifying existing human blueprints, the software operates as a physics-based
-compiler that "grows" hardware from first principles of fluid dynamics and
-thermal physics. The resulting structures feature bizarre, skeletal, fluid, and
-organic geometries. They are far too complex for human draftsmanship
-to conceive, proving that when guided by raw physics rather than human
-habit, AI produces solutions utterly alien to our design traditions.
+Using their Noyron Large Computational Model, LEAP 71 generated a fully
+functional copper-alloy liquid rocket engine from code alone. Instead of
+starting from a human blueprint, the software works more like a physics-based
+compiler. It grows hardware from the first principles of fluid dynamics and
+thermal physics. The result looks strange: skeletal, fluid, and organic
+structures that humans would rarely design by hand. That makes me think AI is
+not just accelerating design. It is making connections across physics,
+manufacturing constraints, and geometry in a way that is far less bound by human
+habit.[^2]
 
-## Latent Space Anomaly: The Discovery of Loab
+## Latent space anomaly: the discovery of Loab
 
 In April 2022, AI artist and musician Supercomposite uncovered a strange
-phenomenon within latent space. By querying an image generator with negative
-prompt weights—essentially asking the model to find the thematic opposite of a
-given concept—she discovered "Loab".
+phenomenon in latent space. By asking an image generator to find the opposite of
+a given concept, she discovered a recurring figure she called Loab.
 
-Loab appeared consistently across iterations: a gaunt woman with a
-corpse-like complexion, heavy dark eyes, and unnaturally rosy, flushed cheeks.
-Even when blended with unrelated prompts or altered styles, the figure
-relentlessly re-emerged. Loab represented an emergent aesthetic island within
-the model's multidimensional space—a recurring visual form that was not directly
-requested, nor modelled on any single human artwork, but synthesised through
-high-dimensional statistical relationships.
+Loab kept appearing across many prompts and styles: a gaunt woman with a
+corpse-like complexion, heavy dark eyes, and unnaturally rosy cheeks. I find
+that striking because the figure was not directly requested and not copied from
+one known artwork. It emerged from the model's capacity to connect visual
+features across many associations and pull them into a recurring form.[^3]
 
-## Molecular Discovery: Accelerating Pharmacology
+## Molecular discovery: speeding up pharmacology
 
-This non-human intelligence extends beyond art and games into scientific
-discovery. In pharmacology, AI tools accelerate drug discovery by predicting
-complex molecular structures and running high-speed virtual screens. By
-analysing massive biological datasets, these systems match existing
-FDA-approved drugs with entirely new disease targets, bypassing traditional
-trial-and-error methods and drastically cutting research timelines.
+I also see this non-human intelligence in science. In pharmacology, AI tools can
+predict complex molecular structures and run massive virtual screens. They can
+match existing FDA-approved drugs with new disease targets and shorten the path
+from idea to experiment. That does not mean the human scientist vanishes. It
+means the process becomes faster, broader, and sometimes less dependent on
+traditional trial and error.
 
-## Pure Reason: Formal Proofs and Mathematics
+## Pure reason: formal proofs and mathematics
 
-In advanced mathematics, AI systems competing at the International
-Mathematical Olympiad level have solved complex competition problems and
-formal proofs using novel techniques. Crucially, these were not just abstract
-proofs; human mathematicians later analysed and adopted these AI-generated
-techniques to solve other longstanding mathematical problems.
+In mathematics, AI systems have reached the level of Olympiad-style problem
+solving and formal proof generation. Human mathematicians later studied some of
+those techniques and used them to solve other long-standing problems.
 
-Furthermore, mathematical proving systems are being increasingly used to
-validate theorems and formalise complex conjectures (such as Lean 4). This
-builds a verified foundation from which new research can be launched. While
-this currently works best when human mathematicians and scientists guide the
-AI, as the verified foundation grows, AI systems will gain the capacity to far
-outpace humans in drawing novel inferences across diverse fields.
+I also think the rise of formal proof tools such as Lean 4 matters. They give
+researchers a way to build verified foundations for new work. As that foundation
+grows, I expect AI systems to make unexpected connections across many fields at
+a pace that leaves human intuition behind.[^4]
 
-## Embracing Alien Intelligence
+## Embracing alien intelligence
 
-As historian and author Yuval Noah Harari observes, we miss the point when we
-evaluate AI solely through the lens of human cognition:
+I think we miss the point when we judge AI only by human standards. As historian
+and author Yuval Noah Harari has put it, AI should not be seen as a copy of
+human consciousness or a parrot of human culture. It is better understood as a
+different mode of intelligence, one shaped by association and pattern-making
+rather than by human forms of reasoning.
 
-> AI should not be seen as an attempt to replicate human consciousness
-> or parrot human culture, but rather as an Alien Intelligence.
+That matters because AI does not share our biological history, our emotional
+biases, or our cultural blind spots. When it plays Go, designs a rocket engine,
+renders a strange portrait, or proves a theorem, it draws links across far-flung
+domains that humans often keep separate. I see that as a reason to move from
+fear of imitation toward collaboration and discovery.
 
-It operates without our biological evolutionary history, our emotional biases,
-or our cultural blind spots. When AI plays Go, designs a rocket engine, renders
-a ghostly portrait, or proves a mathematical theorem, it explores conceptual
-landscapes that humans never knew existed. Recognising AI as an alien,
-complementary intelligence allows us to move beyond fear of imitation and
-toward true collaborative discovery.
+## References
+
+[^1]: DeepMind, "AlphaGo": https://www.deepmind.com/research/highlighted-research/alphago
+
+[^2]: LEAP 71: https://www.leap71.com/
+
+[^3]: Supercomposite on Loab: https://www.supercomposite.net/loab
+
+[^4]: Lean: https://lean-lang.org/
