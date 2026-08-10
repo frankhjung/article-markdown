@@ -45,7 +45,7 @@ FunSearch][deepmind-funsearch] went further, producing new constructions for
 the decades-old cap set problem that mathematicians then checked and built on.
 What makes this special is that the results are verified, not just
 admired. Proof assistants such as [Lean][lean] let a proof be checked line by
-line, so a claim either holds or it does not. That formal backstop matters,
+line, so a claim either holds or it does not. That formal verification matters,
 because it answers the standard worry about AI: that a fluent answer can quietly
 be wrong.
 
@@ -78,6 +78,8 @@ think AI is not just accelerating design. It is making connections across
 physics, manufacturing constraints, and geometry in a way that is less bound by
 human habit.
 
+![Aerospike Rocket Engine](images/aerospike-engine.jpg)
+
 ## Latent space anomaly: the discovery of Loab
 
 In April 2022, AI artist and musician Supercomposite uncovered a strange
@@ -92,7 +94,7 @@ visual features across many associations and pull them into a recurring form.
 
 ## Molecular discovery: speeding up pharmacology
 
-I also see this non-human intelligence in science. In pharmacology, AI tools can
+I also see this non-human intelligence in the medical sciences. AI tools can
 predict complex molecular structures and run massive virtual screens. One of
 the clearest cases is [baricitinib][baricitinib], an arthritis drug that
 AI-driven analysis flagged as a candidate for COVID-19 in 2020, ahead of the
@@ -102,13 +104,26 @@ sometimes less dependent on traditional trial and error.
 
 ## Embracing alien intelligence
 
+Line up the five examples and a pattern holds: none of them is a better
+version of something humans already knew how to do. Move 37 was a shape
+professional players had trained themselves to avoid. AlphaProof matched
+medallist-level mathematics under contest conditions, and FunSearch went
+further, finding a construction for the cap set problem that Terence Tao
+and other mathematicians then checked and built on — genuinely new, not
+just fast. LEAP 71's engine geometry looks nothing like a human
+draftsperson would produce, yet it fires. Loab kept surfacing from a
+request for the opposite of an image, not the image itself. Baricitinib
+had been sitting in the pharmacopoeia as an arthritis drug for years
+before an AI screen connected it to a virus. In each case, the result sat
+outside the set of answers a human would have reached for first.
+
 I think we miss the point when we judge AI only by human standards. Historian
 [Yuval Noah Harari][noema] has used the term "alien intelligence" to describe AI
 precisely because it doesn't share our biology or our history — though he means
 the phrase mostly as a warning about a force we may not be able to control. I
 want to borrow his term but not his conclusion. I think the same alien quality
-that worries him is also what produced the Go move, the proof, the rocket
-engine, and the drug candidate above.
+that worries him is also what produced the Go move, the proof, the engine, the
+portrait, and the drug candidate above.
 
 That matters because AI does not share our biological history, our emotional
 biases, or our cultural blind spots. When it plays Go, proves a theorem,
