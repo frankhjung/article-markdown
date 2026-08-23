@@ -98,7 +98,7 @@ Anthropic's own codebase and Tao's own proofs — that human review is already t
 bottleneck in practice for the people trying hardest to get it right. Formal,
 machine-checked correctness is becoming a practical necessity, not a
 nice-to-have for the future. It is already doing the reviewing work humans no
-longer have time for.
+longer have time to do.
 
 [why_lean]: https://frankhjung.blogspot.com/2026/08/why-lean.html
 [reader_comment]: https://www.blogger.com/comment/fullpage/post/617516323616237963/7284286437939276226
