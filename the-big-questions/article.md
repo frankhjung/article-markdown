@@ -1,7 +1,7 @@
 ---
 title: "The Big Questions"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 2026-02-08
+date: 08 Febrary 2026
 tags: [science, philosophy]
 ---
 
