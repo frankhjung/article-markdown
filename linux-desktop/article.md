@@ -28,10 +28,10 @@ and to become more capable at what I did.
 
 Over time, I grew to trust it. It supports me, and it gives me the freedom to
 work in a way that feels natural. That trust became especially clear when I
-tried a shiny new MacBook. I was pleased to find many of the same tools
-available, but the experience did not last long. By then, Linux had shown me the
+tried a shiny new MacBook and was pleased to find many of the same tools
+available, but the pleasure was short-lived. By then, Linux had shown me the
 value of choice: I did not want Apple or Microsoft telling me how my workflow
-should work or how I should approach upgrades.
+should operate or how I should approach upgrades.
 
 Linux satisfied my needs as a developer, and it made the transition into system
 administration much easier. It adapted to my requirements and helped me grow. In
@@ -50,8 +50,8 @@ essential applications.
 
 I spend less time managing my system and more time enjoying it. The
 functionality keeps expanding, and importantly, I have never felt that I was
-missing something important enough to force me onto another. Linux just works,
-and it has been doing so for a very long time.
+missing something important enough to force me onto another operating system.
+Linux just works, and it has been doing so for a long time.
 
 So, thank you to the open source community. Thank you, Linus Torvalds. You gave
 me the freedom to grow, to be productive, and to enjoy the tools I use every
