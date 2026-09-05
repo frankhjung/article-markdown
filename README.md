@@ -371,9 +371,20 @@ The tarball in step 2 is optional but gives you a portable, truly read-only
 snapshot that doesn't require git to access - useful if the repo ever moves or
 is reorganised.
 
+To list articles in reverse date order you can use the following command:
+
+```bash
+# full path
+find . -type f -name 'article.*md' -exec ls -lt {} +
+
+# with just directory name
+find * -type f -name 'article.*md' -printf '%TY-%Tm-%Td %TH:%TM %h\n' | sort -r
+```
+
 To restore for read-only inspection later:
 
 ```bash
 git checkout archive/article-2026
 # You're in detached HEAD — browse freely, can't commit back
 ```
+
