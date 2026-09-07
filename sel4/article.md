@@ -2,7 +2,10 @@
 title: "seL4: Trust by Proof, Not Hope"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
 date: 05 September 2026
-tags: [operating-system, security, sel4]
+tags:
+  - operating-system
+  - security
+  - sel4
 ---
 
 ![Banner: seL4 microkernel architecture](images/banner.jpg)
@@ -135,7 +138,7 @@ unmistakable: stop hoping your code is secure, and start building on foundations
 that prove it.
 
 [ambient-authority]: https://en.wikipedia.org/wiki/Ambient_authority
-[data61]: https://en.wikipedia.org/wiki/Data61https://www.csiro.au/en/about/people/research-units/Technology
+[data61]: https://en.wikipedia.org/wiki/Data61
 [heiser]: https://sel4.systems/About/seL4-whitepaper.pdf
 [klein]: https://sel4.systems/Research/pdfs/comprehensive-formal-verification-os-microkernel.pdf
 [nicta]: https://en.wikipedia.org/wiki/NICTA
