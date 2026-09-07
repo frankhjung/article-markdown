@@ -116,4 +116,7 @@ $(ARTICLES:%=%-clean): ## Clean a specific article
 	@echo "Cleaning article: $(@:%-clean=%)"
 	$(MAKE) -C $(@:%-clean=%) clean
 
+list-articles: ## List all articles
+	@find * -type f -name 'article.*md' -printf '%TY-%Tm-%Td %TH:%TM %h\n' | grep -Ev 'files|test' | sort -r
+
 clean: $(ARTICLES:%=%-clean) ## Clean all articles
