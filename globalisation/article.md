@@ -30,7 +30,7 @@ In the aggregate, this model delivered. Over four decades of export-led growth,
 [World Bank][world-bank-poverty] data shows extreme global poverty dropping from
 more than a third of the world's population in 1990 to under ten per cent before
 2020. Hundreds of millions of people across China and South-East Asia moved from
-      subsistence farming into steady, paid work.
+subsistence farming into steady, paid work.
 
 Yet economists made one compromised assumption: the standard models assume
 workers and capital move effortlessly. If a textile mill closes, the theory says
@@ -102,8 +102,8 @@ The fragility of that bargain was exposed by pandemics, energy crunches, and
 rivalry between the United States and China. Relying on geopolitical rivals for
 medicines, microchips, and critical minerals turned out to be an immense gamble.
 Today, industrial policy is back: sovereign capability funds, green
-manufacturing subsidies, and _friend-shoring_ prove that supply-chain resilience
-now outweighs raw cost-cutting.
+manufacturing subsidies, and [friend-shoring][friend-shoring] prove that
+supply-chain resilience now outweighs raw cost-cutting.
 
 ## Offshoring the Pollution
 
@@ -137,6 +137,7 @@ the very system that made them prosperous.
 [baldwin]: https://en.wikipedia.org/wiki/Richard_Baldwin_(economist)
 [cbam]: https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en
 [china-shock]: https://www.nber.org/papers/w18054
+[friend-shoring]: https://www.weforum.org/stories/2023/02/friendshoring-global-trade-buzzwords/
 [ricardo]: https://en.wikipedia.org/wiki/David_Ricardo
 [rodrik]: https://en.wikipedia.org/wiki/Dani_Rodrik
 [world-bank-poverty]: https://www.worldbank.org/en/topic/poverty
