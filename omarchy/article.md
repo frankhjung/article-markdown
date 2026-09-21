@@ -10,8 +10,8 @@ tags: [linux, ai, omarchy, desktop, productivity]
 ## AI-First Operating System
 
 I've spent the past month exploring [Omarchy][omarchy]. The short version: it is
-one of the most convincing Linux desktops I have seen for a world where AI is
-becoming part of the daily workflow. Created by
+one of the freshest and most different Linux desktops I have seen for a world
+where AI is becoming part of the daily workflow. Created by
 [David Heinemeier Hansson (DHH)][dhh], Omarchy is unapologetically opinionated.
 Instead of a blank canvas, it offers a curated "omakase" (chef's choice)
 experience designed for the age of AI. The premise is simple: if you can use AI
