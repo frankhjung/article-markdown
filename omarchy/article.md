@@ -47,11 +47,12 @@ power-on to a usable desktop. The installer asks exactly five questions before
 handing you a finished, themed desktop. On modern machines, the process can take
 as little as 35 seconds. On older hardware, it is still remarkably fast.
 
-Most users will be up and running in less than two minutes. Even on a 2010 Mac
-Book Air with 2GB of RAM, the installation completed with plenty of headroom.
-For someone who views Arch-based systems as a time sink, that is a meaningful
-selling point. Omarchy turns a process that used to feel like a weekend project
-into something you can finish while your coffee is still warm.
+Most users will be up and running in less than two minutes. Even on the 2011
+ThinkPad X220 with 2GB of RAM that DHH uses to showcase Omarchy on ancient
+hardware, the installation completes with plenty of headroom. For someone who
+views Arch-based systems as a time sink, that is a meaningful selling point.
+Omarchy turns a process that used to feel like a weekend project into something
+you can finish while your coffee is still warm.
 
 ## The Rise of the Agentic OS
 
@@ -61,7 +62,7 @@ located in `~/.local/bin/`. In practical terms, the binaries are not installed
 until you call them the first time.
 
 ```bash
-omarchy default agent gemini
+omarchy default agent antigravity
 ```
 
 Running the command above triggers the automatic download and installation of
@@ -89,11 +90,11 @@ workflow where windows tile automatically, reducing the clutter of overlapping
 panes and floating windows.
 
 Pressing Super + J flips the split orientation between horizontal and vertical.
-The bigger revelation, though, is Quickshell. Version 4.0 uses this toolkit to
-move the top bar, application launcher, and notifications into a unified,
-scriptable shell environment. That creates a workflow that becomes almost second
-nature over time, especially on a couch-bound laptop where a mouse is more of a
-hindrance than a help.
+The bigger revelation, though, is Quickshell. Omarchy 4.0 rewrote its desktop
+shell using this toolkit, moving the top bar, application launcher, and
+notifications into a unified, scriptable shell environment. That creates a
+workflow that becomes almost second nature over time, especially on a
+couch-bound laptop where a mouse is more of a hindrance than a help.
 
 ## The Safety Net of the Update Wrapper
 
@@ -108,10 +109,10 @@ omarchy update
 
 This wrapper creates a Btrfs snapshot before installing updates. The stable
 channel tracks roughly a month behind upstream Arch to reduce breakage and catch
-regressions sooner. The system relies on three package-management pillars: the
-official `pacman` repositories, the AUR, and the `omarchy-pkgs` repository,
-which includes the custom `linux-omarchy` kernel and dedicated shell
-integrations.
+regressions sooner. The system draws on three package sources: the Omarchy Arch
+Mirror (the stable, month-behind snapshot of the official Arch repositories),
+the Omarchy Package Repository (which includes the custom `linux-omarchy` kernel
+and dedicated shell integrations), and the AUR.
 
 This is where Omarchy feels particularly thoughtful. It does not pretend that
 rolling release is risk-free. Instead, it gives users a safer default path.
@@ -122,8 +123,9 @@ Plain Text Management and Portability
 
 Omarchy is a highly malleable computer. Most of the things that make the system
 feel like yours live in plain text configuration files inside `~/.config/`.
-Because these are simple text files, the system uses GNU Stow to manage symlinks
-into a central Git repository.
+Because these are simple text files, many users manage them with tools like GNU
+Stow to symlink their personal dotfiles into a central Git repository — a
+popular community convention rather than something Omarchy imposes itself.
 
 This makes your entire OS setup portable. More importantly, it makes the system
 AI-friendly. An agent can read your config files, understand your setup, and
