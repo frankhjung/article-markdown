@@ -1,7 +1,7 @@
 ---
-title: "First look at Omarchy Linux"
+title: "First Look at Omarchy Linux"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 21 September 2026
+date: 22 September 2026
 tags: [linux, ai, omarchy, desktop, productivity]
 ---
 
@@ -10,19 +10,19 @@ tags: [linux, ai, omarchy, desktop, productivity]
 ## AI-First Operating System
 
 I've spent the past month exploring [Omarchy][omarchy]. The short version: it is
-one of the freshest and most different Linux desktops I have seen for a world
-where AI is becoming part of the daily workflow. Created by
+a fresh and minimal Linux desktop specifically for a world where AI tools are
+becoming part of the daily workflow. Created by
 [David Heinemeier Hansson (DHH)][dhh], Omarchy is unapologetically opinionated.
 Instead of a blank canvas, it offers a curated "omakase" (chef's choice)
 experience designed for the age of AI. The premise is simple: if you can use AI
 to generate an app quickly, then you should be able to shape your entire
 operating system around the same workflow.
 
-I recently revived a 12-year-old Carbon X1 with Omarchy, and the difference was
-immediate. The machine felt notably snappier, more coherent, and more useful.
-All the hardware was fully recognised, including the fingerprint scanner. That
-is not a scientific benchmark, but it is exactly the sort of result that matters
-to a real user.
+I recently revived a 12-year-old ThinkPad X1 Carbon with Omarchy, and the
+difference was palpable. The machine felt notably snappier, more coherent, and
+more useful. All the hardware was fully recognised, including the fingerprint
+scanner. That is not a scientific benchmark, but it is exactly the sort of
+result that matters to a real user.
 
 ## Installation as a Speed Run
 
@@ -30,7 +30,7 @@ One of the most striking things about Omarchy is how fast it gets you from
 power-on to a usable desktop. The installer asks exactly five questions before
 handing you a finished, themed desktop. On modern machines, the process can take
 as little as 35 seconds. On older hardware, it remains remarkably quick: on my
-12-year-old Carbon X1, it took under five minutes.
+12-year-old ThinkPad X1 Carbon, it took under five minutes.
 
 Most users will be up and running in less than two minutes. Even on the 2011
 ThinkPad X220 with 2GB of RAM that DHH uses to showcase Omarchy on ancient
@@ -46,7 +46,7 @@ Most Linux distributions present users with a large menu of software and
 configurations. Omarchy makes a different bet: the "chef" chooses the tools for
 you. These apps include essential tools for development, productivity, and
 system management. Omarchy ships with a pre-tuned stack featuring
-[Neovim][neovim], the [Hyprland][hyprland] compositor, the [Foot][foot]
+[Wayland][wayland], the [Hyprland][hyprland] compositor, the [Foot][foot]
 terminal, and [Quickshell][quickshell]. It feels cohesive: aesthetics and
 productivity are not treated as separate concerns.
 
@@ -54,29 +54,27 @@ productivity are not treated as separate concerns.
 > vibe code your operating system." — David Heinemeier Hansson (Lex Fridman
 > Podcast \#501, August 2026)
 
-That said, I don't use most of these apps, but it was easy enough to replace
-them with my own preferences. In addition, I was able to quickly remap some
-keyboard shortcuts and create a dark/light theme toggle on the top bar. There is
-also a suite of default development tools optionally included, managed by shell
-scripts that I easily customised to suit my environment while disabling what I
-did not need.
+While I replaced many of the chef's default apps with my own favourites,
+adapting the system proved straightforward. I remapped keyboard shortcuts, added
+a dark/light theme toggle to the top bar, and tailored the optional menu-driven
+developer tools to my environment while pruning the rest.
 
 The system starts out as DHH's curated vision, but it quickly adapts to your
 personal tools and workflow.
 
-## Keyboard-First Efficiency with Quickshell
+## Keyboard-First Ergonomics: Hyprland and Quickshell
 
 If you are coming from macOS or Windows, the biggest adjustment is Hyprland, a
 dynamic tiling Wayland compositor. Omarchy is built around a keyboard-first
 workflow where windows tile automatically, reducing the clutter of overlapping
 panes and floating windows.
 
-Using the keyboard to rapidly navigate and manage windows is a core part of the
-Omarchy experience. Another revelation is Quickshell. Omarchy 4.0 rewrote its
-desktop shell using this toolkit, moving the top bar, application launcher, and
-notifications into a unified, scriptable shell environment. That creates a
-workflow that becomes almost second nature over time, especially on a
-couch-bound laptop where a mouse is more of a hindrance than a help.
+Keyboard-driven window navigation forms the bedrock of the Omarchy experience,
+complemented by Quickshell. In Omarchy 4.0, the desktop shell was rewritten with
+this toolkit, consolidating the top bar, application launcher, and notifications
+into a unified, scriptable shell environment. That creates a workflow that
+becomes almost second nature over time, especially on a couch-bound laptop where
+a mouse is more of a hindrance than a help.
 
 ## The Rise of the Agentic OS
 
@@ -99,13 +97,13 @@ notification system lets you hand the crash log directly to an agent to diagnose
 it using the built-in `diagnose-crash` skill.
 
 That makes the operating system feel less like a fixed set of tools and more
-like an environment that can assist with active troubleshooting and environment
-management. It is a compelling direction, especially for developers who already
-live in the terminal.
+like an environment that can assist with active troubleshooting and system
+administration. It is a compelling direction, especially for developers who
+already live in the terminal.
 
 > "The future of AI computing might end up looking a lot like the old way of
 > using computers: files, terminals, scripts, text and a machine you can
-> actually understand." — Lars Jansen (\@oldstackjournal, Omarchy, August 2026)
+> actually understand." — Lars Jansen (@oldstackjournal, Omarchy, August 2026)
 
 ## Dotfiles, Portability, and AI-Friendly Systems
 
@@ -128,9 +126,10 @@ readable, explainable machine rather than a black box.
 ## The Safety Net of the Update Wrapper
 
 Under the hood, Omarchy is still Arch Linux, but it addresses the standard fear
-of a rolling-release system: breaking the system while updating it. While you
-can use raw `pacman`, the system uses the `omarchy update` wrapper as a safety
-net.
+of a rolling-release system: breaking the system while updating it. While Arch
+purists might reach for `pacman`, Omarchy expects users to run its
+`omarchy update` wrapper as a safety net, avoiding manual `pacman -Syu` commands
+that bypass snapshot hooks and system migrations.
 
 This wrapper creates a [Btrfs][btrfs] snapshot before installing updates. The
 stable channel tracks roughly a month behind upstream Arch to reduce breakage
@@ -144,7 +143,7 @@ rolling release is risk-free. Instead, it gives users a safer default path.
 
 ## Conclusion
 
-I think Omarchy is a promising entry in the world of agentic Linux. Its simple
+Omarchy is a promising entry in the world of agentic Linux. Its simple
 installation, config-driven design, and hardware-aware approach make it a strong
 choice for anyone willing to embrace its philosophy. The AI agent can read your
 configuration, help diagnose crashes, and support your customisations without
@@ -165,6 +164,6 @@ desktop without giving up control.
 [dhh]: https://dhh.dk/
 [foot]: https://codeberg.org/dnkl/foot
 [hyprland]: https://hyprland.org/
-[neovim]: https://neovim.io/
 [omarchy]: https://omarchy.org/
-[quickshell]: https://quickshell.org
+[quickshell]: https://quickshell.org/
+[wayland]: https://wayland.freedesktop.org/
