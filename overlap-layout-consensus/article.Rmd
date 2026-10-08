@@ -279,6 +279,10 @@ To explore the implementation and dive deeper into the mathematics:
   companion [Assembly Dynamics and Parameter Heuristics][heuristics-guide]
   guide.
 
+To explore this algorithm try the web interactive sequence assembler and step-wise animation workbench:
+
+- [Overlap-Layout-Consensus (OLC) Reconstruction](https://github.com/frankhjung/haskell-reconstruct-strings)
+
 [de-bruijn-graphs]: https://en.wikipedia.org/wiki/De_Bruijn_graph
 [de-novo-genome-assembly]: https://en.wikipedia.org/wiki/De_novo_sequence_assemblers
 [eulerian-path]: https://en.wikipedia.org/wiki/Eulerian_path
