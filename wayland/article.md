@@ -1,7 +1,7 @@
 ---
 title: "Rebuilding a Desktop: From Xfce4 to Sway and QuickShell"
 author: "[Frank Jung](https://www.linkedin.com/in/frankjung/)"
-date: 30 October 2026
+date: 31 October 2026
 tags: [wayland, sway, quickshell, ansible, xfce, linux]
 ---
 
@@ -69,13 +69,20 @@ QuickShell made this aesthetic fidelity possible. Running as a lightweight
 layer-shell process, it hosts a 32-pixel top panel that neatly mirrors my
 familiar panel anatomy:
 
-1. A session launcher menu bearing the Debian crimson swirl.
-2. A four-workspace pager supporting direct clicks and scroll-wheel switching.
-3. A flat-button window tasklist with dynamic title resolution.
-4. An elastic spacer that cleanly separates tasks from status monitors.
-5. An interactive clock, calendar launcher, and clipboard history picker.
-6. A responsive PipeWire audio widget with hover adjustments and volume control.
-7. A system tray, temperature monitors, CPU load bars, and logout dialogue.
+1. Keyboard shortcut popup from the Debian crimson swirl.
+2. Four-workspace pager supporting direct clicks and scroll-wheel switching.
+3. Flat-button window tasklist with dynamic title resolution.
+4. Elastic spacer that cleanly separates tasks from status monitors.
+5. Clock with calendar launcher.
+6. Clipboard Manager.
+7. PipeWire audio widget with hover adjustments and volume control.
+8. Notification area for system and application alerts.
+9. Battery status indicator with detailed power metrics.
+10. Wifi connection status indicator with network details.
+11. Bluetooth status indicator with connection details.
+12. Temperature monitors.
+13. CPU load bars.
+14. Logout dialogue.
 
 To a casual observer, the workspace looks identical to the GTK-based panel I
 used for a decade. To the compositor underneath, it is an ultra-fast,
