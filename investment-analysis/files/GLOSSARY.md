@@ -9,9 +9,10 @@ discarded.
 ## Annual Rollover
 
 The primary Fixed Interest compounding model. At each July from 2006 to 2025,
-the RBA Table F4 retail bonus savings rate (`rba-bonus-savings.csv`) is locked
-for 12 months; at maturity, principal plus interest is reinvested into the next
-12-month term.
+the monthly RBA Table F4 retail bonus savings rate (`FRDIRSAB10K` in
+`rba-deposit-rates.csv`, and `FRDIRBTD10K1Y` 1-year term deposit as a
+sensitivity) is locked for 12 months; at maturity, principal plus interest is
+reinvested into the next 12-month term.
 
 ## Fractional DRP
 
@@ -31,9 +32,10 @@ p.a. for `ASX:GOLD`) to model realistic ASX gold ETF ownership.
 ## Prepared CSV
 
 A UTF-8 CSV in `files/` written by the local Stage 1 script
-`scripts/convert_xlsx.R`. It keeps only the columns this analysis needs, in
-ascending date order, and replaces the raw source file, which is archived in
-`files/raw-data/`. Read exclusively by `article.Rmd` at render time.
+`scripts/convert_xlsx.R`. It extracts only the columns this analysis needs from
+the permanent read-only inputs in `files/raw-data/`, sorted in ascending date
+order, and overwrites earlier extracts cleanly on re-run. Read exclusively by
+`article.Rmd` at render time.
 
 _Avoid_: Slim CSV, processed CSV
 

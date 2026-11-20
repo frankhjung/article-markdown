@@ -9,9 +9,10 @@ fair, transparent, and reproducible 20-year comparison of an initial
 
 > **Scope Boundary:** This specification defines the target architecture and
 > acceptance criteria prior to implementation. **Stage 1** (data preparation)
-> is a local, author-run GNU R step that converts raw files into prepared CSVs.
-> **Stage 2** (reporting) is `article.Rmd`, rendered by Makefile targets and
-> the GitHub pipeline, which reads only the prepared CSVs.
+> is a local, author-run GNU R step that reads raw inputs from `files/raw-data/`
+> and writes (or overwrites) prepared CSVs in `files/` without moving or
+> altering the raw files. **Stage 2** (reporting) is `article.Rmd`, rendered by
+> Makefile targets and the GitHub pipeline, which reads only the prepared CSVs.
 
 ## 1. Objective, Scope and Fairness Principles
 
@@ -38,15 +39,15 @@ analysis shall enforce the following asset definitions and fairness invariants:
   p.a. matching `ASX:PMGOLD`) quantified in the summary and after-tax tables.
   Practical ownership differences against physical bullion are evaluated in
   Section 6.
-- **Fixed Interest (Australian Bonus Savings Benchmark):** Official RBA Table F4
-  **Retail Bonus Savings Rate** series (`AUD 10,000` balance advertised rates
-  assuming monthly bonus conditions are satisfied) from
-  `Historical Retail Bonus Savings Rates (2002-2026).xlsx`. Applied via
-  12-month **Annual Rollover** using the `2006` through `2025` annual rates
-  across the 20 July-to-July terms. The ACCC Retail Deposits Inquiry caveat
-  (headline rates assume bonus rules are met) is noted in Section 6, and RBA
-  Table F1.1 (`f01hist.xlsx`, `FIRMMCRT`) is included as a secondary
-  monthly-compounded cash-rate floor reference (`fixed_interest_cash`).
+- **Fixed Interest (Australian Deposit Benchmarks):** Official RBA Table F4
+  (`f4-data.csv`) monthly **Retail Bonus Savings Rate** (`FRDIRSAB10K`,
+  `AUD 10,000` balance advertised rates assuming monthly bonus conditions are
+  satisfied), applied via 12-month **Annual Rollover** using each July's exact
+  rate (`2006-07` through `2025-07`) across the 20 July-to-July terms
+  (`fixed_interest_bonus`). Paired with RBA Table F4 **1-Year Term Deposit**
+  (`FRDIRBTD10K1Y`, `fixed_interest_td_1y`) and RBA Table F1.1 (`f1.1-data.csv`,
+  `FIRMMCRT`) monthly-compounded cash-rate floor (`fixed_interest_cash`). The
+  ACCC Retail Deposits Inquiry caveat is evaluated in Section 6.
 - **Australian Equities (`ASX:STW`):** State Street's SPDR S&P/ASX 200 Fund
   (`ASX:STW`), modelled on a **Total Return (Dividend Reinvestment Plan / DRP)**
   basis using actual historical cash distributions from
@@ -82,123 +83,158 @@ and personal financial or tax advice.
 
 ## 2. Source Data Inventory and Acquisition Plan
 
-### REQ-004: Existing Audited Files in `investment-analysis/files/`
+### REQ-004: Audited Raw Source Files in `investment-analysis/files/raw-data/`
 
-Eight source data files (plus the companion notes document
-`historical interest rates 2002-2026.docx`) currently exist in
-`investment-analysis/files/`. Table 1 records the exact file structure, date
-coverage, and observed parsing quirks that must be handled during extraction.
+Eight active raw data files (five CSVs and three `.xlsx` workbooks, plus the
+companion notes document [historical interest rates 2002-2026.docx][notes-docx]
+and provenance register [file-sources.md](raw-data/file-sources.md)) reside
+permanently in `investment-analysis/files/raw-data/`. Table 1 records the exact
+file structure, date coverage, and observed parsing quirks of the eight active
+datasets.
+
+[notes-docx]: raw-data/historical%20interest%20rates%202002-2026.docx
 
 | File Name | Sheet / Format | Date Coverage | Rows | Units & Key Fields | Discovered Quirks & Traps |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `gold-prices-1833-2026.xlsx` | `monthly-processed.csv` (XLSX) | `1833-01-01` to `2026-10-01` | 2,326 | `Date`, `Price` (USD/troy oz) | Rows 2–805 (`1833–1899`) store `Date` as text strings; row 806 (`1900-01-02`) onward uses Excel serial dates (`datetime`), causing mixed-type failures in naive `readxl` imports. |
-| `rba-exhange-rates-1969-2009.xlsx` | `Data` (XLSX, plus `Notes `) | `1969-07-31` to `2009-12-31` | 486 | `FXRUSD` (`A$1=USD`), Col 3 | Filename spells `exhange` without `c`; 10 metadata header rows; row 11 contains `Series ID`; month-end business dates; `Notes ` sheet name has trailing space. |
-| `rba-exhange-rates-2010-2026.xlsx` | `f11-data.csv` (XLSX) | `2010-01-29` to `2026-10-30` | 202 | `FXRUSD` (`A$1=USD`), Col 2 | Filename spells `exhange` without `c`; 10 metadata rows; row 11 contains `Series ID`; `FXRUSD` shifts from Col 3 (1969–2009) to Col 2 (2010–2026). |
-| `Historical Retail Bonus Savings Rates (2002-2026).xlsx` | `Historical Rates` (XLSX) | `2002` to `2026` (YTD Oct) | 25 | `Year`, `Avg. Bonus Savings Rate (% p.a.)` (Cols A, C; decimal) | Title/source rows 1–2; blank row 3; header row 4; dual side-by-side tables separated by blank Col F (ignore Cols G–J snapshot); row 30 contains `'2002–2025 Historical Average'` summary (exclude); rates stored as decimals (`0.0403` = `4.03%`); spaces and parentheses in filename. |
+| `CMO-Historical-Data-Monthly.xlsx` | `Monthly Prices` (XLSX) | `1960M01` to `2026M10` | 802 | `Gold` (Col 70; USD/troy oz) | 4 title/update rows; commodity names on row 5 (locate `Gold` dynamically); units on row 6 (`($/troy oz)`); data from row 7 using `YYYYMmm` codes (e.g. `2006M07`); 250 gap-free monthly rows from `2006-01`; integer USD values across `2006–2026`. |
+| `rba-exchange-rates-1969-2009.xlsx` | `Data` (XLSX, plus `Notes `) | `1969-07-31` to `2009-12-31` | 486 | `FXRUSD` (`A$1=USD`), Col 3 | 10 metadata header rows; row 11 contains `Series ID`; month-end business dates; `Notes ` sheet name has trailing space. |
+| `f11-data.csv` | UTF-8 CSV (with BOM) | `29-Jan-2010` to `30-Oct-2026` | 202 | `FXRUSD` (`A$1=USD`), Col 2 | UTF-8 BOM (`\xef\xbb\xbf`); 10 metadata rows; `Series ID` on row 11; `FXRUSD` shifts from Col 3 (`1969–2009`) to Col 2; month-end `DD-Mon-YYYY` dates; ~214 blank trailing lines. |
+| `f4-data.csv` | UTF-8 CSV (with BOM) | `31-Dec-1981` to `31-Oct-2026` | 539 / 293 | `FRDIRSAB10K` (Bonus Savings, Col 6) & `FRDIRBTD10K1Y` (1Y TD, Col 14; `%` p.a.) | UTF-8 BOM (`\xef\xbb\xbf`); 10 metadata rows; `Series ID` on row 11; month-end `DD-Mon-YYYY` dates; 250 gap-free rows from `2006-01`; ~9,450 blank trailing lines. |
 | `stw-monthly-2006-2026.xlsx` | `STW Historical Data.csv` (XLSX) | `2026-07-01` to `2006-07-01` | 241 | `Date`, `Price` (AUD close) | Stored in **descending** date order; zero nulls; price-only series (`AUD 49.19` in `2006-07` to `AUD 80.22` in `2026-07`), excluding distributions. |
 | `stw-dividends.csv` | UTF-8 CSV | `2026-09-29` to `2006-06-26` | 62 | `Ex_Dividend_Date`, `Payment_Date`, `Cash_Distribution_AUD`, `Franking_Pct`, `Gross_Distribution_AUD` | Stored in **descending** order; `%` suffix on `Franking_Pct` and `Trailing_Yield_Pct`; `"N/A"` strings in `Trailing_Yield_Pct`; cadence shifts from semi-annual to quarterly in 2016. |
 | `g1-data.csv` | UTF-8 CSV (with BOM) | `30/06/1922` to `30/09/2026` | 421 | `GCPIAG` (Col 2; `Index, Sept 2025 = 100`) | UTF-8 BOM (`\xef\xbb\xbf`); 10 metadata rows; `Series ID` on row 11; Australian `DD/MM/YYYY` dates; future placeholder rows (`31/12/2026`–`30/06/2027`) with empty values; ~9,566 blank trailing lines. |
-| `f01hist.xlsx` | `Data` (XLSX, plus `Notes`) | `1969-06-30` to `2026-10-31` | 689 | `FIRMMCRT` (Col 2; `%` p.a. monthly avg) | 10 metadata rows; `Series ID` on row 11; broken OOXML `<dimension ref="A1"/>` tag and dangling `xl/drawings/drawing1.xml` ref (must bypass strict drawing/dimension checks); ~9,300 blank trailing rows; pre-1990 `None` values; minor float noise (e.g. `7.250002`, round to 4 dp). |
+| `f1.1-data.csv` | UTF-8 CSV (with BOM) | `30/06/1969` to `31/10/2026` | 435 non-null | `FIRMMCRT` (Col 2; `%` p.a. monthly avg) | UTF-8 BOM (`\xef\xbb\xbf`); 10 metadata rows; `Series ID` on row 11; Australian `DD/MM/YYYY` dates; ~9,300 blank trailing lines; pre-1990 `FIRMMCRT` blanks; clean 2 dp values avoiding Excel quirks. |
 
 Key empirical observations from the initial data audit:
 
-- **Continuous Common Coverage:** Filtering `gold-prices-1833-2026.xlsx` and the
-  merged RBA `FXRUSD` workbooks to `2006-01` through `2026-10` yields 250
-  consecutive months with zero gaps. Intersecting with
-  `stw-monthly-2006-2026.xlsx` produces **241** contiguous monthly points from
-  `2006-07` to `2026-07` with zero missing months.
+- **Continuous Common Coverage:** Filtering `CMO-Historical-Data-Monthly.xlsx`
+  and the merged RBA `FXRUSD` inputs (`rba-exchange-rates-1969-2009.xlsx` plus
+  `f11-data.csv`) to `2006-01` through `2026-10` yields 250 consecutive months
+  with zero gaps. Intersecting with `stw-monthly-2006-2026.xlsx` produces
+  **241** contiguous monthly points from `2006-07` to `2026-07` with zero
+  missing months.
 - **STW Dividend Window Entitlement:** Filtering `stw-dividends.csv` by
   `Ex_Dividend_Date` within `[2006-07-01, 2026-07-31]` yields exactly **60**
   eligible distributions (`2006-12-21` paying `2007-01-04` through `2026-06-29`
   paying `2026-07-13`). The `2006-06-26` distribution went ex-dividend before
   the July 2006 entry date and `2026-09-29` falls after July 2026; both shall be
   excluded.
-- **Observation Timing:** `gold-prices-1833-2026.xlsx` (`1833-01-01` = `18.93`,
-  integer USD values across 2006–2026) is the historical **monthly average**
-  spot series. Retain it as a documented limitation and require `article.Rmd`
+- **Observation Timing:** `CMO-Historical-Data-Monthly.xlsx` (`Monthly Prices`
+  sheet, `Gold`, daily-average spot / London PM fixing monthly average,
+  integer USD values across 2006–2026) is a **monthly average** series rather
+  than month-end. Retain it as a documented limitation and require `article.Rmd`
   to state each series' timing basis explicitly: Gold (monthly average), RBA
   `FXRUSD` (month-end), STW `Price` (monthly bar close, so July 2006 shows
   Open `50.00` / Close `49.19` with entry/exit at month-end), RBA `FIRMMCRT`
-  (monthly average), Bonus Savings (calendar-year average), and ABS CPI
-  (quarterly index).
+  (monthly average), Bonus Savings & 1-Year Term Deposit (`FRDIRSAB10K` /
+  `FRDIRBTD10K1Y`, monthly observations), and ABS CPI (quarterly index).
 - **Franking Verification:** `Gross_Distribution_AUD` in `stw-dividends.csv`
   matches `Cash_Distribution_AUD * (1 + Franking_Pct * 30 / 70)` at a 30%
   corporate rate to within `0.002`. Fourteen of 62 rows differ by more than
   `0.0006` because their franking percentages are rounded to whole numbers, so
-  the check shall use a tolerance and never exact equality.
-- **Bonus Savings Context:** `historical interest rates 2002-2026.docx`
-  documents the identical RBA Table F4 bonus-savings series alongside the ACCC
-  Retail Deposits Inquiry finding (~71% of bonus savers miss monthly
-  conditions) and shall move to `files/raw-data/` with the raw `.xlsx`
-  workbooks after Stage 1 extraction.
+  the check shall use a tolerance and never exact equality. Cross-checking
+  against State Street Global Advisors' (`SSGA`) official `ASX:STW` distribution
+  table (`2014-06` to `2026-09`) confirms **46 / 46** exact matches on cash
+  distribution and payment date, while noting minor headline franking
+  variances across 17 rows (notably `2019-06-27`, shown as `0.00%` franking in
+  `stw-dividends.csv` versus `AUD 0.1923` per unit on SSGA).
+- **Bonus Savings & Term Deposit Audit (`f4-data.csv`):** Direct RBA Table F4
+  supplies **250** gap-free monthly observations (`2006-01` to `2026-10`) for
+  both `FRDIRSAB10K` (bonus savings) and `FRDIRBTD10K1Y` (1-year term deposit),
+  allowing exact **July** start-of-term lock rates without annual averaging.
+  `historical interest rates 2002-2026.docx` remains in `files/raw-data/` as
+  read-only supporting provenance for the ACCC Retail Deposits Inquiry finding
+  (~71% of bonus savers miss monthly conditions).
 - **CPI Inflation Audit (`g1-data.csv`):** Quarterly `GCPIAG` runs from
   `30/06/2006` (`59.65`) to `30/06/2026` (`102.31`), yielding **81** quarterly
   observations with zero missing values across the window (`+71.52%` cumulative
   inflation, `2.73%` p.a. CAGR; `AUD 1,000` in June 2006 requires `AUD 1,715.17`
   in June 2026 to maintain purchasing power).
-- **RBA Cash Rate Floor (`f01hist.xlsx`):** `FIRMMCRT` supplies **250** gap-free
-  monthly observations from `2006-01` to `2026-10` (`2006-07` `5.75%` to
-  `2026-07` `4.35%`). Monthly compounding yields **AUD 1,841.31** (`3.10%` p.a.
-  CAGR), corroborating the Bonus Savings benchmark (`AUD 1,901.60`, `3.27%`
-  p.a. CAGR).
+- **RBA Cash Rate Floor (`f1.1-data.csv`):** `FIRMMCRT` supplies **250**
+  gap-free monthly observations from `2006-01` to `2026-10` (`2006-07` `5.75%`
+  to `2026-07` `4.35%`). Monthly compounding yields **AUD 1,841.28** (`3.10%`
+  p.a. CAGR), corroborating the July-locked Bonus Savings benchmark
+  (**AUD 1,909.03**, `3.29%` p.a. CAGR) and 1-Year Term Deposit sensitivity
+  (**AUD 2,032.98**, `3.61%` p.a. CAGR).
 
 ### REQ-005: Dataset Completeness
 
-All mandatory and secondary reference datasets (Gold, RBA F11 exchange rates,
-Bonus Savings, RBA Table F1.1 Cash Rate Target `f01hist.xlsx`, `ASX:STW` prices
-and distributions, and ABS/RBA Table G1 CPI `g1-data.csv`) are now present on
-disk in `investment-analysis/files/`. Zero missing source files remain prior to
-Stage 1 extraction.
+All mandatory and secondary reference datasets (Gold, RBA Table F11 exchange
+rates via `rba-exchange-rates-1969-2009.xlsx` and `f11-data.csv`, RBA Table F4
+retail deposit rates `f4-data.csv`, RBA Table F1.1 Cash Rate Target
+`f1.1-data.csv`, `ASX:STW` prices and distributions, and ABS/RBA Table G1 CPI
+`g1-data.csv`) are present on disk in `investment-analysis/files/raw-data/`.
+Zero missing source files remain prior to Stage 1 extraction.
 
 ### REQ-006: Source Attribution and Provenance
 
-Every raw and acquired dataset shall have its publisher, table/series code,
-retrieval date, and official URL documented in a data-provenance table in
-[article.Rmd](../article.Rmd) and in script header comments.
+The complete provenance register (including SHA-256 checksums and verification
+notes) lives in [raw-data/file-sources.md](raw-data/file-sources.md), with files
+retrieved `2026-11-19` and `2026-11-20` and verified live on `2026-11-20`.
+Table 2 summarises the canonical upstream URLs and verification status for
+every active file in `investment-analysis/files/raw-data/`. Every dataset shall
+have its publisher, table/series code, retrieval date, and official URL
+documented in a data-provenance table in [article.Rmd](../article.Rmd) and in
+script header comments.
 
-## 3. Data Preparation Stage: Formatting and Archiving Raw Inputs
+| Raw File (`files/raw-data/`) | Publisher & Series | Retrieved | Canonical Source URL | Verification Basis |
+| :--- | :--- | :--- | :--- | :--- |
+| `CMO-Historical-Data-Monthly.xlsx` | World Bank Pink Sheet (`Gold`, USD/oz) | `2026-11-20` | [World Bank CMO Monthly XLSX](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx) | Exact World Bank download (`3c8d9d8dbb48342fdbf24777c39a8ce8964cc2fd0958f72f6779e6e4ad99cde2`, 587,760 bytes; 802 rows `1960M01`–`2026M10`). |
+| `f1.1-data.csv` | RBA Table F1.1 (`FIRMMCRT`) | `2026-11-20` | [RBA Table F1.1 CSV](https://www.rba.gov.au/statistics/tables/csv/f1.1-data.csv) | Exact RBA download (`52de6eef28ba1008bdde43546944b270ef08dca4c9b6282bb34846820a490ce2`, 43,917 bytes). |
+| `f4-data.csv` | RBA Table F4 (`FRDIRSAB10K`, `FRDIRBTD10K1Y`) | `2026-11-20` | [RBA Table F4 CSV](https://www.rba.gov.au/statistics/tables/csv/f4-data.csv) | Exact RBA download (`d0d3f76d9dc7466b498de770cb74471e473b17ef3becf3f4fd8d0050286c95df`, 51,094 bytes). |
+| `f11-data.csv` | RBA Table F11 Current (`FXRUSD`, 2010–present) | `2026-11-20` | [RBA Table F11 CSV](https://www.rba.gov.au/statistics/tables/csv/f11-data.csv) | Exact RBA download (`b27fce75b5197ada059a9ece17f128b70582b2a040340ae14ee5d5b428fe1cef`, 34,242 bytes). |
+| `g1-data.csv` | RBA / ABS Table G1 (`GCPIAG`) | `2026-11-19` | [RBA Table G1 CSV](https://www.rba.gov.au/statistics/tables/csv/g1-data.csv) | Exact SHA-256 match (`777ce0f23e8c2d176a39f033b157df5c24553cc6c63498e1adbb78c59bbf6d96`, 39,998 bytes). |
+| `historical interest rates 2002-2026.docx` | RBA Table F4 notes + ACCC inquiry (context only) | `2026-11-19` | [RBA Table F4 CSV](https://www.rba.gov.au/statistics/tables/csv/f4-data.csv) | Verified against RBA `f4-data.csv` across `2002`–`2025`; retained for ACCC context. |
+| `rba-exchange-rates-1969-2009.xlsx` | RBA Table F11 Historical (`FXRUSD`, 1969–2009) | `2026-11-19` | [RBA Table F11 1969–2009 XLS](https://www.rba.gov.au/statistics/tables/xls-hist/f11hist-1969-2009.xls) | Exact 486/486 `FXRUSD` row match (`1969-07-31` to `2009-12-31`, zero diffs) vs live RBA XLS. |
+| `stw-dividends.csv` | InvestSMART Dividend Timetable / SSGA `ASX:STW` | `2026-11-19` | [InvestSMART STW Dividends](https://www.investsmart.com.au/shares/asx-stw/state-street-spdr-sandp-asx-200-etf/dividends) | Exact 46/46 cash & payment-date match (`2014-06`–`2026-09`) vs [SSGA STW Page](https://www.ssga.com/au/en_gb/intermediary/etfs/state-street-spdr-spasx-200-etf-stw). |
+| `stw-monthly-2006-2026.xlsx` | Investing.com AU (`ASX:STW` monthly market close) | `2026-11-19` | [Investing.com STW Historical Data](https://au.investing.com/etfs/spdr-s-p-asx-200-historical-data) | Chrome download provenance confirmed; cross-checked across 241/241 months vs [SSGA Daily NAV](https://www.ssga.com/library-content/products/fund-data/etfs/apac/navhist-au-en-stw.xlsx) (`0.106%` mean abs diff). |
+
+## 3. Data Preparation Stage: Formatting Raw Inputs
 
 ### REQ-007: Prepared CSV Extraction (Stage 1)
 
-A dedicated GNU R extraction script (`scripts/convert_xlsx.R`) shall format
-**all** raw inputs—each `.xlsx` workbook plus raw `stw-dividends.csv` and
-`g1-data.csv`—into clean, ascending-date, strictly typed UTF-8 **prepared
-CSVs** containing **only the columns required for this analysis**. Table 2
-defines the exact conversion mapping.
+A dedicated GNU R extraction script (`scripts/convert_xlsx.R`) shall read the
+eight active raw inputs directly from `investment-analysis/files/raw-data/`—
+three `.xlsx` workbooks plus five raw CSVs (`f1.1-data.csv`, `f4-data.csv`,
+`f11-data.csv`, `g1-data.csv`, and `stw-dividends.csv`)—and write (overwriting
+any prior CSV extracts) clean, ascending-date, strictly typed UTF-8 **prepared
+CSVs** into `investment-analysis/files/` containing **only the columns required
+for this analysis**. Table 3 defines the exact conversion mapping.
 
-| Source File(s) | Target CSV File | Retained Columns | Extraction & Normalisation Rules |
+| Source File(s) (`files/raw-data/`) | Target CSV File | Retained Columns | Extraction & Normalisation Rules |
 | :--- | :--- | :--- | :--- |
-| `gold-prices-1833-2026.xlsx` | `files/gold-prices.csv` | `date`, `gold_usd` | Read `Date` as text/mixed safely; parse `YYYY-MM-DD`; filter `>= 2006-01-01`; sort ascending; round `gold_usd` to 4 decimal places. |
-| `rba-exhange-rates-1969-2009.xlsx` + `rba-exhange-rates-2010-2026.xlsx` | `files/rba-aud-usd.csv` | `date`, `aud_usd` | Locate `FXRUSD` dynamically by `Series ID` on row 11 (never hard-coded column number); parse data rows from row 12; normalise month-end dates to `YYYY-MM-01`; filter `>= 2006-01-01`; bind rows and sort ascending. |
+| `CMO-Historical-Data-Monthly.xlsx` | `files/gold-prices.csv` | `date`, `gold_usd` | Read sheet `Monthly Prices`; locate `Gold` column dynamically on row 5 (never hard-coded column number); parse data rows from row 7; convert `YYYYMmm` period codes to `YYYY-MM-01`; filter `>= 2006-01-01` (`250` rows); sort ascending; round `gold_usd` to 4 decimal places. |
+| `rba-exchange-rates-1969-2009.xlsx` + `f11-data.csv` | `files/rba-aud-usd.csv` | `date`, `aud_usd` | Locate `FXRUSD` dynamically by `Series ID` on row 11 (never hard-coded column number); parse `.xlsx` from row 12 (`2006–2009`) and UTF-8 BOM CSV with `DD-Mon-YYYY` dates (`2010–2026`), dropping blank trailing lines; normalise dates to `YYYY-MM-01`; filter `>= 2006-01-01`; bind rows and sort ascending. |
 | `stw-monthly-2006-2026.xlsx` | `files/stw-prices.csv` | `date`, `stw_price_aud` | Read `Date` and `Price` only (drop `Open`, `High`, `Low`, `Vol.`, `Change %`); format `date` as `YYYY-MM-01`; sort ascending (`2006-07-01` to `2026-07-01`). |
 | `stw-dividends.csv` | `files/stw-distributions.csv` | `ex_dividend_date`, `payment_date`, `cash_distribution_aud`, `franking_pct`, `gross_distribution_aud` | Strip `%` signs and divide by `100` into numeric proportions (`0`–`1`); drop `Trailing_Yield_Pct` (removing `"N/A"` strings); remove trailing blank lines; sort ascending by `ex_dividend_date`. |
-| `Historical Retail Bonus Savings Rates (2002-2026).xlsx` | `files/rba-bonus-savings.csv` | `year`, `bonus_savings_rate_pct` | Read `Historical Rates` Cols A and C only (rows 5–29; drop row 30 summary mean and Cols G–J side table); filter `2006 <= year <= 2026` (21 rows); multiply decimal rate by `100` and round to 2 decimal places (`0.0403` -> `4.03`); sort ascending by `year`. |
+| `f4-data.csv` | `files/rba-deposit-rates.csv` | `date`, `bonus_savings_rate_pct`, `term_deposit_1y_rate_pct` | Read UTF-8 with BOM; locate `FRDIRSAB10K` and `FRDIRBTD10K1Y` dynamically by `Series ID` on row 11; skip 10 metadata rows; parse `DD-Mon-YYYY` dates and normalise to `YYYY-MM-01`; drop blank trailing lines; filter `>= 2006-01-01` (`250` rows); sort ascending. |
 | `g1-data.csv` | `files/abs-cpi.csv` | `date`, `cpi_index` | Read UTF-8 with BOM; locate `GCPIAG` dynamically by `Series ID` on row 11; skip 10 metadata rows; parse `DD/MM/YYYY` dates and normalise to `YYYY-MM-01`; drop blank trailing rows and `NA` forecast rows; filter `2006-06-01` to `2026-06-01` (81 quarterly rows); sort ascending. |
-| `f01hist.xlsx` | `files/rba-cash-rate.csv` | `date`, `cash_rate_pct` | Read `Data` sheet bypassing broken `<dimension ref="A1"/>` and dangling drawing XML; locate `FIRMMCRT` dynamically by `Series ID` on row 11; skip 10 metadata rows; normalise month-end dates to `YYYY-MM-01`; filter `>= 2006-01-01` (250 rows); round to 4 decimal places; sort ascending. |
+| `f1.1-data.csv` | `files/rba-cash-rate.csv` | `date`, `cash_rate_pct` | Read UTF-8 with BOM; locate `FIRMMCRT` dynamically by `Series ID` on row 11; skip 10 metadata rows; parse `DD/MM/YYYY` dates and normalise to `YYYY-MM-01`; drop blank trailing lines and pre-1990 `NA` rows; filter `>= 2006-01-01` (`250` rows); sort ascending. |
 
-Formatting raw `stw-dividends.csv` and `g1-data.csv` alongside the `.xlsx`
-workbooks guarantees that zero unformatted source files remain in the active
-analysis pipeline. The annotation catalogue (REQ-014) is hand-authored as
+Normalising all five raw CSVs alongside the three `.xlsx` workbooks guarantees
+that zero unformatted RBA/raw files remain in the active analysis pipeline.
+The annotation catalogue (REQ-014) is hand-authored as
 `files/historical-events.csv`; it has no raw source and is not produced by
 Stage 1.
 
-### REQ-008: Pre-Archive Verification Gate
+### REQ-008: Stage 1 Extraction Verification Gate
 
-Before any raw source file is archived, `scripts/convert_xlsx.R` shall execute
-automated reconciliation assertions against the newly formatted CSVs:
+Immediately after writing (or overwriting) the prepared CSVs in
+`investment-analysis/files/`, `scripts/convert_xlsx.R` shall execute automated
+reconciliation assertions against the newly formatted CSVs and halt via
+`stop()` on any mismatch:
 
-1. **Row Count Parity:** `gold-prices.csv`, `rba-aud-usd.csv`, and
-   `rba-cash-rate.csv` each contain at least 250 monthly rows from `2006-01-01`
-   onward; `stw-prices.csv` contains exactly 241 rows from `2006-07-01` to
-   `2026-07-01`; `rba-bonus-savings.csv` contains exactly **21** annual rows
-   (`2006` through `2026`); `stw-distributions.csv` contains **62** ascending
-   rows total (of which **60** fall within `ex_dividend_date`
+1. **Row Count Parity:** `gold-prices.csv`, `rba-aud-usd.csv`,
+   `rba-deposit-rates.csv`, and `rba-cash-rate.csv` each contain at least 250
+   monthly rows from `2006-01-01` onward; `stw-prices.csv` contains exactly 241
+   rows from `2006-07-01` to `2026-07-01`; `stw-distributions.csv` contains
+   **62** ascending rows total (of which **60** fall within `ex_dividend_date`
    `[2006-07-01, 2026-07-31]`); `abs-cpi.csv` contains exactly **81** quarterly
    rows (`2006-06-01` through `2026-06-01`).
 2. **No Missing Keys or Nulls:** Zero `NA` values, numeric `franking_pct` in
    `[0, 1]`, `abs(gross - cash * (1 + franking_pct * 30 / 70)) <= 0.002` on
-   every distribution row, and strictly ascending, unique ISO `Date` (or
-   integer `year`) keys across all extracted CSVs.
+   every distribution row, and strictly ascending, unique ISO `Date` keys
+   across all extracted CSVs.
 3. **Spot-Check Checksums:** Exact value parity against the raw source files:
    - `2006-07-01`: `gold_usd == 634.00`, `aud_usd == 0.7658`,
      `stw_price_aud == 49.19`
@@ -206,30 +242,34 @@ automated reconciliation assertions against the newly formatted CSVs:
      `stw_price_aud == 82.63`
    - `2026-07-01`: `gold_usd == 4073.00`, `aud_usd == 0.7030`,
      `stw_price_aud == 80.22`
-   - `rba-bonus-savings.csv`: `year 2006 == 4.03`, `year 2011 == 5.11` (peak),
-     `year 2021 == 0.35` (low), `year 2025 == 4.30`, `year 2026 == 4.80`.
+   - `rba-deposit-rates.csv` (`bonus_savings_rate_pct` /
+     `term_deposit_1y_rate_pct`): `2006-07-01 == 4.00 / 5.40`,
+     `2008-07-01 == 5.50 / 8.25`, `2021-07-01 == 0.35 / 0.25`,
+     `2025-07-01 == 4.25 / 3.60`, `2026-07-01 == 4.80 / 5.00`.
    - `rba-cash-rate.csv`: `2006-07-01 == 5.75`, `2008-08-01 == 7.25`,
      `2011-08-01 == 4.75`, `2020-11-01 == 0.11`, `2026-07-01 == 4.35`.
    - `stw-distributions.csv` (`2026-06-29`): `cash_distribution_aud == 0.7963`,
      `franking_pct == 0.3539`, `gross_distribution_aud == 0.9171`.
    - `abs-cpi.csv`: `2006-06-01 == 59.65`, `2026-06-01 == 102.31`.
 
-### REQ-009: Archiving Raw Data and Stage Boundaries
+### REQ-009: Idempotent Re-Runs and Stage Boundaries
 
 1. **Stage 1 Runs Locally:** `scripts/convert_xlsx.R` is an author-run step. It
    is not part of the shared hard-linked `Makefile` or the GitHub pipeline, and
    its R packages (for example `readxl`) need not exist in the CI container.
-2. **Raw-Data Archiving and Re-Runs:** Once REQ-008 passes, move **all**
-   original raw source files (all six `.xlsx` workbooks including
-   `f01hist.xlsx`, `historical interest rates 2002-2026.docx`, raw
-   `stw-dividends.csv`, and `g1-data.csv`) to
-   `investment-analysis/files/raw-data/`. On a re-run the script shall read each
-   input from `files/raw-data/` when it is present there, otherwise from
-   `files/`, so re-running never fails because a raw file has already moved.
+2. **Read-Only Raw Sources & Idempotent Overwrite:** All original raw source
+   files (three `.xlsx` workbooks, five raw CSVs `f1.1-data.csv`, `f4-data.csv`,
+   `f11-data.csv`, `g1-data.csv`, `stw-dividends.csv`, companion `.docx` notes,
+   and `file-sources.md`) reside permanently in
+   `investment-analysis/files/raw-data/`. Stage 1 never moves, edits, or deletes
+   files inside `files/raw-data/`. Re-running `scripts/convert_xlsx.R` reads
+   directly from `files/raw-data/` and cleanly overwrites existing prepared
+   CSVs in `investment-analysis/files/`.
 3. **Committed Artefacts:** The prepared CSVs, `files/historical-events.csv`,
-   and `scripts/*.R` are committed to git, so a fresh checkout and the CI build
-   render the article without running Stage 1. `files/raw-data/` is retained
-   for provenance only.
+   `files/raw-data/` (including `file-sources.md`), and `scripts/*.R` are
+   committed to git, so a fresh checkout and the CI build render the article
+   without running Stage 1 while preserving local Stage 1 reproducibility and
+   full provenance.
 4. **Stage 2 Is Reporting:** Stage 2 renders [article.Rmd](../article.Rmd) with
    `make` and `make pdf`, locally and in the GitHub pipeline
    (`ghcr.io/frankhjung/gnur:4.5.2`). [article.Rmd](../article.Rmd) sources
@@ -238,7 +278,7 @@ automated reconciliation assertions against the newly formatted CSVs:
 
 ```bash
 cd investment-analysis
-Rscript scripts/convert_xlsx.R  # Stage 1 (local): prepared CSVs, archive raw
+Rscript scripts/convert_xlsx.R  # Stage 1 (local): extract/overwrite CSVs
 make && make pdf                # Stage 2: render report from prepared CSVs
 ```
 
@@ -246,12 +286,12 @@ make && make pdf                # Stage 2: render report from prepared CSVs
 investment-analysis/
 ├── article.Rmd              # Stage 2: sources scripts/model.R, reads CSVs
 ├── scripts/
-│   ├── convert_xlsx.R       # Stage 1 (local): raw -> prepared CSVs
+│   ├── convert_xlsx.R       # Stage 1 (local): files/raw-data/ -> prepared CSVs
 │   └── model.R              # Pure analysis functions sourced by article.Rmd
 └── files/
-    ├── raw-data/            # Archived raw .xlsx, .docx, g1-data.csv, etc.
+    ├── raw-data/            # Permanent raw inputs (.xlsx, CSVs, .docx, file-sources.md)
     ├── historical-events.csv  # Hand-authored annotations
-    └── *.csv                # Prepared CSVs written by Stage 1
+    └── *.csv                # Prepared CSVs written/overwritten by Stage 1
 ```
 
 ## 4. Analytical Modelling and Data Contracts
@@ -260,12 +300,11 @@ investment-analysis/
 flowchart LR
     subgraph STAGE1["Stage 1: Data Preparation (local, author-run GNU R)"]
         direction LR
-        RAW["Raw Inputs in files/<br/>6 XLSX workbooks (incl. f01hist),<br/>g1-data.csv, stw-dividends.csv,<br/>.docx notes"]
-        S1["scripts/convert_xlsx.R<br/>Format prepared CSVs,<br/>verify checksums"]
-        CSV["Prepared CSVs in files/<br/>gold-prices.csv, rba-aud-usd.csv,<br/>rba-bonus-savings.csv, rba-cash-rate.csv,<br/>stw-prices.csv, stw-distributions.csv,<br/>abs-cpi.csv"]
+        RAW["Raw Inputs in files/raw-data/<br/>3 active XLSX workbooks,<br/>5 raw CSVs (f1.1, f4, f11, g1, stw),<br/>.docx notes, file-sources.md"]
+        S1["scripts/convert_xlsx.R<br/>Extract/overwrite prepared CSVs,<br/>verify checksums"]
+        CSV["Prepared CSVs in files/<br/>gold-prices.csv, rba-aud-usd.csv,<br/>rba-deposit-rates.csv, rba-cash-rate.csv,<br/>stw-prices.csv, stw-distributions.csv,<br/>abs-cpi.csv"]
         RAW --> S1 --> CSV
     end
-    S1 -.-> ARCH["files/raw-data/<br/>Archived Raw Inputs"]
     EVT["files/historical-events.csv<br/>(hand-authored)"]
     subgraph STAGE2["Stage 2: Reporting (make / GitHub pipeline, gnur container)"]
         direction LR
@@ -298,31 +337,32 @@ align all series onto canonical monthly `YYYY-MM-01` dates from `2006-07-01` to
      - `gold_etf_040` (`MER = 0.0040`, `0.40%` p.a., matching `ASX:GOLD` across
        2006–2026): 20-year retention factor `0.92297` (~7.70% cumulative fee
        drag); verified `2026-07` checkpoint `AUD 6,459.10` (`9.78%` p.a. CAGR).
-2. **Fixed Interest (Annual 12-Month Rollover from Bonus Savings Rates):**
+2. **Fixed Interest (Annual Rollover from Monthly RBA Table F4 Rates):**
    - Primary series (`fixed_interest_bonus`): start with `V_0 = 1000.00` on
      `2006-07-01`. For each consecutive 12-month term `y = 2006..2025`
-     (`2006-07` to `2007-07` through `2025-07` to `2026-07`), lock the annual
-     rate `r_y` (`bonus_savings_rate_pct` for year `y` from
-     `rba-bonus-savings.csv`, e.g. `4.03%` for `2006` through `4.30%` for
-     `2025`).
+     (`2006-07` to `2007-07` through `2025-07` to `2026-07`), lock the exact
+     July monthly rate `r_y` (`bonus_savings_rate_pct` on `YYYY-07-01` from
+     `files/rba-deposit-rates.csv`, e.g. `4.00%` in `2006-07` through `4.25%`
+     in `2025-07`).
    - At maturity 12 months later (each July), reinvest principal plus earned
      interest in full to compound: `V_{y+1} = V_y * (1 + r_y / 100)`. Verified
-     `2026-07` checkpoint across the 20 annual rollovers: **`AUD 1,901.60`**
-     (`3.27%` p.a. nominal CAGR).
+     `2026-07` checkpoint across the 20 annual rollovers: **`AUD 1,909.03`**
+     (`3.29%` p.a. nominal CAGR).
    - For intermediate monthly chart points `m = 1..11` within term `y`, record
      accrued simple interest along the locked annual rate:
      `V_{y,m} = V_y * (1 + (r_y / 100) * (m / 12))`, which matches maturity
-     compounding identically at `m = 12`.
-   - Accept locking each calendar-year average `r_y` (`2006..2025`) for its
-     July-to-July 12-month term (`AUD 1,901.60`) as a documented
-     annual-average approximation, cross-checked against the exact monthly RBA
-     Cash Rate floor (`AUD 1,841.31`); disclose this basis in `article.Rmd`.
-     Retain `year == 2026` (`4.80%` YTD Oct) in `rba-bonus-savings.csv` for
-     provenance.
-   - Secondary reference series (`fixed_interest_cash`): monthly compounded RBA
-     Table F1.1 `cash_rate_pct` from `files/rba-cash-rate.csv`
+     compounding identically at `m = 12`. Retain `2026-07` (`4.80%` bonus
+     savings, `5.00%` 1Y TD) and trailing months through `2026-10` in
+     `files/rba-deposit-rates.csv` for provenance.
+   - Secondary 1-Year Term Deposit sensitivity (`fixed_interest_td_1y`): apply
+     the identical July-to-July 12-month Annual Rollover formula using
+     `term_deposit_1y_rate_pct` (`FRDIRBTD10K1Y`, e.g. `5.40%` in `2006-07`
+     through `3.60%` in `2025-07`), giving verified `2026-07` checkpoint
+     **`AUD 2,032.98`** (`3.61%` p.a. nominal CAGR).
+   - Secondary RBA Cash Rate floor (`fixed_interest_cash`): monthly compounded
+     RBA Table F1.1 `cash_rate_pct` from `files/rba-cash-rate.csv`
      (`V_t = V_{t-1} * (1 + cash_rate_{t-1} / 1200)`), with verified `2026-07`
-     checkpoint **`AUD 1,841.31`** (`3.10%` p.a. CAGR).
+     checkpoint **`AUD 1,841.28`** (`3.10%` p.a. CAGR).
 3. **Australian Equities (`ASX:STW` Price-Only & Cash DRP):**
    - **Price-Only (`stw_price_only`):**
      `V_t = 1000 * (stw_price_t / stw_price_0)`. Audited checkpoints:
@@ -374,17 +414,17 @@ and `files/historical-events.csv`.
    `241 * N_series` rows):
    - Columns: `date` (`YYYY-MM-DD`), `asset_class` (`Gold`, `Fixed Interest`,
      `Australian Equities`), `series_variant` (`gold_aud`, `gold_etf_015`,
-     `gold_etf_040`, `fixed_interest_bonus`, `fixed_interest_cash`,
-     `stw_total_return`, `stw_total_return_whole_unit`, `stw_price_only`),
-     `value_aud` (numeric), `monthly_return` (numeric), `cum_return_pct`
-     (numeric), `drawdown_pct` (numeric, `<= 0`).
+     `gold_etf_040`, `fixed_interest_bonus`, `fixed_interest_td_1y`,
+     `fixed_interest_cash`, `stw_total_return`, `stw_total_return_whole_unit`,
+     `stw_price_only`), `value_aud` (numeric), `monthly_return` (numeric),
+     `cum_return_pct` (numeric), `drawdown_pct` (numeric, `<= 0`).
 2. **`asset_performance_wide`** (wide audit table, 241 rows):
    - Columns: `date`, `gold_usd`, `aud_usd`, `gold_aud`,
-     `bonus_savings_rate_pct`, `cash_rate_pct`, `stw_price_aud`,
-     `stw_cash_dist_aud`, `stw_franking_pct`, `gold_value_aud`,
+     `bonus_savings_rate_pct`, `term_deposit_1y_rate_pct`, `cash_rate_pct`,
+     `stw_price_aud`, `stw_cash_dist_aud`, `stw_franking_pct`, `gold_value_aud`,
      `gold_etf_015_value_aud`, `gold_etf_040_value_aud`,
-     `fixed_interest_value_aud`, `cash_value_aud`, `stw_tr_value_aud`,
-     `stw_price_value_aud`.
+     `fixed_interest_value_aud`, `td_1y_value_aud`, `cash_value_aud`,
+     `stw_tr_value_aud`, `stw_price_value_aud`.
 3. **`historical_events`** (read from `files/historical-events.csv`):
    - Columns: `event_id`, `date`, `end_date`, `label`, `short_label`,
      `primary_asset`, `impact_direction`, `summary`, `chart_priority` (`1` for
@@ -422,8 +462,8 @@ standards:
   where vectorisation or `purrr::accumulate()` / `Reduce()` applies.
 - Unit tests for every `scripts/model.R` function in `tests/testthat/`, run
   locally, asserting the REQ-010 checkpoints (`AUD 6,998.18`, `AUD 6,791.20`,
-  `AUD 6,459.10`, `AUD 1,901.60`, `AUD 1,841.31`, `AUD 1,630.82`, and the
-  CPI ratio `1.71517`).
+  `AUD 6,459.10`, `AUD 1,909.03`, `AUD 2,032.98`, `AUD 1,841.28`,
+  `AUD 1,630.82`, and the CPI ratio `1.71517`).
 - Static verification passing `lintr::lint()` cleanly without syntax or style
   warnings.
 
@@ -431,7 +471,7 @@ standards:
 
 ### REQ-014: Curated 2006–2026 Macroeconomic Event Catalogue
 
-Table 3 specifies the mandatory historical annotations explaining drivers and
+Table 4 specifies the mandatory historical annotations explaining drivers and
 cross-asset interactions (highlighting how AUD/USD shifts amplify or dampen
 AUD gold returns relative to USD prices).
 
@@ -439,9 +479,9 @@ AUD gold returns relative to USD prices).
 | :--- | :--- | :--- | :--- | :--- |
 | `EVT-01` | `2007-11` to `2009-02` | Tier 1 | GFC & RBA Cuts | STW falls steeply (`AUD 31.40` in `2009-02`); RBA cuts cash rate `7.25%` to `3.00%`; falling AUD (`0.6454`) amplifies AUD Gold surge (`AUD 1,461/oz`). |
 | `EVT-02` | `2010-10` to `2011-08` | Tier 1 | AUD Parity Caps Gold | USD Gold hits crisis highs (`USD 1,759/oz`), but `AUD/USD > 1.05` (`1.0691`) caps AUD Gold (`AUD 1,645/oz`); RBA hikes to `4.75%` lift deposits. |
-| `EVT-03` | `2013-04` to `2015-12` | Tier 2 | Gold Bear & RBA Easing | USD Gold drops ~40% (`USD 1,076/oz`), cushioned locally by falling AUD (`0.7306`); RBA easing pulls retail bonus savings rates from `4.27%` to `2.88%`. |
-| `EVT-04` | `2020-03` to `2020-11` | Tier 1 | COVID-19 & Ultra-Low Rates | Sharp STW shock (`AUD 47.99`) and stimulus rebound; RBA cuts push bonus savings to a `0.35%` trough (`2021`); AUD Gold climbs past `AUD 2,677/oz`. |
-| `EVT-05` | `2022-05` to `2023-11` | Tier 1 | Inflation & Rate Hikes | Fastest RBA tightening cycle in decades lifts bonus savings rates from `0.35%` (`2021`) to `4.45%–4.87%` (`2023–2024`) while weighing on equities; resource dividends peak (`AUD 1.9401` STW payout Jun 2022). |
+| `EVT-03` | `2013-04` to `2015-12` | Tier 2 | Gold Bear & RBA Easing | USD Gold drops ~40% (`USD 1,076/oz`), cushioned locally by falling AUD (`0.7306`); RBA easing pulls retail bonus savings rates from `4.50%` (`2013-04`) to `2.60%` (`2015-12`). |
+| `EVT-04` | `2020-03` to `2020-11` | Tier 1 | COVID-19 & Ultra-Low Rates | Sharp STW shock (`AUD 47.99`) and stimulus rebound; RBA cuts push bonus savings to a `0.25%` trough (`2021-10`, `0.35%` July lock); AUD Gold climbs past `AUD 2,677/oz`. |
+| `EVT-05` | `2022-05` to `2023-11` | Tier 1 | Inflation & Rate Hikes | Fastest RBA tightening cycle in decades lifts bonus savings rates from `0.45%` (`2022-05`) to a `4.90%` peak (`2023-11`) while weighing on equities; resource dividends peak (`AUD 1.9401` STW payout Jun 2022). |
 | `EVT-06` | `2024-03` to `2026-07` | Tier 1 | Gold Record & Pullback | Central-bank demand drives AUD Gold past `AUD 7,044/oz` (`2026-02`) before cooling to `AUD 5,794/oz` (`2026-07`); STW clears `AUD 80`. |
 | `EVT-07` | `2016-06` | Tier 2 | STW Quarterly DRP | STW transitions from semi-annual (`Jun/Dec`) to quarterly (`Mar/Jun/Sep/Dec`) distributions, increasing cash-flow frequency. |
 
@@ -504,13 +544,15 @@ and supporting prose examining ownership in Australia across three dimensions.
 2. **After-Tax & CPI Scenario Table Requirement:**
    `scripts/model.R` shall compute and `article.Rmd` shall display a
    scenario table covering `gold_aud`, `gold_etf_015`, `gold_etf_040`,
-   `fixed_interest_bonus`, and `stw_total_return` for an Australian resident
-   individual at two representative marginal brackets (**32%** = 30% marginal
-   + 2% Medicare levy; **39%** = 37% marginal + 2% Medicare levy) showing:
+   `fixed_interest_bonus`, `fixed_interest_td_1y`, and `stw_total_return` for an
+   Australian resident individual at two representative marginal brackets
+   (**32%** = 30% marginal + 2% Medicare levy; **39%** = 37% marginal + 2%
+   Medicare levy) showing:
    - **Fixed Interest Annual Tax:** Deduct tax at each of the 20 annual July
      maturities (`2007-07` through `2026-07`) at the marginal+Medicare rate
      (`32%` or `39%`) before rolling over the net balance into the next
-     12-month term.
+     12-month term (applied identically to `fixed_interest_bonus` and
+     `fixed_interest_td_1y`).
    - **STW Distribution Tax (AMIT Attribution):** Attribute each STW
      distribution to the Australian financial year (`1 Jul – 30 Jun`) of its
      `ex_dividend_date` (matching AMIT rules for June distributions paid in
@@ -581,7 +623,8 @@ or Excel and `files/raw-data/` reads, and renders four publication-quality
    (`facet_wrap(~ asset_class, ncol = 1)` or responsive grid) showing each asset
    individually with Tier-2 asset-specific annotations (including USD vs AUD
    Gold divergence during `2010–2011` AUD parity, Gold ETF net-of-MER
-   comparison band `gold_etf_015`/`gold_etf_040`, and RBA rate regimes).
+   comparison band `gold_etf_015`/`gold_etf_040`, and RBA rate regimes overlaid
+   with `fixed_interest_td_1y` and `fixed_interest_cash`).
 4. **Chart 4 — Downside Risk and Drawdown Profile:** Peak-to-trough underwater
    drawdown trajectories (`drawdown_pct`, `2006-07` to `2026-07`) accompanied by
    a summary risk-return table (CAGR, annualised volatility, maximum drawdown).
@@ -593,8 +636,8 @@ or Excel and `files/raw-data/` reads, and renders four publication-quality
   - `Australian Equities (STW Price-Only)`: `#7f8c8d` (dashed line, size `0.7`)
   - `Gold (AUD Spot)`: `#c88a00` (solid line, size `0.95`)
   - `Fixed Interest (Bonus Savings, Annual Rollover)`: `#2e7d6b` (solid line,
-    size `0.95`; secondary Cash Rate floor `fixed_interest_cash` as dotted
-    `#2e7d6b`)
+    size `0.95`; `fixed_interest_td_1y` as dashed `#2e7d6b` and Cash Rate floor
+    `fixed_interest_cash` as dotted `#2e7d6b`)
 - **Monochrome Print Readability:** Combine distinct linetypes and direct
   end-of-series labels so charts remain legible under greyscale `@media print`
   styles in [article.css](article.css) and LaTeX PDF output.
@@ -644,17 +687,19 @@ unless confirmed present in the image.
 
 ### REQ-023: Stage 1 Data Preparation Gate (Local)
 
-- [x] Acquire all mandatory and reference raw datasets in
-      `investment-analysis/files/` (six `.xlsx` workbooks including
-      `f01hist.xlsx`, plus `g1-data.csv` and `stw-dividends.csv`).
+- [x] Acquire and verify all active raw datasets and provenance in
+      `investment-analysis/files/raw-data/` (three active `.xlsx` workbooks,
+      five active raw CSVs `f1.1-data.csv`, `f4-data.csv`, `f11-data.csv`,
+      `g1-data.csv`, and `stw-dividends.csv`, companion notes, and
+      `file-sources.md`).
 - [ ] Run `Rscript scripts/convert_xlsx.R` locally with its R packages
-      installed, producing all prepared CSVs (including
+      installed, reading from `files/raw-data/` and writing or overwriting all
+      seven prepared CSVs (including `files/rba-deposit-rates.csv`,
       `files/rba-cash-rate.csv`, `files/stw-distributions.csv`, and
       `files/abs-cpi.csv`) in `investment-analysis/files/`.
-- [ ] Pass all REQ-008 spot-check checksums and row-count assertions before
-      archiving all raw inputs (`.xlsx` workbooks,
-      `historical interest rates 2002-2026.docx`, `g1-data.csv`, and raw
-      `stw-dividends.csv`) into `investment-analysis/files/raw-data/`.
+- [ ] Pass all REQ-008 spot-check checksums and row-count assertions without
+      moving or modifying files in `files/raw-data/`, and confirm an immediate
+      re-run overwrites CSVs cleanly.
 - [ ] Author `files/historical-events.csv` from REQ-014.
 - [ ] Commit the prepared CSVs, `files/historical-events.csv`, and
       `scripts/*.R` so CI renders without running Stage 1.
