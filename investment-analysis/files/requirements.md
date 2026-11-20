@@ -692,15 +692,15 @@ unless confirmed present in the image.
       five active raw CSVs `f1.1-data.csv`, `f4-data.csv`, `f11-data.csv`,
       `g1-data.csv`, and `stw-dividends.csv`, companion notes, and
       `file-sources.md`).
-- [ ] Run `Rscript scripts/convert_xlsx.R` locally with its R packages
+- [x] Run `Rscript scripts/convert_xlsx.R` locally with its R packages
       installed, reading from `files/raw-data/` and writing or overwriting all
       seven prepared CSVs (including `files/rba-deposit-rates.csv`,
       `files/rba-cash-rate.csv`, `files/stw-distributions.csv`, and
       `files/abs-cpi.csv`) in `investment-analysis/files/`.
-- [ ] Pass all REQ-008 spot-check checksums and row-count assertions without
+- [x] Pass all REQ-008 spot-check checksums and row-count assertions without
       moving or modifying files in `files/raw-data/`, and confirm an immediate
       re-run overwrites CSVs cleanly.
-- [ ] Author `files/historical-events.csv` from REQ-014.
+- [x] Author `files/historical-events.csv` from REQ-014.
 - [ ] Commit the prepared CSVs, `files/historical-events.csv`, and
       `scripts/*.R` so CI renders without running Stage 1.
 - [ ] Pass `lintr::lint()` and the `tests/testthat/` suite for all scripts.
