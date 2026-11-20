@@ -703,19 +703,19 @@ unless confirmed present in the image.
 - [x] Author `files/historical-events.csv` from REQ-014.
 - [ ] Commit the prepared CSVs, `files/historical-events.csv`, and
       `scripts/*.R` so CI renders without running Stage 1.
-- [ ] Pass `lintr::lint()` and the `tests/testthat/` suite for all scripts.
+- [x] Pass `lintr::lint()` and the `tests/testthat/` suite for all scripts.
 
 ### REQ-024: Stage 2 Reporting and Editorial Gate
 
-- [ ] Confirm required R packages for `article.Rmd` and `scripts/model.R` in
+- [x] Confirm required R packages for `article.Rmd` and `scripts/model.R` in
       `ghcr.io/frankhjung/gnur:4.5.2`.
-- [ ] Verify [article.Rmd](../article.Rmd) reads only prepared CSVs, with zero
+- [x] Verify [article.Rmd](../article.Rmd) reads only prepared CSVs, with zero
       runtime calls to `.xlsx` or `files/raw-data/`, and that all REQ-012
       assertions pass during the render.
 - [ ] Render `make` (`public/article.html`) and `make pdf`
       (`public/investment-analysis.pdf`) cleanly without warnings or errors,
       then confirm the GitHub publish pipeline builds the same HTML.
-- [ ] Visually inspect all four charts in rendered HTML and PDF to confirm zero
+- [x] Visually inspect all four charts in rendered HTML and PDF to confirm zero
       overlapping labels, crisp typography, and accurate event placement.
-- [ ] Confirm Australian English spelling, 80-column prose wrapping, valid YAML
+- [x] Confirm Australian English spelling, 80-column prose wrapping, valid YAML
       front matter, complete source citations, and general-advice disclaimer.
